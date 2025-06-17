@@ -64,6 +64,7 @@ dist/\
 # AEM-specific\
 # --------------------------------------\
 # CRX/DE specific files\
+.vscode/
 .DS_Store
 *.crx\
 *.vault\
