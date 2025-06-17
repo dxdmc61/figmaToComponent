@@ -1,0 +1,7 @@
+com/figma/aem/core/testcontext/AppAemContext$1.class
+com/figma/aem/core/servlets/SimpleServletTest.class
+com/figma/aem/core/filters/LoggingFilterTest.class
+com/figma/aem/core/listeners/SimpleResourceListenerTest.class
+com/figma/aem/core/testcontext/AppAemContext.class
+com/figma/aem/core/schedulers/SimpleScheduledTaskTest.class
+com/figma/aem/core/models/HelloWorldModelTest.class

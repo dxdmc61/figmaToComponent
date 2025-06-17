@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workspaceFilter version="1.0">
+    <filter root="/conf/figma" mode="merge"/>
+    <filter root="/content/figma" mode="merge"/>
+    <filter root="/content/dam/figma" mode="merge">
+        <exclude pattern="/content/dam/figma(/.*)?"/>
+        <include pattern="/content/dam/figma/jcr:content(/.*)?"/>
+    </filter>
+    <filter root="/content/dam/figma/asset.jpg" mode="merge"/>
+    <filter root="/content/experience-fragments/figma" mode="merge"/>
+</workspaceFilter>

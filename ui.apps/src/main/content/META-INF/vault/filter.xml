@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workspaceFilter version="1.0">
+    <filter root="/apps/figma/clientlibs"/>
+    <filter root="/apps/figma/components"/>
+    <filter root="/apps/figma/i18n"/>
+    <filter root="/apps/msm/figma_blueprint" mode="merge"/>
+</workspaceFilter>

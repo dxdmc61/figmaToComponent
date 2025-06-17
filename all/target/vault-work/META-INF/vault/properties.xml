@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment>Figma - All</comment>
+<entry key="allowIndexDefinitions">false</entry>
+<entry key="created">2025-06-17T11:21:09.922Z</entry>
+<entry key="groupId">com.figma</entry>
+<entry key="name">figma.all</entry>
+<entry key="description">All content package for Figma</entry>
+<entry key="artifactId">figma.all</entry>
+<entry key="version">1.0.0-SNAPSHOT</entry>
+<entry key="packageType">container</entry>
+<entry key="requiresRoot">false</entry>
+<entry key="group">com.figma</entry>
+</properties>
