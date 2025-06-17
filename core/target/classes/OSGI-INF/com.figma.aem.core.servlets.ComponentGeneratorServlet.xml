@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.3.0" name="com.figma.aem.core.servlets.ComponentGeneratorServlet">
-  <property name="sling.servlet.paths" type="String">/bin/figma/generate-component/v1</property>
-  <service>
-    <provide interface="javax.servlet.Servlet"/>
-  </service>
-  <reference name="fileSaver" interface="com.figma.aem.core.util.FileSaver" field="fileSaver"/>
-  <implementation class="com.figma.aem.core.servlets.ComponentGeneratorServlet"/>
-</scr:component>

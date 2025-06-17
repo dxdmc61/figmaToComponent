@@ -65,6 +65,7 @@ dist/\
 # --------------------------------------\
 # CRX/DE specific files\
 .vscode/
+**/target/
 .DS_Store
 *.crx\
 *.vault\
