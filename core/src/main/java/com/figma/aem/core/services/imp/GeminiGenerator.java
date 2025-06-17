@@ -93,7 +93,7 @@ public class GeminiGenerator implements AIGenerator {
         // response
         // InputStream responseStream = null; // No actual stream
         String response = "{\n" + //
-                        "  \"ProductCarousel.html\": \"<div data-sly-use.model=\\\"com.myproject.aem.core.models.ProductCarousel\\\" class=\\\"cmp-product-carousel\\\">\\n" + //
+                        "  \"ProductCarousel.html\": \"<div data-sly-use.model=\\\"com.figma.aem.core.models.ProductCarousel\\\" class=\\\"cmp-product-carousel\\\">\\n" + //
                         "    <div class=\\\"cmp-product-carousel__container\\\">\\n" + //
                         "        <sly data-sly-list.item=\\\"${model.productItems}\\\">\\n" + //
                         "            <div class=\\\"cmp-product-carousel__item\\\">\\n" + //
@@ -114,7 +114,7 @@ public class GeminiGenerator implements AIGenerator {
                         "    </div>\\n" + //
                         "</div>\\n" + //
                         "\",\n" + //
-                        "  \"ProductCarousel.java\": \"package com.myproject.aem.core.models;\\n" + //
+                        "  \"ProductCarousel.java\": \"package com.figma.aem.core.models;\\n" + //
                         "\\n" + //
                         "import org.apache.sling.api.resource.Resource;\\n" + //
                         "import org.apache.sling.models.annotations.DefaultInjectionStrategy;\\n" + //
@@ -136,7 +136,7 @@ public class GeminiGenerator implements AIGenerator {
                         ")\\n" + //
                         "public class ProductCarousel {\\n" + //
                         "\\n" + //
-                        "    protected static final String RESOURCE_TYPE = \\\"myproject/components/productcarousel\\\";\\n" + //
+                        "    protected static final String RESOURCE_TYPE = \\\"figma/components/productcarousel\\\";\\n" + //
                         "\\n" + //
                         "    @ChildResource\\n" + //
                         "    private List<Resource> productItems;\\n" + //
@@ -299,7 +299,7 @@ public class GeminiGenerator implements AIGenerator {
                         "    xmlns:nt=\\\"http://www.jcp.org/jcr/nt/1.0\\\"\\n" + //
                         "    jcr:primaryType=\\\"cq:Component\\\"\\n" + //
                         "    jcr:title=\\\"Product Carousel\\\"\\n" + //
-                        "    componentGroup=\\\"My Project - Content\\\">\\n" + //
+                        "    componentGroup=\\\"Figma - Content\\\">\\n" + //
                         "    <cq:responsive jcr:primaryType=\\\"nt:unstructured\\\">\\n" + //
                         "        <default\\n" + //
                         "            jcr:primaryType=\\\"nt:unstructured\\\"\\n" + //
@@ -313,7 +313,7 @@ public class GeminiGenerator implements AIGenerator {
                         "    </cq:responsive>\\n" + //
                         "</jcr:root>\\n" + //
                         "\",\n" + //
-                        "  \"clientlibs/ProductCarousel/css/style.css\": \".cmp-product-carousel {\\n" + //
+                        "  \"clientlibs/product-carousel/css/style.css\": \".cmp-product-carousel {\\n" + //
                         "    padding: 20px;\\n" + //
                         "    background-color: #f8f8f8;\\n" + //
                         "}\\n" + //
@@ -403,7 +403,7 @@ public class GeminiGenerator implements AIGenerator {
                         "    }\\n" + //
                         "}\\n" + //
                         "\",\n" + //
-                        "  \"clientlibs/ProductCarousel/js/script.js\": \"// clientlibs/ProductCarousel/js/script.js\\n" + //
+                        "  \"clientlibs/product-carousel/js/script.js\": \"// clientlibs/ProductCarousel/js/script.js\\n" + //
                         "(function() {\\n" + //
                         "    \\\"use strict\\\";\\n" + //
                         "\\n" + //
@@ -453,16 +453,16 @@ public class GeminiGenerator implements AIGenerator {
                         "    }\\n" + //
                         "})();\\n" + //
                         "\",\n" + //
-                        "  \"clientlibs/ProductCarousel/css.txt\": \"#base=css\\n" + //
+                        "  \"clientlibs/product-carousel/css.txt\": \"#base=css\\n" + //
                         "style.css\\n" + //
                         "\",\n" + //
-                        "  \"clientlibs/ProductCarousel/js.txt\": \"#base=js\\n" + //
+                        "  \"clientlibs/product-carousel/js.txt\": \"#base=js\\n" + //
                         "script.js\\n" + //
                         "\",\n" + //
-                        "  \"clientlibs/ProductCarousel/.content.xml\": \"<?xml version=\\\"1.0\\\" encoding=\\\"UTF-8\\\"?>\\n" + //
+                        "  \"clientlibs/product-carousel/.content.xml\": \"<?xml version=\\\"1.0\\\" encoding=\\\"UTF-8\\\"?>\\n" + //
                         "<jcr:root xmlns:cq=\\\"http://www.day.com/jcr/cq/1.0\\\" xmlns:jcr=\\\"http://www.jcp.org/jcr/1.0\\\"\\n" + //
                         "    jcr:primaryType=\\\"cq:ClientLibraryFolder\\\"\\n" + //
-                        "    categories=\\\"[myproject.productcarousel]\\\"\\n" + //
+                        "    categories=\\\"[figma.product-carousel]\\\"\\n" + //
                         "    cssProcessor=\\\"[default:none, minify:true]\\\"\\n" + //
                         "    jsProcessor=\\\"[default:none, minify:true]\\\"/>\\n" + //
                         "\"\n" + //
