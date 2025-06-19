@@ -234,7 +234,7 @@ public class GeminiGenerator implements AIGenerator {
                         "                                                    <items jcr:primaryType=\\\"nt:unstructured\\\">\\n" + //
                         "                                                        <imageSrc\\n" + //
                         "                                                            jcr:primaryType=\\\"nt:unstructured\\\"\\n" + //
-                        "                                                            sling:resourceType=\\\"cq/gui/components/authoring/dialog/fileupload\\\"\\n" + //
+                        "                                                            sling:resourceType=\\\"granite/ui/components/coral/foundation/form/pathfield\\\"\\n" + //
                         "                                                            autoStart=\\\"{Boolean}false\\\"\\n" + //
                         "                                                            class=\\\"cq-droptarget\\\"\\n" + //
                         "                                                            fieldLabel=\\\"Product Image\\\"\\n" + //
