@@ -458,7 +458,7 @@ public class GeminiGenerator implements AIGenerator {
                         "  \"clientlibs/product-carousel/.content.xml\": \"<?xml version=\\\"1.0\\\" encoding=\\\"UTF-8\\\"?>\\n" + //
                         "<jcr:root xmlns:cq=\\\"http://www.day.com/jcr/cq/1.0\\\" xmlns:jcr=\\\"http://www.jcp.org/jcr/1.0\\\"\\n" + //
                         "    jcr:primaryType=\\\"cq:ClientLibraryFolder\\\"\\n" + //
-                        "    categories=\\\"[figma.product-carousel]\\\"\\n" + //
+                        "    categories=\\\"[figma.productcarousel]\\\"\\n" + //
                         "    cssProcessor=\\\"[default:none, minify:true]\\\"\\n" + //
                         "    jsProcessor=\\\"[default:none, minify:true]\\\"/>\\n" + //
                         "\"\n" + //
