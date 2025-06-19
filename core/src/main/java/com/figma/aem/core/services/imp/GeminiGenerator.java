@@ -329,7 +329,7 @@ public class GeminiGenerator implements AIGenerator {
                         "}\\n" + //
                         "\\n" + //
                         ".cmp-product-card {\\n" + //
-                        "    background-color: #ffffff;\\n" + //
+                        "    background-color: #E6E6E6;\\n" + //
                         "    border-radius: 8px;\\n" + //
                         "    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);\\n" + //
                         "    overflow: hidden; /* Ensures image corners are rounded with container */\\n" + //
