@@ -93,14 +93,14 @@ public class GeminiGenerator implements AIGenerator {
         // response
         // InputStream responseStream = null; // No actual stream
         String response = "{\n" + //
-                        "  \"ProductCarousel.html\": \"<div data-sly-use.model=\\\"com.figma.aem.core.models.ProductCarousel\\\" class=\\\"cmp-product-carousel\\\">\\n" + //
+                        "  \"productCarousel.html\": \"<div data-sly-use.model=\\\"com.figma.aem.core.models.ProductCarousel\\\" class=\\\"cmp-product-carousel\\\">\\n" + //
                         "    <div class=\\\"cmp-product-carousel__container\\\">\\n" + //
                         "        <sly data-sly-list.item=\\\"${model.productItems}\\\">\\n" + //
                         "            <div class=\\\"cmp-product-carousel__item\\\">\\n" + //
                         "                <div class=\\\"cmp-product-card\\\">\\n" + //
-                        "                    <sly data-sly-test.hasImage=\\\"${item.imageSrc}\\\">\\n" + //
+                        "                    <sly data-sly-test.hasImage=\\\"${item.image}\\\">\\n" + //
                         "                        <div class=\\\"cmp-product-card__image-container\\\">\\n" + //
-                        "                            <img src=\\\"${item.imageSrc}\\\" alt=\\\"${item.imageAlt}\\\" class=\\\"cmp-product-card__image\\\"/>\\n" + //
+                        "                            <img src=\\\"${item.image}\\\" alt=\\\"${item.imageAlt}\\\" class=\\\"cmp-product-card__image\\\"/>\\n" + //
                         "                        </div>\\n" + //
                         "                    </sly>\\n" + //
                         "                    <div class=\\\"cmp-product-card__content\\\">\\n" + //
@@ -220,6 +220,7 @@ public class GeminiGenerator implements AIGenerator {
                         "                                <items jcr:primaryType=\\\"nt:unstructured\\\">\\n" + //
                         "                                    <productItems\\n" + //
                         "                                        jcr:primaryType=\\\"nt:unstructured\\\"\\n" + //
+                        "                                        composite=\\\"{Boolean}true\\\"\\n" + //
                         "                                        sling:resourceType=\\\"granite/ui/components/coral/foundation/form/multifield\\\"\\n" + //
                         "                                        fieldDescription=\\\"Add Product Cards to the carousel.\\\"\\n" + //
                         "                                        fieldLabel=\\\"Product Cards\\\">\\n" + //
@@ -235,14 +236,9 @@ public class GeminiGenerator implements AIGenerator {
                         "                                                        <imageSrc\\n" + //
                         "                                                            jcr:primaryType=\\\"nt:unstructured\\\"\\n" + //
                         "                                                            sling:resourceType=\\\"granite/ui/components/coral/foundation/form/pathfield\\\"\\n" + //
-                        "                                                            autoStart=\\\"{Boolean}false\\\"\\n" + //
-                        "                                                            class=\\\"cq-droptarget\\\"\\n" + //
                         "                                                            fieldLabel=\\\"Product Image\\\"\\n" + //
-                        "                                                            fileNameParameter=\\\"./imageFileName\\\"\\n" + //
-                        "                                                            fileReferenceParameter=\\\"./imageSrc\\\"\\n" + //
-                        "                                                            mimeTypes=\\\"[image]\\\"\\n" + //
                         "                                                            name=\\\"./image\\\"\\n" + //
-                        "                                                            uploadUrl=\\\"${suffix.path}\\\"/>\\n" + //
+                        "                                                            emptyText=\\\"Enter product title\\\"/>\\n" + //
                         "                                                        <imageAlt\\n" + //
                         "                                                            jcr:primaryType=\\\"nt:unstructured\\\"\\n" + //
                         "                                                            sling:resourceType=\\\"granite/ui/components/coral/foundation/form/textfield\\\"\\n" + //
