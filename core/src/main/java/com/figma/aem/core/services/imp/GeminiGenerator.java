@@ -162,7 +162,7 @@ public class GeminiGenerator implements AIGenerator {
                         "    @Model(adaptables = Resource.class, defaultInjectionStrategy = DefaultInjectionStrategy.OPTIONAL)\\n" + //
                         "    public static class ProductItem {\\n" + //
                         "        @ValueMapValue\\n" + //
-                        "        private String imageSrc;\\n" + //
+                        "        private String image;\\n" + //
                         "        @ValueMapValue\\n" + //
                         "        private String imageAlt;\\n" + //
                         "        @ValueMapValue\\n" + //
@@ -172,8 +172,8 @@ public class GeminiGenerator implements AIGenerator {
                         "        @ValueMapValue\\n" + //
                         "        private String description;\\n" + //
                         "\\n" + //
-                        "        public String getImageSrc() {\\n" + //
-                        "            return imageSrc;\\n" + //
+                        "        public String getImage() {\\n" + //
+                        "            return image;\\n" + //
                         "        }\\n" + //
                         "\\n" + //
                         "        public String getImageAlt() {\\n" + //
