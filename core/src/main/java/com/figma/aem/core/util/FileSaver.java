@@ -78,7 +78,7 @@ public class FileSaver {
                 } else if (filename.endsWith(".js")) {
                     path = String.format("/ui.apps/src/main/content/jcr_root/apps/figma/clientlibs/%s/%s", componentName, filename);
                 } else if (filename.contains("clientlib") && filename.endsWith(".xml")) {
-                    path = String.format("/ui.apps/src/main/content/jcr_root/apps/figma/clientlibs/%s/.content.xml", componentName);
+                    path = String.format("/ui.apps/src/main/content/jcr_root/apps/figma/clientlibs/%s/clientlibs/.content.xml", componentName);
                 } else if (filename.endsWith(".txt")) {
                     path = String.format("/ui.apps/src/main/content/jcr_root/apps/figma/clientlibs/%s/%s", componentName, filename);
                 } else {

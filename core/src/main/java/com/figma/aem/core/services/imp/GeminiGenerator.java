@@ -309,7 +309,7 @@ public class GeminiGenerator implements AIGenerator {
                         "    </cq:responsive>\\n" + //
                         "</jcr:root>\\n" + //
                         "\",\n" + //
-                        "  \"clientlibs/product-carousel/css/style.css\": \".cmp-product-carousel {\\n" + //
+                        "  \"clientlibs/css/style.css\": \".cmp-product-carousel {\\n" + //
                         "    padding: 20px;\\n" + //
                         "    background-color: #f8f8f8;\\n" + //
                         "}\\n" + //
@@ -399,7 +399,7 @@ public class GeminiGenerator implements AIGenerator {
                         "    }\\n" + //
                         "}\\n" + //
                         "\",\n" + //
-                        "  \"clientlibs/product-carousel/js/script.js\": \"// clientlibs/ProductCarousel/js/script.js\\n" + //
+                        "  \"clientlibs/js/script.js\": \"// clientlibs/ProductCarousel/js/script.js\\n" + //
                         "(function() {\\n" + //
                         "    \\\"use strict\\\";\\n" + //
                         "\\n" + //
@@ -449,13 +449,13 @@ public class GeminiGenerator implements AIGenerator {
                         "    }\\n" + //
                         "})();\\n" + //
                         "\",\n" + //
-                        "  \"clientlibs/product-carousel/css.txt\": \"#base=css\\n" + //
+                        "  \"clientlibs/css.txt\": \"#base=css\\n" + //
                         "style.css\\n" + //
                         "\",\n" + //
-                        "  \"clientlibs/product-carousel/js.txt\": \"#base=js\\n" + //
+                        "  \"clientlibs/js.txt\": \"#base=js\\n" + //
                         "script.js\\n" + //
                         "\",\n" + //
-                        "  \"clientlibs/product-carousel/.content.xml\": \"<?xml version=\\\"1.0\\\" encoding=\\\"UTF-8\\\"?>\\n" + //
+                        "  \"clientlibs/.content.xml\": \"<?xml version=\\\"1.0\\\" encoding=\\\"UTF-8\\\"?>\\n" + //
                         "<jcr:root xmlns:cq=\\\"http://www.day.com/jcr/cq/1.0\\\" xmlns:jcr=\\\"http://www.jcp.org/jcr/1.0\\\"\\n" + //
                         "    jcr:primaryType=\\\"cq:ClientLibraryFolder\\\"\\n" + //
                         "    categories=\\\"[figma.productcarousel]\\\"\\n" + //
