@@ -2,15 +2,14 @@ package com.figma.aem.core.services.imp;
 
 import com.figma.aem.core.services.AIGenerator;
 import org.apache.commons.io.IOUtils;
-import org.json.JSONArray; // Import JSONArray
-import org.json.JSONObject;
-import org.json.JSONTokener;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import javax.servlet.http.Part;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.HttpURLConnection;
-import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
@@ -65,33 +64,31 @@ public class GeminiGenerator implements AIGenerator {
     }
 
     private String callGemini(String userPrompt) throws Exception {
-        // The requestJson construction block is still here, but effectively unused
-        // because the 'response' string is hardcoded.
-        JSONObject requestJson = new JSONObject();
-        List<JSONObject> contents = new ArrayList<>();
-        JSONObject partsObject = new JSONObject();
-        partsObject.put("text", userPrompt);
-        JSONObject contentObject = new JSONObject();
-        JSONArray partsArray = new JSONArray();
-        partsArray.put(partsObject);
-        contentObject.put("parts", partsArray);
-        contents.add(contentObject);
-        requestJson.put("contents", contents);
+    	JsonObject partsObject = new JsonObject();
+    	partsObject.addProperty("text", userPrompt);
 
-        JSONObject generationConfig = new JSONObject();
-        generationConfig.put("temperature", 0.3);
-        requestJson.put("generationConfig", generationConfig);
+    	// Add to parts array
+    	JsonArray partsArray = new JsonArray();
+    	partsArray.add(partsObject);
+
+    	// Wrap in content object
+    	JsonObject contentObject = new JsonObject();
+    	contentObject.add("parts", partsArray);
+
+    	// Add to contents array
+    	JsonArray contentsArray = new JsonArray();
+    	contentsArray.add(contentObject);
+
+    	// Build final request JSON
+    	JsonObject requestJson = new JsonObject();
+    	requestJson.add("contents", contentsArray);
+
+    	// Add generation config
+    	JsonObject generationConfig = new JsonObject();
+    	generationConfig.addProperty("temperature", 0.3);
+    	requestJson.add("generationConfig", generationConfig);
 
         // --- START OF HARDCODED RESPONSE ---
-        // The following section comments out the actual HTTP call and hardcodes the
-        // response.
-        // This is useful for testing the parsing logic or mocking the API.
-        // REMEMBER TO UNCOMMENT THE HTTP CALLS AND REMOVE THIS HARDCODED STRING FOR
-        // PRODUCTION!
-
-        // int status = HttpURLConnection.HTTP_OK; // Assume OK status for hardcoded
-        // response
-        // InputStream responseStream = null; // No actual stream
         String response = "{\n" + //
                         "  \"productCarousel.html\": \"<div data-sly-use.model=\\\"com.figma.aem.core.models.ProductCarousel\\\" class=\\\"cmp-product-carousel\\\">\\n" + //
                         "    <div class=\\\"cmp-product-carousel__container\\\">\\n" + //
@@ -464,31 +461,6 @@ public class GeminiGenerator implements AIGenerator {
                         "\"\n" + //
                         "}";
 
-        // Original HTTP connection code - commented out
-        /*
-         * URL url = new URL(GEMINI_API_URL + "?key=" + apiKey);
-         * HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-         * connection.setRequestMethod("POST");
-         * connection.setRequestProperty("Content-Type", "application/json");
-         * connection.setDoOutput(true);
-         * 
-         * try (OutputStream os = connection.getOutputStream()) {
-         * byte[] input = requestJson.toString().getBytes(StandardCharsets.UTF_8);
-         * os.write(input, 0, input.length);
-         * }
-         * 
-         * int status = connection.getResponseCode();
-         * InputStream responseStream = (status == HttpURLConnection.HTTP_OK)
-         * ? connection.getInputStream()
-         * : connection.getErrorStream();
-         * 
-         * String response = IOUtils.toString(responseStream, StandardCharsets.UTF_8);
-         */
-
-        // Mimic connection disconnection for completeness if it were active
-        // connection.disconnect(); // This line should be here if the connection was
-        // active
-
         // For hardcoded response, assume success (HTTP_OK)
         int status = HttpURLConnection.HTTP_OK;
 
@@ -496,48 +468,32 @@ public class GeminiGenerator implements AIGenerator {
             throw new RuntimeException("Gemini API error: " + status + " - " + response);
         }
 
-        // Parse the raw text content from Gemini
-        JSONObject responseJson = new JSONObject(new JSONTokener(response)); // Parse the hardcoded string
-
-        // Navigate through the JSON structure to get the generated text
-        // Note: The hardcoded 'response' string is already the final JSON object,
-        // not a Gemini API response wrapper with 'candidates' and 'parts'.
-        // So, the parsing logic below needs to be adjusted or you can
-        // directly return the 'response' as it's already the expected format.
-        // For now, I'll keep the existing parsing logic and wrap the hardcoded response
-        // to match the expected Gemini API format, so that the existing parsing
-        // logic (candidates -> content -> parts -> text) works.
-
         // Re-wrapping the hardcoded response to fit the expected Gemini API structure
-        // for parsing.
-        // In a real scenario, you would just parse the actual Gemini response here.
-        JSONObject mockGeminiResponse = new JSONObject();
-        JSONArray mockCandidates = new JSONArray();
-        JSONObject mockCandidate = new JSONObject();
-        JSONObject mockContent = new JSONObject();
-        JSONArray mockParts = new JSONArray();
-        JSONObject mockPart = new JSONObject();
+     JsonObject mockGeminiResponse = new JsonObject();
+     JsonArray mockCandidates = new JsonArray();
+     JsonObject mockCandidate = new JsonObject();
+     JsonObject mockContent = new JsonObject();
+     JsonArray mockParts = new JsonArray();
+     JsonObject mockPart = new JsonObject();
 
-        // The hardcoded 'response' string is the direct JSON output, so put it here.
-        // This is a common pattern: the AI generates code (JSON) inside a 'text' field.
-        mockPart.put("text", response);
-        mockParts.put(mockPart);
-        mockContent.put("parts", mockParts);
-        mockCandidate.put("content", mockContent);
-        mockCandidates.put(mockCandidate);
-        mockGeminiResponse.put("candidates", mockCandidates);
+     mockPart.addProperty("text", response);
+        mockParts.add(mockPart);
+        mockContent.add("parts", mockParts);
+        mockCandidate.add("content", mockContent);
+        mockCandidates.add(mockCandidate);
+        mockGeminiResponse.add("candidates", mockCandidates);
 
-        // Now parse the mock Gemini response
-        responseJson = mockGeminiResponse;
-
-        if (responseJson.has("candidates") && !responseJson.getJSONArray("candidates").isEmpty()) {
-            JSONObject candidate = responseJson.getJSONArray("candidates").getJSONObject(0);
-            if (candidate.has("content") && candidate.getJSONObject("content").has("parts") &&
-                    !candidate.getJSONObject("content").getJSONArray("parts").isEmpty()) {
-
-                JSONObject part = candidate.getJSONObject("content").getJSONArray("parts").getJSONObject(0);
-                if (part.has("text")) {
-                    return part.getString("text").trim();
+        JsonArray candidates = mockGeminiResponse.getAsJsonArray("candidates");
+        if (candidates != null && candidates.size() > 0) {
+            JsonObject candidate = candidates.get(0).getAsJsonObject();
+            JsonObject content = candidate.getAsJsonObject("content");
+            if (content != null) {
+                JsonArray parts = content.getAsJsonArray("parts");
+                if (parts != null && parts.size() > 0) {
+                    JsonObject part = parts.get(0).getAsJsonObject();
+                    if (part.has("text")) {
+                        return part.get("text").getAsString().trim();
+                    }
                 }
             }
         }
@@ -548,25 +504,29 @@ public class GeminiGenerator implements AIGenerator {
         String cleaned = responseText;
 
         // Remove code block formatting if present
-        if (cleaned.startsWith("```json")) {
+        if (cleaned.startsWith("```json\n")) { // Handle newline after ```json
             cleaned = cleaned.substring(7);
-        } else if (cleaned.startsWith("```json\n")) { // Handle newline after ```json
-            cleaned = cleaned.substring(8);
+        } else if (cleaned.startsWith("```json")) {
+            cleaned = cleaned.substring(6);
         }
         if (cleaned.endsWith("```")) {
             cleaned = cleaned.substring(0, cleaned.length() - 3);
         }
 
         try {
-            JSONObject json = new JSONObject(new JSONTokener(cleaned));
+            JsonObject json = JsonParser.parseString(cleaned).getAsJsonObject();
             Map<String, String> files = new HashMap<>();
-            for (String key : json.keySet()) {
-                files.put(key, json.getString(key));
+
+            Set<Map.Entry<String, JsonElement>> entries = json.entrySet();
+            for (Map.Entry<String, JsonElement> entry : entries) {
+                files.put(entry.getKey(), entry.getValue().getAsString());
             }
+
             return files;
+
         } catch (Exception e) {
             throw new RuntimeException(
-                    "Failed to parse AI JSON output. Response:\n" + responseText + "\n\nError: " + e.getMessage());
+                "Failed to parse AI JSON output. Response:\n" + responseText + "\n\nError: " + e.getMessage());
         }
     }
 }

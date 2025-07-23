@@ -1,9 +1,13 @@
 package com.figma.aem.core.services.imp;
 
 import com.figma.aem.core.services.AIGenerator;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
 import org.apache.commons.io.IOUtils;
-import org.json.JSONObject;
-import org.json.JSONTokener;
+
 
 import javax.servlet.http.Part;
 import java.io.InputStream;
@@ -31,13 +35,13 @@ public class ChatGPTGenerator implements AIGenerator {
         return parseGeneratedCode(responseContent);
     }
 
-    private String extractFigmaJson(Part figmaFile) throws Exception {
+    public String extractFigmaJson(Part figmaFile) throws Exception {
         try (InputStream inputStream = figmaFile.getInputStream()) {
             return IOUtils.toString(inputStream, StandardCharsets.UTF_8);
         }
     }
 
-    private String buildUserPrompt(String componentName, String prompt, String figmaJson) {
+    public String buildUserPrompt(String componentName, String prompt, String figmaJson) {
         return String.format(
                 "You are an expert AEM developer.\n\n" +
                         "Your task is to generate a production-ready Adobe Experience Manager (AEM) component based on the provided information.\n\n"
@@ -59,17 +63,26 @@ public class ChatGPTGenerator implements AIGenerator {
                 componentName, figmaJson, prompt);
     }
 
-    private String callOpenAI(String userPrompt) throws Exception {
-        JSONObject requestJson = new JSONObject();
-        requestJson.put("model", "gpt-3.5-turbo");
-        requestJson.put("temperature", 0.3);
+    public String callOpenAI(String userPrompt) throws Exception {
+        JsonObject requestJson = new JsonObject();
+        requestJson.addProperty("model", "gpt-3.5-turbo");
+        requestJson.addProperty("temperature", 0.3);
 
-        // Messages array
-        List messages = new ArrayList<JSONObject>();
-        messages.add(new JSONObject().put("role", "system").put("content",
-                "You generate AEM component source files from design specs."));
-        messages.add(new JSONObject().put("role", "user").put("content", userPrompt));
-        requestJson.put("messages", messages);
+        // Create messages array
+        JsonArray messagesArray = new JsonArray();
+
+        JsonObject systemMessage = new JsonObject();
+        systemMessage.addProperty("role", "system");
+        systemMessage.addProperty("content", "You generate AEM component source files from design specs.");
+        messagesArray.add(systemMessage);
+
+        JsonObject userMessage = new JsonObject();
+        userMessage.addProperty("role", "user");
+        userMessage.addProperty("content", userPrompt);
+        messagesArray.add(userMessage);
+
+        // Add messages to the request JSON
+        requestJson.add("messages", messagesArray);
 
         // Prepare connection
         HttpURLConnection connection = (HttpURLConnection) new URL(OPENAI_API_URL).openConnection();
@@ -97,16 +110,18 @@ public class ChatGPTGenerator implements AIGenerator {
         }
 
         // Parse the raw text content from OpenAI
-        JSONObject responseJson = new JSONObject(response);
-        return responseJson
-                .getJSONArray("choices")
-                .getJSONObject(0)
-                .getJSONObject("message")
-                .getString("content")
-                .trim();
+        JsonObject responseJson = JsonParser.parseString(response).getAsJsonObject();
+
+        JsonArray choices = responseJson.getAsJsonArray("choices");
+        JsonObject message = choices
+                .get(0)
+                .getAsJsonObject()
+                .getAsJsonObject("message");
+
+        return message.get("content").getAsString().trim();
     }
 
-    private Map<String, String> parseGeneratedCode(String responseText) {
+    public Map<String, String> parseGeneratedCode(String responseText) {
         String cleaned = responseText;
 
         // Remove code block formatting if present
@@ -118,10 +133,11 @@ public class ChatGPTGenerator implements AIGenerator {
         }
 
         try {
-            JSONObject json = new JSONObject(new JSONTokener(cleaned));
+            JsonObject json = JsonParser.parseString(cleaned).getAsJsonObject();
+
             Map<String, String> files = new HashMap<>();
-            for (String key : json.keySet()) {
-                files.put(key, json.getString(key));
+            for (Map.Entry<String, JsonElement> entry : json.entrySet()) {
+                files.put(entry.getKey(), entry.getValue().getAsString());
             }
             return files;
         } catch (Exception e) {

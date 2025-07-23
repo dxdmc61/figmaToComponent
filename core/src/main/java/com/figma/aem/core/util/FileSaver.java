@@ -44,49 +44,45 @@ public class FileSaver {
 
     public void saveFiles(String projectRoot, String componentName, Map<String, String> generatedFiles)
             throws IOException {
-        // Validate inputs
         if (projectRoot == null || projectRoot.isEmpty()) {
             throw new IllegalArgumentException("Project directory cannot be null or empty");
         }
-
         if (componentName == null || componentName.isEmpty()) {
             throw new IllegalArgumentException("Component name cannot be null or empty");
         }
 
-        // Create component directory structure
         createDirectoryStructure(projectRoot, componentName);
 
-        // Save all generated files
         for (Map.Entry<String, String> entry : generatedFiles.entrySet()) {
             String filename = entry.getKey();
             String content = entry.getValue();
-            String path;
+            String relativePath;
 
             try {
                 if (filename.endsWith(".html")) {
-                    path = String.format("/ui.apps/src/main/content/jcr_root/apps/figma/components/%s/%s", componentName, filename);
+                    relativePath = String.format("ui.apps/src/main/content/jcr_root/apps/figma/components/%s/%s", componentName, filename);
                 } else if (filename.endsWith(".java")) {
-                    path = String.format("/core/src/main/java/com/figma/aem/core/models/%s", filename);
+                    relativePath = String.format("core/src/main/java/com/figma/aem/core/models/%s", filename);
                 } else if (filename.equals("_cq_dialog/.content.xml")) {
-                    path = String.format("/ui.apps/src/main/content/jcr_root/apps/figma/components/%s/_cq_dialog/.content.xml", componentName);
+                    relativePath = String.format("ui.apps/src/main/content/jcr_root/apps/figma/components/%s/_cq_dialog/.content.xml", componentName);
                 } else if (filename.equals("_cq_editConfig.xml")) {
-                    path = String.format("/ui.apps/src/main/content/jcr_root/apps/figma/components/%s/_cq_editConfig.xml", componentName);
+                    relativePath = String.format("ui.apps/src/main/content/jcr_root/apps/figma/components/%s/_cq_editConfig.xml", componentName);
                 } else if (filename.equals(".content.xml")) {
-                    path = String.format("/ui.apps/src/main/content/jcr_root/apps/figma/components/%s/.content.xml", componentName);
+                    relativePath = String.format("ui.apps/src/main/content/jcr_root/apps/figma/components/%s/.content.xml", componentName);
                 } else if (filename.endsWith(".css")) {
-                    path = String.format("/ui.apps/src/main/content/jcr_root/apps/figma/clientlibs/%s/%s", componentName, filename);
+                    relativePath = String.format("ui.apps/src/main/content/jcr_root/apps/figma/clientlibs/%s/%s", componentName, filename);
                 } else if (filename.endsWith(".js")) {
-                    path = String.format("/ui.apps/src/main/content/jcr_root/apps/figma/clientlibs/%s/%s", componentName, filename);
+                    relativePath = String.format("ui.apps/src/main/content/jcr_root/apps/figma/clientlibs/%s/%s", componentName, filename);
                 } else if (filename.contains("clientlib") && filename.endsWith(".xml")) {
-                    path = String.format("/ui.apps/src/main/content/jcr_root/apps/figma/clientlibs/%s/clientlibs/.content.xml", componentName);
+                    relativePath = String.format("ui.apps/src/main/content/jcr_root/apps/figma/clientlibs/%s/clientlibs/.content.xml", componentName);
                 } else if (filename.endsWith(".txt")) {
-                    path = String.format("/ui.apps/src/main/content/jcr_root/apps/figma/clientlibs/%s/%s", componentName, filename);
+                    relativePath = String.format("ui.apps/src/main/content/jcr_root/apps/figma/clientlibs/%s/%s", componentName, filename);
                 } else {
                     LOG.warn("Unknown file: {}", filename);
                     continue;
                 }
 
-                saveFile(projectRoot, path, content);
+                saveFile(projectRoot, relativePath, content);
             } catch (IOException e) {
                 LOG.error("Failed to save {} for component {}", filename, componentName, e);
                 throw e;
@@ -97,29 +93,37 @@ public class FileSaver {
     }
 
     private void createDirectoryStructure(String projectRoot, String componentName) throws IOException {
-        // Create component directory
-        createDirectory(projectRoot + "/components/" + componentName);
-        createDirectory(projectRoot + "/components/" + componentName + "/_cq_dialog");
-
-        // Create clientlib directory if needed
-        createDirectory(projectRoot + "/clientlibs/" + componentName);
-
-        // Create model package if needed
-        createDirectory(projectRoot + "/core/src/main/java/com/figma/core/models");
+        createDirectory(projectRoot, "components/" + componentName);
+        createDirectory(projectRoot, "components/" + componentName + "/_cq_dialog");
+        createDirectory(projectRoot, "clientlibs/" + componentName);
+        createDirectory(projectRoot, "core/src/main/java/com/figma/core/models");
     }
 
-    private void createDirectory(String path) throws IOException {
-        File dir = new File(path);
+    private void createDirectory(String projectRoot, String relativePath) throws IOException {
+        Path rootPath = Paths.get(projectRoot).toAbsolutePath().normalize();
+        Path dirPath = rootPath.resolve(relativePath).normalize();
+
+        if (!dirPath.startsWith(rootPath)) {
+            throw new SecurityException("Invalid directory path detected: " + relativePath);
+        }
+
+        File dir = dirPath.toFile();
         if (!dir.exists()) {
             if (!dir.mkdirs()) {
-                throw new IOException("Failed to create directory: " + path);
+                throw new IOException("Failed to create directory: " + dirPath);
             }
-            LOG.debug("Created directory: {}", path);
+            LOG.debug("Created directory: {}", dirPath);
         }
     }
 
     private void saveFile(String projectRoot, String relativePath, String content) throws IOException {
-        Path fullPath = Paths.get(projectRoot, relativePath);
+        Path rootPath = Paths.get(projectRoot).toAbsolutePath().normalize();
+        Path fullPath = rootPath.resolve(relativePath).normalize();
+
+        if (!fullPath.startsWith(rootPath)) {
+            throw new SecurityException("Invalid file path detected: " + relativePath);
+        }
+
         Files.createDirectories(fullPath.getParent());
         Files.write(fullPath, content.getBytes(StandardCharsets.UTF_8));
         LOG.debug("Saved file: {}", fullPath);

@@ -9,13 +9,14 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Collectors;
 import javax.servlet.http.Part;
 
 import com.figma.aem.core.services.AIGenerator;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
 import org.apache.commons.io.IOUtils;
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -54,13 +55,13 @@ public class DeepSeekGenerator implements AIGenerator {
         return generatedFiles;
     }
 
-    private String parseFigmaFile(Part figmaFile) throws Exception {
+    public String parseFigmaFile(Part figmaFile) throws Exception {
         try (InputStream inputStream = figmaFile.getInputStream()) {
             return IOUtils.toString(inputStream, StandardCharsets.UTF_8);
         }
     }
 
-    private Map<String, String> createPrompts(String componentName, String figmaJson, String customPrompt) {
+    Map<String, String> createPrompts(String componentName, String figmaJson, String customPrompt) {
         Map<String, String> prompts = new HashMap<>();
 
         String basePrompt = String.format(
@@ -84,15 +85,29 @@ public class DeepSeekGenerator implements AIGenerator {
         return prompts;
     }
 
-    private String callDeepSeekAPI(String prompt) throws Exception {
-        JSONObject requestBody = new JSONObject();
-        requestBody.put("model", MODEL);
+    protected HttpURLConnection openConnection(String urlString) throws Exception {
+        return (HttpURLConnection) new URL(urlString).openConnection();
+    }
 
-        JSONArray messages = new JSONArray();
-        messages.put(new JSONObject().put("role", "user").put("content", prompt));
-        requestBody.put("messages", messages);
+    public String callDeepSeekAPI(String prompt) throws Exception {
+    	  JsonObject requestBody = new JsonObject();
+          requestBody.addProperty("model", MODEL);
 
-        HttpURLConnection connection = (HttpURLConnection) new URL(DEEPSEEK_API_URL).openConnection();
+          // Create the messages array
+          JsonArray messages = new JsonArray();
+
+          // Create the user message object
+          JsonObject userMessage = new JsonObject();
+          userMessage.addProperty("role", "user");
+          userMessage.addProperty("content", prompt);
+
+          // Add the user message to messages array
+          messages.add(userMessage);
+
+          // Add messages array to request body
+          requestBody.add("messages", messages);
+
+        HttpURLConnection connection = openConnection(DEEPSEEK_API_URL);
         connection.setRequestMethod("POST");
         connection.setRequestProperty("Content-Type", "application/json");
         connection.setRequestProperty("Authorization", "Bearer " + apiKey);
@@ -119,12 +134,11 @@ public class DeepSeekGenerator implements AIGenerator {
         try (BufferedReader reader = new BufferedReader(
                 new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8))) {
             // String response = reader.lines().collect(Collectors.joining());
-            JSONObject jsonResponse = new JSONObject(response);
+            JsonObject jsonResponse = JsonParser.parseString(response).getAsJsonObject();
 
-            return jsonResponse.getJSONArray("choices")
-                    .getJSONObject(0)
-                    .getJSONObject("message")
-                    .getString("content");
+            JsonArray choices = jsonResponse.getAsJsonArray("choices");
+            JsonObject message = choices.get(0).getAsJsonObject().getAsJsonObject("message");
+            return message.get("content").getAsString();
         }
     }
 }
