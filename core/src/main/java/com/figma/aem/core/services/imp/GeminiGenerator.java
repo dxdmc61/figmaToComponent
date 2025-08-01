@@ -201,7 +201,7 @@ public class GeminiGenerator implements AIGenerator {
                         "    </content>\\n" + //
                         "</jcr:root>\\n" + //
                         "\",\n" + //
-                        "  \"KholerHeroModel.java\": \"package com.mysite.core.models;\\n" + //
+                        "  \"KholerHeroModel.java\": \"package com.figma.aem.core.models;\\n" + //
                         "\\n" + //
                         "import com.adobe.cq.wcm.core.components.models.Image;\\n" + //
                         "import org.apache.sling.api.SlingHttpServletRequest;\\n" + //
@@ -279,9 +279,9 @@ public class GeminiGenerator implements AIGenerator {
                         "    </div>\\n" + //
                         "    <div class=\\\"kholer-hero__content-wrapper\\\">\\n" + //
                         "        <div class=\\\"kholer-hero__content\\\">\\n" + //
-                        "            <h2 data-sly-test=\\\"${model.subtitle}\\\" class=\\\"kholer-hero__subtitle\\\">${model.subtitle}</h2>\\n" + //
                         "            <h1 data-sly-test=\\\"${model.title}\\\" class=\\\"kholer-hero__title\\\">${model.title}</h1>\\n" + //
                         "            <p data-sly-test=\\\"${model.description}\\\" class=\\\"kholer-hero__description\\\">${model.description @ context='html'}</p>\\n" + //
+                        "            <h2 data-sly-test=\\\"${model.subtitle}\\\" class=\\\"kholer-hero__subtitle\\\">${model.subtitle}</h2>\\n" + //
                         "            <div class=\\\"kholer-hero__cta-container\\\">\\n" + //
                         "                <a data-sly-test=\\\"${model.cta1Label && model.cta1Url}\\\" href=\\\"${model.cta1Url}\\\" class=\\\"kholer-hero__cta-link kholer-hero__cta-link--primary\\\">${model.cta1Label}</a>\\n" + //
                         "                <a data-sly-test=\\\"${model.cta2Label && model.cta2Url}\\\" href=\\\"${model.cta2Url}\\\" class=\\\"kholer-hero__cta-link kholer-hero__cta-link--secondary\\\">${model.cta2Label}</a>\\n" + //
