@@ -98,7 +98,7 @@ public class GeminiGenerator implements AIGenerator {
                         "    xmlns:jcr=\\\"http://www.jcp.org/jcr/1.0\\\"\\n" + //
                         "    jcr:primaryType=\\\"cq:Component\\\"\\n" + //
                         "    jcr:title=\\\"kohler Hero\\\"\\n" + //
-                        "    componentGroup=\\\"My Kohler - Content\\\"/>\\n" + //
+                        "    componentGroup=\\\"Figma - Content\\\"/>\\n" + //
                         "\",\n" + //
                         "  \"_cq_editConfig.xml\": \"<?xml version=\\\"1.0\\\" encoding=\\\"UTF-8\\\"?>\\n" + //
                         "<jcr:root xmlns:cq=\\\"http://www.day.com/jcr/cq/1.0\\\" xmlns:jcr=\\\"http://www.jcp.org/jcr/1.0\\\"\\n" + //
@@ -144,7 +144,7 @@ public class GeminiGenerator implements AIGenerator {
                         "                                                sling:resourceType=\\\"granite/ui/components/coral/foundation/form/textfield\\\"\\n" + //
                         "                                                fieldLabel=\\\"Background Video URL\\\"\\n" + //
                         "                                                name=\\\"./videoUrl\\\"\\n" + //
-                        "                                                emptyText=\\\"Enter video URL (e.g., /content/dam/my-site/hero-video.mp4)\\\"/>\\n" + //
+                        "                                                emptyText=\\\"Enter video URL (e.g., /content/dam/figma/hero-video.mp4)\\\"/>\\n" + //
                         "                                            <subtitle\\n" + //
                         "                                                jcr:primaryType=\\\"nt:unstructured\\\"\\n" + //
                         "                                                sling:resourceType=\\\"granite/ui/components/coral/foundation/form/textfield\\\"\\n" + //
@@ -210,7 +210,7 @@ public class GeminiGenerator implements AIGenerator {
                         "import org.apache.sling.models.annotations.Model;\\n" + //
                         "import org.apache.sling.models.annotations.injectorspecific.ValueMapValue;\\n" + //
                         "\\n" + //
-                        "@Model(adaptables = {SlingHttpServletRequest.class, Resource.class}, resourceType = \\\"my-site/components/kohlerhero\\\", defaultInjectionStrategy = DefaultInjectionStrategy.OPTIONAL)\\n" + //
+                        "@Model(adaptables = {SlingHttpServletRequest.class, Resource.class}, resourceType = \\\"figma/components/kohlerhero\\\", defaultInjectionStrategy = DefaultInjectionStrategy.OPTIONAL)\\n" + //
                         "public class KohlerHeroModel {\\n" + //
                         "\\n" + //
                         "    @ValueMapValue\\n" + //
@@ -385,7 +385,7 @@ public class GeminiGenerator implements AIGenerator {
                         "  \"clientlibs/kohlerhero/.content.xml\": \"<?xml version=\\\"1.0\\\" encoding=\\\"UTF-8\\\"?>\\n" + //
                         "<jcr:root xmlns:cq=\\\"http://www.day.com/jcr/cq/1.0\\\" xmlns:jcr=\\\"http://www.jcp.org/jcr/1.0\\\"\\n" + //
                         "    jcr:primaryType=\\\"cq:ClientLibraryFolder\\\"\\n" + //
-                        "    categories=\\\"[my-site.kohlerhero]\\\"/>\\n" + //
+                        "    categories=\\\"[figma.kohlerhero]\\\"/>\\n" + //
                         "\"\n" + //
                         "}";
 
