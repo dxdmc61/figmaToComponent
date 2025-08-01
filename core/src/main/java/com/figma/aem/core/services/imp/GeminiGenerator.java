@@ -93,191 +93,12 @@ public class GeminiGenerator implements AIGenerator {
         // response
         // InputStream responseStream = null; // No actual stream
         String response = "{\n" + //
-                        "  \"productCarousel.html\": \"<div data-sly-use.model=\\\"com.figma.aem.core.models.ProductCarousel\\\" class=\\\"cmp-product-carousel\\\">\\n" + //
-                        "    <div class=\\\"cmp-product-carousel__container\\\">\\n" + //
-                        "        <sly data-sly-list.item=\\\"${model.productItems}\\\">\\n" + //
-                        "            <div class=\\\"cmp-product-carousel__item\\\">\\n" + //
-                        "                <div class=\\\"cmp-product-card\\\">\\n" + //
-                        "                    <sly data-sly-test.hasImage=\\\"${item.image}\\\">\\n" + //
-                        "                        <div class=\\\"cmp-product-card__image-container\\\">\\n" + //
-                        "                            <img src=\\\"${item.image}\\\" alt=\\\"${item.imageAlt}\\\" class=\\\"cmp-product-card__image\\\"/>\\n" + //
-                        "                        </div>\\n" + //
-                        "                    </sly>\\n" + //
-                        "                    <div class=\\\"cmp-product-card__content\\\">\\n" + //
-                        "                        <h3 class=\\\"cmp-product-card__title\\\">${item.title}</h3>\\n" + //
-                        "                        <p class=\\\"cmp-product-card__price\\\">${item.price}</p>\\n" + //
-                        "                        <p class=\\\"cmp-product-card__description\\\">${item.description}</p>\\n" + //
-                        "                    </div>\\n" + //
-                        "                </div>\\n" + //
-                        "            </div>\\n" + //
-                        "        </sly>\\n" + //
-                        "    </div>\\n" + //
-                        "</div>\\n" + //
-                        "\",\n" + //
-                        "  \"ProductCarousel.java\": \"package com.figma.aem.core.models;\\n" + //
-                        "\\n" + //
-                        "import org.apache.sling.api.resource.Resource;\\n" + //
-                        "import org.apache.sling.models.annotations.DefaultInjectionStrategy;\\n" + //
-                        "import org.apache.sling.models.annotations.Model;\\n" + //
-                        "import org.apache.sling.models.annotations.injectorspecific.ChildResource;\\n" + //
-                        "import org.apache.sling.models.annotations.injectorspecific.ValueMapValue;\\n" + //
-                        "\\n" + //
-                        "import javax.annotation.PostConstruct;\\n" + //
-                        "import java.util.Collections;\\n" + //
-                        "import java.util.List;\\n" + //
-                        "import java.util.Objects;\\n" + //
-                        "import java.util.Optional;\\n" + //
-                        "import java.util.stream.Collectors;\\n" + //
-                        "\\n" + //
-                        "@Model(\\n" + //
-                        "    adaptables = Resource.class,\\n" + //
-                        "    resourceType = ProductCarousel.RESOURCE_TYPE,\\n" + //
-                        "    defaultInjectionStrategy = DefaultInjectionStrategy.OPTIONAL\\n" + //
-                        ")\\n" + //
-                        "public class ProductCarousel {\\n" + //
-                        "\\n" + //
-                        "    protected static final String RESOURCE_TYPE = \\\"figma/components/productcarousel\\\";\\n" + //
-                        "\\n" + //
-                        "    @ChildResource\\n" + //
-                        "    private List<Resource> productItems;\\n" + //
-                        "\\n" + //
-                        "    private List<ProductItem> items;\\n" + //
-                        "\\n" + //
-                        "    @PostConstruct\\n" + //
-                        "    protected void init() {\\n" + //
-                        "        if (productItems != null) {\\n" + //
-                        "            items = productItems.stream()\\n" + //
-                        "                .map(resource -> resource.adaptTo(ProductItem.class))\\n" + //
-                        "                .filter(Objects::nonNull)\\n" + //
-                        "                .collect(Collectors.toList());\\n" + //
-                        "        } else {\\n" + //
-                        "            items = Collections.emptyList();\\n" + //
-                        "        }\\n" + //
-                        "    }\\n" + //
-                        "\\n" + //
-                        "    public List<ProductItem> getProductItems() {\\n" + //
-                        "        return Collections.unmodifiableList(items);\\n" + //
-                        "    }\\n" + //
-                        "\\n" + //
-                        "    @Model(adaptables = Resource.class, defaultInjectionStrategy = DefaultInjectionStrategy.OPTIONAL)\\n" + //
-                        "    public static class ProductItem {\\n" + //
-                        "        @ValueMapValue\\n" + //
-                        "        private String image;\\n" + //
-                        "        @ValueMapValue\\n" + //
-                        "        private String imageAlt;\\n" + //
-                        "        @ValueMapValue\\n" + //
-                        "        private String title;\\n" + //
-                        "        @ValueMapValue\\n" + //
-                        "        private String price;\\n" + //
-                        "        @ValueMapValue\\n" + //
-                        "        private String description;\\n" + //
-                        "\\n" + //
-                        "        public String getImage() {\\n" + //
-                        "            return image;\\n" + //
-                        "        }\\n" + //
-                        "\\n" + //
-                        "        public String getImageAlt() {\\n" + //
-                        "            return Optional.ofNullable(imageAlt).orElse(\\\"Product image\\\");\\n" + //
-                        "        }\\n" + //
-                        "\\n" + //
-                        "        public String getTitle() {\\n" + //
-                        "            return title;\\n" + //
-                        "        }\\n" + //
-                        "\\n" + //
-                        "        public String getPrice() {\\n" + //
-                        "            return price;\\n" + //
-                        "        }\\n" + //
-                        "\\n" + //
-                        "        public String getDescription() {\\n" + //
-                        "            return description;\\n" + //
-                        "        }\\n" + //
-                        "    }\\n" + //
-                        "}\\n" + //
-                        "\",\n" + //
-                        "  \"_cq_dialog/.content.xml\": \"<?xml version=\\\"1.0\\\" encoding=\\\"UTF-8\\\"?>\\n" + //
+                        "  \".content.xml\": \"<?xml version=\\\"1.0\\\" encoding=\\\"UTF-8\\\"?>\\n" + //
                         "<jcr:root xmlns:sling=\\\"http://sling.apache.org/jcr/sling/1.0\\\" xmlns:cq=\\\"http://www.day.com/jcr/cq/1.0\\\"\\n" + //
-                        "    xmlns:jcr=\\\"http://www.jcp.org/jcr/1.0\\\" xmlns:nt=\\\"http://www.jcp.org/jcr/nt/1.0\\\"\\n" + //
-                        "    jcr:primaryType=\\\"nt:unstructured\\\"\\n" + //
-                        "    jcr:title=\\\"Product Carousel Properties\\\"\\n" + //
-                        "    sling:resourceType=\\\"cq/gui/components/authoring/dialog\\\">\\n" + //
-                        "    <content\\n" + //
-                        "        jcr:primaryType=\\\"nt:unstructured\\\"\\n" + //
-                        "        sling:resourceType=\\\"granite/ui/components/coral/foundation/container\\\">\\n" + //
-                        "        <items jcr:primaryType=\\\"nt:unstructured\\\">\\n" + //
-                        "            <tabs\\n" + //
-                        "                jcr:primaryType=\\\"nt:unstructured\\\"\\n" + //
-                        "                sling:resourceType=\\\"granite/ui/components/coral/foundation/tabs\\\"\\n" + //
-                        "                maximized=\\\"{Boolean}true\\\">\\n" + //
-                        "                <items jcr:primaryType=\\\"nt:unstructured\\\">\\n" + //
-                        "                    <properties\\n" + //
-                        "                        jcr:primaryType=\\\"nt:unstructured\\\"\\n" + //
-                        "                        jcr:title=\\\"Carousel Items\\\"\\n" + //
-                        "                        sling:resourceType=\\\"granite/ui/components/coral/foundation/container\\\">\\n" + //
-                        "                        <items jcr:primaryType=\\\"nt:unstructured\\\">\\n" + //
-                        "                            <column\\n" + //
-                        "                                jcr:primaryType=\\\"nt:unstructured\\\"\\n" + //
-                        "                                sling:resourceType=\\\"granite/ui/components/coral/foundation/container\\\">\\n" + //
-                        "                                <items jcr:primaryType=\\\"nt:unstructured\\\">\\n" + //
-                        "                                    <productItems\\n" + //
-                        "                                        jcr:primaryType=\\\"nt:unstructured\\\"\\n" + //
-                        "                                        composite=\\\"{Boolean}true\\\"\\n" + //
-                        "                                        sling:resourceType=\\\"granite/ui/components/coral/foundation/form/multifield\\\"\\n" + //
-                        "                                        fieldDescription=\\\"Add Product Cards to the carousel.\\\"\\n" + //
-                        "                                        fieldLabel=\\\"Product Cards\\\">\\n" + //
-                        "                                        <field\\n" + //
-                        "                                            jcr:primaryType=\\\"nt:unstructured\\\"\\n" + //
-                        "                                            sling:resourceType=\\\"granite/ui/components/coral/foundation/container\\\"\\n" + //
-                        "                                            name=\\\"./productItems\\\">\\n" + //
-                        "                                            <items jcr:primaryType=\\\"nt:unstructured\\\">\\n" + //
-                        "                                                <column\\n" + //
-                        "                                                    jcr:primaryType=\\\"nt:unstructured\\\"\\n" + //
-                        "                                                    sling:resourceType=\\\"granite/ui/components/coral/foundation/container\\\">\\n" + //
-                        "                                                    <items jcr:primaryType=\\\"nt:unstructured\\\">\\n" + //
-                        "                                                        <imageSrc\\n" + //
-                        "                                                            jcr:primaryType=\\\"nt:unstructured\\\"\\n" + //
-                        "                                                            sling:resourceType=\\\"granite/ui/components/coral/foundation/form/pathfield\\\"\\n" + //
-                        "                                                            fieldLabel=\\\"Product Image\\\"\\n" + //
-                        "                                                            name=\\\"./image\\\"\\n" + //
-                        "                                                            emptyText=\\\"Enter product title\\\"/>\\n" + //
-                        "                                                        <imageAlt\\n" + //
-                        "                                                            jcr:primaryType=\\\"nt:unstructured\\\"\\n" + //
-                        "                                                            sling:resourceType=\\\"granite/ui/components/coral/foundation/form/textfield\\\"\\n" + //
-                        "                                                            fieldLabel=\\\"Image Alt Text\\\"\\n" + //
-                        "                                                            name=\\\"./imageAlt\\\"\\n" + //
-                        "                                                            emptyText=\\\"Product image\\\"/>\\n" + //
-                        "                                                        <title\\n" + //
-                        "                                                            jcr:primaryType=\\\"nt:unstructured\\\"\\n" + //
-                        "                                                            sling:resourceType=\\\"granite/ui/components/coral/foundation/form/textfield\\\"\\n" + //
-                        "                                                            fieldLabel=\\\"Title\\\"\\n" + //
-                        "                                                            name=\\\"./title\\\"\\n" + //
-                        "                                                            required=\\\"{Boolean}true\\\"\\n" + //
-                        "                                                            emptyText=\\\"Enter product title\\\"/>\\n" + //
-                        "                                                        <price\\n" + //
-                        "                                                            jcr:primaryType=\\\"nt:unstructured\\\"\\n" + //
-                        "                                                            sling:resourceType=\\\"granite/ui/components/coral/foundation/form/textfield\\\"\\n" + //
-                        "                                                            fieldLabel=\\\"Price\\\"\\n" + //
-                        "                                                            name=\\\"./price\\\"\\n" + //
-                        "                                                            emptyText=\\\"$0.00 / lb\\\"/>\\n" + //
-                        "                                                        <description\\n" + //
-                        "                                                            jcr:primaryType=\\\"nt:unstructured\\\"\\n" + //
-                        "                                                            sling:resourceType=\\\"granite/ui/components/coral/foundation/form/textfield\\\"\\n" + //
-                        "                                                            fieldLabel=\\\"Description\\\"\\n" + //
-                        "                                                            name=\\\"./description\\\"\\n" + //
-                        "                                                            emptyText=\\\"Grown in...\\\"/>\\n" + //
-                        "                                                    </items>\\n" + //
-                        "                                                </column>\\n" + //
-                        "                                            </items>\\n" + //
-                        "                                        </field>\\n" + //
-                        "                                    </productItems>\\n" + //
-                        "                                </items>\\n" + //
-                        "                            </column>\\n" + //
-                        "                        </items>\\n" + //
-                        "                    </properties>\\n" + //
-                        "                </items>\\n" + //
-                        "            </tabs>\\n" + //
-                        "        </items>\\n" + //
-                        "    </content>\\n" + //
-                        "</jcr:root>\\n" + //
+                        "    xmlns:jcr=\\\"http://www.jcp.org/jcr/1.0\\\"\\n" + //
+                        "    jcr:primaryType=\\\"cq:Component\\\"\\n" + //
+                        "    jcr:title=\\\"Kholer Hero\\\"\\n" + //
+                        "    componentGroup=\\\"My Site - Content\\\"/>\\n" + //
                         "\",\n" + //
                         "  \"_cq_editConfig.xml\": \"<?xml version=\\\"1.0\\\" encoding=\\\"UTF-8\\\"?>\\n" + //
                         "<jcr:root xmlns:cq=\\\"http://www.day.com/jcr/cq/1.0\\\" xmlns:jcr=\\\"http://www.jcp.org/jcr/1.0\\\"\\n" + //
@@ -289,178 +110,282 @@ public class GeminiGenerator implements AIGenerator {
                         "        afterinsert=\\\"REFRESH_PAGE\\\"/>\\n" + //
                         "</jcr:root>\\n" + //
                         "\",\n" + //
-                        "  \".content.xml\": \"<?xml version=\\\"1.0\\\" encoding=\\\"UTF-8\\\"?>\\n" + //
-                        "<jcr:root xmlns:sling=\\\"http://sling.apache.org/jcr/sling/1.0\\\" xmlns:cq=\\\"http://www.day.com/jcr/cq/1.0\\\"\\n" + //
-                        "    xmlns:jcr=\\\"http://www.jcp.org/jcr/1.0\\\"\\n" + //
-                        "    xmlns:nt=\\\"http://www.jcp.org/jcr/nt/1.0\\\"\\n" + //
-                        "    jcr:primaryType=\\\"cq:Component\\\"\\n" + //
-                        "    jcr:title=\\\"Product Carousel\\\"\\n" + //
-                        "    componentGroup=\\\"Figma - Content\\\">\\n" + //
-                        "    <cq:responsive jcr:primaryType=\\\"nt:unstructured\\\">\\n" + //
-                        "        <default\\n" + //
-                        "            jcr:primaryType=\\\"nt:unstructured\\\"\\n" + //
-                        "            width=\\\"12\\\"/>\\n" + //
-                        "        <tablet\\n" + //
-                        "            jcr:primaryType=\\\"nt:unstructured\\\"\\n" + //
-                        "            width=\\\"8\\\"/>\\n" + //
-                        "        <mobile\\n" + //
-                        "            jcr:primaryType=\\\"nt:unstructured\\\"\\n" + //
-                        "            width=\\\"12\\\"/>\\n" + //
-                        "    </cq:responsive>\\n" + //
+                        "  \"_cq_dialog/.content.xml\": \"<?xml version=\\\"1.0\\\" encoding=\\\"UTF-8\\\"?>\\n" + //
+                        "<jcr:root xmlns:sling=\\\"http://sling.apache.org/jcr/sling/1.0\\\" xmlns:granite=\\\"http://www.adobe.com/jcr/granite/1.0\\\" xmlns:cq=\\\"http://www.day.com/jcr/cq/1.0\\\" xmlns:jcr=\\\"http://www.jcp.org/jcr/1.0\\\" xmlns:nt=\\\"http://www.jcp.org/jcr/nt/1.0\\\"\\n" + //
+                        "    jcr:primaryType=\\\"nt:unstructured\\\"\\n" + //
+                        "    jcr:title=\\\"Kholer Hero\\\"\\n" + //
+                        "    sling:resourceType=\\\"cq/gui/components/authoring/dialog\\\">\\n" + //
+                        "    <content\\n" + //
+                        "        jcr:primaryType=\\\"nt:unstructured\\\"\\n" + //
+                        "        sling:resourceType=\\\"granite/ui/components/coral/foundation/container\\\">\\n" + //
+                        "        <items jcr:primaryType=\\\"nt:unstructured\\\">\\n" + //
+                        "            <tabs\\n" + //
+                        "                jcr:primaryType=\\\"nt:unstructured\\\"\\n" + //
+                        "                sling:resourceType=\\\"granite/ui/components/coral/foundation/tabs\\\"\\n" + //
+                        "                maximized=\\\"true\\\">\\n" + //
+                        "                <items jcr:primaryType=\\\"nt:unstructured\\\">\\n" + //
+                        "                    <properties\\n" + //
+                        "                        jcr:primaryType=\\\"nt:unstructured\\\"\\n" + //
+                        "                        jcr:title=\\\"Properties\\\"\\n" + //
+                        "                        sling:resourceType=\\\"granite/ui/components/coral/foundation/container\\\"\\n" + //
+                        "                        margin=\\\"true\\\">\\n" + //
+                        "                        <items jcr:primaryType=\\\"nt:unstructured\\\">\\n" + //
+                        "                            <columns\\n" + //
+                        "                                jcr:primaryType=\\\"nt:unstructured\\\"\\n" + //
+                        "                                sling:resourceType=\\\"granite/ui/components/coral/foundation/fixedcolumns\\\"\\n" + //
+                        "                                margin=\\\"true\\\">\\n" + //
+                        "                                <items jcr:primaryType=\\\"nt:unstructured\\\">\\n" + //
+                        "                                    <column\\n" + //
+                        "                                        jcr:primaryType=\\\"nt:unstructured\\\"\\n" + //
+                        "                                        sling:resourceType=\\\"granite/ui/components/coral/foundation/container\\\">\\n" + //
+                        "                                        <items jcr:primaryType=\\\"nt:unstructured\\\">\\n" + //
+                        "                                            <videoUrl\\n" + //
+                        "                                                jcr:primaryType=\\\"nt:unstructured\\\"\\n" + //
+                        "                                                sling:resourceType=\\\"granite/ui/components/coral/foundation/form/textfield\\\"\\n" + //
+                        "                                                fieldLabel=\\\"Background Video URL\\\"\\n" + //
+                        "                                                name=\\\"./videoUrl\\\"\\n" + //
+                        "                                                emptyText=\\\"Enter video URL (e.g., /content/dam/my-site/hero-video.mp4)\\\"/>\\n" + //
+                        "                                            <subtitle\\n" + //
+                        "                                                jcr:primaryType=\\\"nt:unstructured\\\"\\n" + //
+                        "                                                sling:resourceType=\\\"granite/ui/components/coral/foundation/form/textfield\\\"\\n" + //
+                        "                                                fieldLabel=\\\"Subtitle\\\"\\n" + //
+                        "                                                name=\\\"./subtitle\\\"\\n" + //
+                        "                                                emptyText=\\\"Enter subtitle\\\"/>\\n" + //
+                        "                                            <title\\n" + //
+                        "                                                jcr:primaryType=\\\"nt:unstructured\\\"\\n" + //
+                        "                                                sling:resourceType=\\\"granite/ui/components/coral/foundation/form/textfield\\\"\\n" + //
+                        "                                                fieldLabel=\\\"Title\\\"\\n" + //
+                        "                                                name=\\\"./title\\\"\\n" + //
+                        "                                                emptyText=\\\"Enter title\\\"/>\\n" + //
+                        "                                            <description\\n" + //
+                        "                                                jcr:primaryType=\\\"nt:unstructured\\\"\\n" + //
+                        "                                                sling:resourceType=\\\"cq/gui/components/authoring/dialog/richtext\\\"\\n" + //
+                        "                                                fieldLabel=\\\"Description\\\"\\n" + //
+                        "                                                name=\\\"./description\\\"\\n" + //
+                        "                                                use=\\\"true\\\"/>\\n" + //
+                        "                                            <cta1Label\\n" + //
+                        "                                                jcr:primaryType=\\\"nt:unstructured\\\"\\n" + //
+                        "                                                sling:resourceType=\\\"granite/ui/components/coral/foundation/form/textfield\\\"\\n" + //
+                        "                                                fieldLabel=\\\"CTA 1 Label\\\"\\n" + //
+                        "                                                name=\\\"./cta1Label\\\"\\n" + //
+                        "                                                emptyText=\\\"Explore Cast Iron\\\"/>\\n" + //
+                        "                                            <cta1Url\\n" + //
+                        "                                                jcr:primaryType=\\\"nt:unstructured\\\"\\n" + //
+                        "                                                sling:resourceType=\\\"granite/ui/components/coral/foundation/form/pathfield\\\"\\n" + //
+                        "                                                fieldLabel=\\\"CTA 1 URL\\\"\\n" + //
+                        "                                                name=\\\"./cta1Url\\\"\\n" + //
+                        "                                                rootPath=\\\"/content\\\"\\n" + //
+                        "                                                emptyText=\\\"/content/mysite/en/cast-iron\\\"/>\\n" + //
+                        "                                            <cta2Label\\n" + //
+                        "                                                jcr:primaryType=\\\"nt:unstructured\\\"\\n" + //
+                        "                                                sling:resourceType=\\\"granite/ui/components/coral/foundation/form/textfield\\\"\\n" + //
+                        "                                                fieldLabel=\\\"CTA 2 Label\\\"\\n" + //
+                        "                                                name=\\\"./cta2Label\\\"\\n" + //
+                        "                                                emptyText=\\\"Shop All Cast Iron\\\"/>\\n" + //
+                        "                                            <cta2Url\\n" + //
+                        "                                                jcr:primaryType=\\\"nt:unstructured\\\"\\n" + //
+                        "                                                sling:resourceType=\\\"granite/ui/components/coral/foundation/form/pathfield\\\"\\n" + //
+                        "                                                fieldLabel=\\\"CTA 2 URL\\\"\\n" + //
+                        "                                                name=\\\"./cta2Url\\\"\\n" + //
+                        "                                                rootPath=\\\"/content\\\"\\n" + //
+                        "                                                emptyText=\\\"/content/mysite/en/shop/cast-iron\\\"/>\\n" + //
+                        "                                        </items>\\n" + //
+                        "                                    </column>\\n" + //
+                        "                                </items>\\n" + //
+                        "                            </columns>\\n" + //
+                        "                        </items>\\n" + //
+                        "                    </properties>\\n" + //
+                        "                </items>\\n" + //
+                        "            </tabs>\\n" + //
+                        "        </items>\\n" + //
+                        "    </content>\\n" + //
                         "</jcr:root>\\n" + //
                         "\",\n" + //
-                        "  \"clientlibs/css/style.css\": \".cmp-product-carousel {\\n" + //
-                        "    padding: 20px;\\n" + //
-                        "    background-color: #f8f8f8;\\n" + //
-                        "}\\n" + //
+                        "  \"KholerHeroModel.java\": \"package com.mysite.core.models;\\n" + //
                         "\\n" + //
-                        ".cmp-product-carousel__container {\\n" + //
-                        "    display: flex;\\n" + //
-                        "    flex-wrap: wrap; /* Allows items to wrap on smaller screens */\\n" + //
-                        "    gap: 20px; /* Space between cards */\\n" + //
-                        "    justify-content: center; /* Center cards if not filling row */\\n" + //
-                        "}\\n" + //
+                        "import com.adobe.cq.wcm.core.components.models.Image;\\n" + //
+                        "import org.apache.sling.api.SlingHttpServletRequest;\\n" + //
+                        "import org.apache.sling.api.resource.Resource;\\n" + //
+                        "import org.apache.sling.models.annotations.DefaultInjectionStrategy;\\n" + //
+                        "import org.apache.sling.models.annotations.Model;\\n" + //
+                        "import org.apache.sling.models.annotations.injectorspecific.ValueMapValue;\\n" + //
                         "\\n" + //
-                        ".cmp-product-carousel__item {\\n" + //
-                        "    flex: 0 0 calc(33.33% - 20px); /* 3 items per row on large screens */\\n" + //
-                        "    max-width: calc(33.33% - 20px);\\n" + //
-                        "    box-sizing: border-box; /* Include padding and border in the element's total width and height */\\n" + //
-                        "    margin-bottom: 20px; /* Space below items for wrapping */\\n" + //
-                        "}\\n" + //
+                        "@Model(adaptables = {SlingHttpServletRequest.class, Resource.class}, resourceType = \\\"my-site/components/kholerhero\\\", defaultInjectionStrategy = DefaultInjectionStrategy.OPTIONAL)\\n" + //
+                        "public class KholerHeroModel {\\n" + //
                         "\\n" + //
-                        ".cmp-product-card {\\n" + //
-                        "    background-color: #E6E6E6;\\n" + //
-                        "    border-radius: 8px;\\n" + //
-                        "    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);\\n" + //
-                        "    overflow: hidden; /* Ensures image corners are rounded with container */\\n" + //
-                        "    display: flex;\\n" + //
-                        "    flex-direction: column;\\n" + //
-                        "    height: 100%; /* Ensure cards are same height in a row */\\n" + //
-                        "}\\n" + //
+                        "    @ValueMapValue\\n" + //
+                        "    private String videoUrl;\\n" + //
                         "\\n" + //
-                        ".cmp-product-card__image-container {\\n" + //
-                        "    width: 100%;\\n" + //
-                        "    height: 180px; /* Fixed height for images */\\n" + //
-                        "    overflow: hidden;\\n" + //
-                        "    display: flex;\\n" + //
-                        "    align-items: center;\\n" + //
-                        "    justify-content: center;\\n" + //
-                        "    background-color: #f0f0f0; /* Placeholder background */\\n" + //
-                        "}\\n" + //
+                        "    @ValueMapValue\\n" + //
+                        "    private String title;\\n" + //
                         "\\n" + //
-                        ".cmp-product-card__image {\\n" + //
-                        "    width: 100%;\\n" + //
-                        "    height: 100%;\\n" + //
-                        "    object-fit: cover; /* Cover the container, cropping if necessary */\\n" + //
-                        "    display: block;\\n" + //
-                        "}\\n" + //
+                        "    @ValueMapValue\\n" + //
+                        "    private String subtitle;\\n" + //
                         "\\n" + //
-                        ".cmp-product-card__content {\\n" + //
-                        "    padding: 15px;\\n" + //
-                        "    display: flex;\\n" + //
-                        "    flex-direction: column;\\n" + //
-                        "    flex-grow: 1; /* Allow content to grow to fill space */\\n" + //
-                        "}\\n" + //
+                        "    @ValueMapValue\\n" + //
+                        "    private String description;\\n" + //
                         "\\n" + //
-                        ".cmp-product-card__title {\\n" + //
-                        "    font-size: 1.2em;\\n" + //
-                        "    font-weight: bold;\\n" + //
-                        "    margin-top: 0;\\n" + //
-                        "    margin-bottom: 8px;\\n" + //
-                        "    color: #333;\\n" + //
-                        "}\\n" + //
+                        "    @ValueMapValue\\n" + //
+                        "    private String cta1Label;\\n" + //
                         "\\n" + //
-                        ".cmp-product-card__price {\\n" + //
-                        "    font-size: 1.1em;\\n" + //
-                        "    color: #007bff; /* A distinct color for price */\\n" + //
-                        "    font-weight: 600;\\n" + //
-                        "    margin-bottom: 8px;\\n" + //
-                        "}\\n" + //
+                        "    @ValueMapValue\\n" + //
+                        "    private String cta1Url;\\n" + //
                         "\\n" + //
-                        ".cmp-product-card__description {\\n" + //
-                        "    font-size: 0.9em;\\n" + //
-                        "    color: #666;\\n" + //
-                        "    margin-bottom: 0;\\n" + //
-                        "    flex-grow: 1; /* Allow description to take available space */\\n" + //
-                        "}\\n" + //
+                        "    @ValueMapValue\\n" + //
+                        "    private String cta2Label;\\n" + //
                         "\\n" + //
-                        "/* Responsive adjustments */\\n" + //
-                        "@media (max-width: 992px) {\\n" + //
-                        "    .cmp-product-carousel__item {\\n" + //
-                        "        flex: 0 0 calc(50% - 20px); /* 2 items per row on medium screens */\\n" + //
-                        "        max-width: calc(50% - 20px);\\n" + //
+                        "    @ValueMapValue\\n" + //
+                        "    private String cta2Url;\\n" + //
+                        "\\n" + //
+                        "    public String getVideoUrl() {\\n" + //
+                        "        return videoUrl;\\n" + //
                         "    }\\n" + //
+                        "\\n" + //
+                        "    public String getTitle() {\\n" + //
+                        "        return title;\\n" + //
+                        "    }\\n" + //
+                        "\\n" + //
+                        "    public String getSubtitle() {\\n" + //
+                        "        return subtitle;\\n" + //
+                        "    }\\n" + //
+                        "\\n" + //
+                        "    public String getDescription() {\\n" + //
+                        "        return description;\\n" + //
+                        "    }\\n" + //
+                        "\\n" + //
+                        "    public String getCta1Label() {\\n" + //
+                        "        return cta1Label;\\n" + //
+                        "    }\\n" + //
+                        "\\n" + //
+                        "    public String getCta1Url() {\\n" + //
+                        "        return cta1Url;\\n" + //
+                        "    }\\n" + //
+                        "\\n" + //
+                        "    public String getCta2Label() {\\n" + //
+                        "        return cta2Label;\\n" + //
+                        "    }\\n" + //
+                        "\\n" + //
+                        "    public String getCta2Url() {\\n" + //
+                        "        return cta2Url;\\n" + //
+                        "    }\\n" + //
+                        "}\\n" + //
+                        "\",\n" + //
+                        "  \"kholerhero.html\": \"<div data-sly-use.model=\\\"com.mysite.core.models.KholerHeroModel\\\" data-sly-test.hasContent=\\\"${model.title || model.subtitle || model.description || model.cta1Label}\\\" class=\\\"kholer-hero\\\">\\n" + //
+                        "    <div class=\\\"kholer-hero__background-video\\\" data-sly-test=\\\"${model.videoUrl}\\\">\\n" + //
+                        "        <video class=\\\"kholer-hero__video\\\" autoplay muted loop playsinline>\\n" + //
+                        "            <source data-sly-attribute.src=\\\"${model.videoUrl}\\\" type=\\\"video/mp4\\\">\\n" + //
+                        "            Your browser does not support the video tag.\\n" + //
+                        "        </video>\\n" + //
+                        "    </div>\\n" + //
+                        "    <div class=\\\"kholer-hero__content-wrapper\\\">\\n" + //
+                        "        <div class=\\\"kholer-hero__content\\\">\\n" + //
+                        "            <h2 data-sly-test=\\\"${model.subtitle}\\\" class=\\\"kholer-hero__subtitle\\\">${model.subtitle}</h2>\\n" + //
+                        "            <h1 data-sly-test=\\\"${model.title}\\\" class=\\\"kholer-hero__title\\\">${model.title}</h1>\\n" + //
+                        "            <p data-sly-test=\\\"${model.description}\\\" class=\\\"kholer-hero__description\\\">${model.description @ context='html'}</p>\\n" + //
+                        "            <div class=\\\"kholer-hero__cta-container\\\">\\n" + //
+                        "                <a data-sly-test=\\\"${model.cta1Label && model.cta1Url}\\\" href=\\\"${model.cta1Url}\\\" class=\\\"kholer-hero__cta-link kholer-hero__cta-link--primary\\\">${model.cta1Label}</a>\\n" + //
+                        "                <a data-sly-test=\\\"${model.cta2Label && model.cta2Url}\\\" href=\\\"${model.cta2Url}\\\" class=\\\"kholer-hero__cta-link kholer-hero__cta-link--secondary\\\">${model.cta2Label}</a>\\n" + //
+                        "            </div>\\n" + //
+                        "        </div>\\n" + //
+                        "    </div>\\n" + //
+                        "</div>\\n" + //
+                        "\",\n" + //
+                        "  \"clientlibs/kholerhero/css/style.css\": \".kholer-hero {\\n" + //
+                        "  position: relative;\\n" + //
+                        "  width: 100%;\\n" + //
+                        "  height: 100vh;\\n" + //
+                        "  display: flex;\\n" + //
+                        "  align-items: center;\\n" + //
+                        "  justify-content: center;\\n" + //
+                        "  color: #fff;\\n" + //
+                        "  text-align: center;\\n" + //
+                        "  overflow: hidden;\\n" + //
+                        "}\\n" + //
+                        "\\n" + //
+                        ".kholer-hero__background-video {\\n" + //
+                        "  position: absolute;\\n" + //
+                        "  top: 0;\\n" + //
+                        "  left: 0;\\n" + //
+                        "  width: 100%;\\n" + //
+                        "  height: 100%;\\n" + //
+                        "  overflow: hidden;\\n" + //
+                        "  z-index: -1;\\n" + //
+                        "}\\n" + //
+                        "\\n" + //
+                        ".kholer-hero__video {\\n" + //
+                        "  width: 100%;\\n" + //
+                        "  height: 100%;\\n" + //
+                        "  object-fit: cover;\\n" + //
+                        "}\\n" + //
+                        "\\n" + //
+                        ".kholer-hero__content-wrapper {\\n" + //
+                        "  position: relative;\\n" + //
+                        "  z-index: 1;\\n" + //
+                        "  max-width: 800px;\\n" + //
+                        "  padding: 2rem;\\n" + //
+                        "  background: rgba(0, 0, 0, 0.4);\\n" + //
+                        "  border-radius: 8px;\\n" + //
+                        "}\\n" + //
+                        "\\n" + //
+                        ".kholer-hero__content {\\n" + //
+                        "  display: flex;\\n" + //
+                        "  flex-direction: column;\\n" + //
+                        "  align-items: center;\\n" + //
+                        "}\\n" + //
+                        "\\n" + //
+                        ".kholer-hero__subtitle {\\n" + //
+                        "  font-size: 1.5rem;\\n" + //
+                        "  font-weight: 300;\\n" + //
+                        "  margin-bottom: 0.5rem;\\n" + //
+                        "}\\n" + //
+                        "\\n" + //
+                        ".kholer-hero__title {\\n" + //
+                        "  font-size: 3.5rem;\\n" + //
+                        "  font-weight: 700;\\n" + //
+                        "  margin-bottom: 1rem;\\n" + //
+                        "}\\n" + //
+                        "\\n" + //
+                        ".kholer-hero__description {\\n" + //
+                        "  font-size: 1rem;\\n" + //
+                        "  font-weight: 400;\\n" + //
+                        "  line-height: 1.5;\\n" + //
+                        "  margin-bottom: 2rem;\\n" + //
+                        "}\\n" + //
+                        "\\n" + //
+                        ".kholer-hero__cta-container {\\n" + //
+                        "  display: flex;\\n" + //
+                        "  gap: 1rem;\\n" + //
+                        "}\\n" + //
+                        "\\n" + //
+                        ".kholer-hero__cta-link {\\n" + //
+                        "  padding: 0.75rem 1.5rem;\\n" + //
+                        "  border: 1px solid #fff;\\n" + //
+                        "  text-decoration: none;\\n" + //
+                        "  color: #fff;\\n" + //
+                        "  transition: background-color 0.3s, color 0.3s;\\n" + //
+                        "}\\n" + //
+                        "\\n" + //
+                        ".kholer-hero__cta-link:hover {\\n" + //
+                        "  background-color: #fff;\\n" + //
+                        "  color: #000;\\n" + //
                         "}\\n" + //
                         "\\n" + //
                         "@media (max-width: 768px) {\\n" + //
-                        "    .cmp-product-carousel__item {\\n" + //
-                        "        flex: 0 0 calc(100% - 20px); /* 1 item per row on small screens */\\n" + //
-                        "        max-width: calc(100% - 20px);\\n" + //
-                        "    }\\n" + //
+                        "  .kholer-hero__title {\\n" + //
+                        "    font-size: 2.5rem;\\n" + //
+                        "  }\\n" + //
+                        "  .kholer-hero__cta-container {\\n" + //
+                        "    flex-direction: column;\\n" + //
+                        "  }\\n" + //
                         "}\\n" + //
                         "\",\n" + //
-                        "  \"clientlibs/js/script.js\": \"// clientlibs/ProductCarousel/js/script.js\\n" + //
-                        "(function() {\\n" + //
-                        "    \\\"use strict\\\";\\n" + //
-                        "\\n" + //
-                        "    // This script can be used to initialize any carousel specific JS library,\\n" + //
-                        "    // or for dynamic interactions if needed.\\n" + //
-                        "    // For a simple static display, it might not be strictly necessary.\\n" + //
-                        "    // If using a library like Slick Carousel or Swiper.js, you'd initialize it here.\\n" + //
-                        "\\n" + //
-                        "    function initProductCarousel() {\\n" + //
-                        "        var carousels = document.querySelectorAll(\\\".cmp-product-carousel__container\\\");\\n" + //
-                        "\\n" + //
-                        "        carousels.forEach(function(carousel) {\\n" + //
-                        "            // Example: Add a class once JS is loaded/initialized\\n" + //
-                        "            carousel.classList.add(\\\"cmp-product-carousel__container--initialized\\\");\\n" + //
-                        "\\n" + //
-                        "            // If it were a dynamic carousel (e.g., using a library):\\n" + //
-                        "            // $(carousel).slick({\\n" + //
-                        "            //     slidesToShow: 3,\\n" + //
-                        "            //     slidesToScroll: 1,\\n" + //
-                        "            //     autoplay: true,\\n" + //
-                        "            //     autoplaySpeed: 2000,\\n" + //
-                        "            //     responsive: [\\n" + //
-                        "            //         {\\n" + //
-                        "            //             breakpoint: 992,\\n" + //
-                        "            //             settings: {\\n" + //
-                        "            //                 slidesToShow: 2\\n" + //
-                        "            //             }\\n" + //
-                        "            //         },\\n" + //
-                        "            //         {\\n" + //
-                        "            //             breakpoint: 768,\\n" + //
-                        "            //             settings: {\\n" + //
-                        "            //                 slidesToShow: 1\\n" + //
-                        "            //             }\\n" + //
-                        "            //         }\\n" + //
-                        "            //     ]\\n" + //
-                        "            // });\\n" + //
-                        "\\n" + //
-                        "            // console.log(\\\"Product Carousel initialized:\\\", carousel);\\n" + //
-                        "        });\\n" + //
-                        "    }\\n" + //
-                        "\\n" + //
-                        "    // Initialize when the DOM is ready\\n" + //
-                        "    if (document.readyState === \\\"loading\\\") {\\n" + //
-                        "        document.addEventListener(\\\"DOMContentLoaded\\\", initProductCarousel);\\n" + //
-                        "    } else {\\n" + //
-                        "        initProductCarousel();\\n" + //
-                        "    }\\n" + //
-                        "})();\\n" + //
+                        "  \"clientlibs/kholerhero/css.txt\": \"style.css\\n" + //
                         "\",\n" + //
-                        "  \"clientlibs/css.txt\": \"#base=css\\n" + //
-                        "style.css\\n" + //
-                        "\",\n" + //
-                        "  \"clientlibs/js.txt\": \"#base=js\\n" + //
-                        "script.js\\n" + //
-                        "\",\n" + //
-                        "  \"clientlibs/.content.xml\": \"<?xml version=\\\"1.0\\\" encoding=\\\"UTF-8\\\"?>\\n" + //
+                        "  \"clientlibs/kholerhero/js.txt\": \"\",\n" + //
+                        "  \"clientlibs/kholerhero/.content.xml\": \"<?xml version=\\\"1.0\\\" encoding=\\\"UTF-8\\\"?>\\n" + //
                         "<jcr:root xmlns:cq=\\\"http://www.day.com/jcr/cq/1.0\\\" xmlns:jcr=\\\"http://www.jcp.org/jcr/1.0\\\"\\n" + //
                         "    jcr:primaryType=\\\"cq:ClientLibraryFolder\\\"\\n" + //
-                        "    categories=\\\"[figma.productcarousel]\\\"\\n" + //
-                        "    cssProcessor=\\\"[default:none, minify:true]\\\"\\n" + //
-                        "    jsProcessor=\\\"[default:none, minify:true]\\\"/>\\n" + //
+                        "    categories=\\\"[my-site.kholerhero]\\\"/>\\n" + //
                         "\"\n" + //
                         "}";
 
