@@ -97,8 +97,8 @@ public class GeminiGenerator implements AIGenerator {
                         "<jcr:root xmlns:sling=\\\"http://sling.apache.org/jcr/sling/1.0\\\" xmlns:cq=\\\"http://www.day.com/jcr/cq/1.0\\\"\\n" + //
                         "    xmlns:jcr=\\\"http://www.jcp.org/jcr/1.0\\\"\\n" + //
                         "    jcr:primaryType=\\\"cq:Component\\\"\\n" + //
-                        "    jcr:title=\\\"Kholer Hero\\\"\\n" + //
-                        "    componentGroup=\\\"My Site - Content\\\"/>\\n" + //
+                        "    jcr:title=\\\"kohler Hero\\\"\\n" + //
+                        "    componentGroup=\\\"My Kohler - Content\\\"/>\\n" + //
                         "\",\n" + //
                         "  \"_cq_editConfig.xml\": \"<?xml version=\\\"1.0\\\" encoding=\\\"UTF-8\\\"?>\\n" + //
                         "<jcr:root xmlns:cq=\\\"http://www.day.com/jcr/cq/1.0\\\" xmlns:jcr=\\\"http://www.jcp.org/jcr/1.0\\\"\\n" + //
@@ -113,7 +113,7 @@ public class GeminiGenerator implements AIGenerator {
                         "  \"_cq_dialog/.content.xml\": \"<?xml version=\\\"1.0\\\" encoding=\\\"UTF-8\\\"?>\\n" + //
                         "<jcr:root xmlns:sling=\\\"http://sling.apache.org/jcr/sling/1.0\\\" xmlns:granite=\\\"http://www.adobe.com/jcr/granite/1.0\\\" xmlns:cq=\\\"http://www.day.com/jcr/cq/1.0\\\" xmlns:jcr=\\\"http://www.jcp.org/jcr/1.0\\\" xmlns:nt=\\\"http://www.jcp.org/jcr/nt/1.0\\\"\\n" + //
                         "    jcr:primaryType=\\\"nt:unstructured\\\"\\n" + //
-                        "    jcr:title=\\\"Kholer Hero\\\"\\n" + //
+                        "    jcr:title=\\\"kohler Hero\\\"\\n" + //
                         "    sling:resourceType=\\\"cq/gui/components/authoring/dialog\\\">\\n" + //
                         "    <content\\n" + //
                         "        jcr:primaryType=\\\"nt:unstructured\\\"\\n" + //
@@ -201,7 +201,7 @@ public class GeminiGenerator implements AIGenerator {
                         "    </content>\\n" + //
                         "</jcr:root>\\n" + //
                         "\",\n" + //
-                        "  \"KholerHeroModel.java\": \"package com.figma.aem.core.models;\\n" + //
+                        "  \"KohlerHeroModel.java\": \"package com.figma.aem.core.models;\\n" + //
                         "\\n" + //
                         "import com.adobe.cq.wcm.core.components.models.Image;\\n" + //
                         "import org.apache.sling.api.SlingHttpServletRequest;\\n" + //
@@ -210,8 +210,8 @@ public class GeminiGenerator implements AIGenerator {
                         "import org.apache.sling.models.annotations.Model;\\n" + //
                         "import org.apache.sling.models.annotations.injectorspecific.ValueMapValue;\\n" + //
                         "\\n" + //
-                        "@Model(adaptables = {SlingHttpServletRequest.class, Resource.class}, resourceType = \\\"my-site/components/kholerhero\\\", defaultInjectionStrategy = DefaultInjectionStrategy.OPTIONAL)\\n" + //
-                        "public class KholerHeroModel {\\n" + //
+                        "@Model(adaptables = {SlingHttpServletRequest.class, Resource.class}, resourceType = \\\"my-site/components/kohlerhero\\\", defaultInjectionStrategy = DefaultInjectionStrategy.OPTIONAL)\\n" + //
+                        "public class KohlerHeroModel {\\n" + //
                         "\\n" + //
                         "    @ValueMapValue\\n" + //
                         "    private String videoUrl;\\n" + //
@@ -270,27 +270,27 @@ public class GeminiGenerator implements AIGenerator {
                         "    }\\n" + //
                         "}\\n" + //
                         "\",\n" + //
-                        "  \"kholerhero.html\": \"<div data-sly-use.model=\\\"com.mysite.core.models.KholerHeroModel\\\" data-sly-test.hasContent=\\\"${model.title || model.subtitle || model.description || model.cta1Label}\\\" class=\\\"kholer-hero\\\">\\n" + //
-                        "    <div class=\\\"kholer-hero__background-video\\\" data-sly-test=\\\"${model.videoUrl}\\\">\\n" + //
-                        "        <video class=\\\"kholer-hero__video\\\" autoplay muted loop playsinline>\\n" + //
+                        "  \"kohlerHero.html\": \"<div data-sly-use.model=\\\"com.figma.aem.core.models.KohlerHeroModel\\\" data-sly-test.hasContent=\\\"${model.title || model.subtitle || model.description || model.cta1Label}\\\" class=\\\"kohler-hero\\\">\\n" + //
+                        "    <div class=\\\"kohler-hero__background-video\\\" data-sly-test=\\\"${model.videoUrl}\\\">\\n" + //
+                        "        <video class=\\\"kohler-hero__video\\\" autoplay muted loop playsinline>\\n" + //
                         "            <source data-sly-attribute.src=\\\"${model.videoUrl}\\\" type=\\\"video/mp4\\\">\\n" + //
                         "            Your browser does not support the video tag.\\n" + //
                         "        </video>\\n" + //
                         "    </div>\\n" + //
-                        "    <div class=\\\"kholer-hero__content-wrapper\\\">\\n" + //
-                        "        <div class=\\\"kholer-hero__content\\\">\\n" + //
-                        "            <h1 data-sly-test=\\\"${model.title}\\\" class=\\\"kholer-hero__title\\\">${model.title}</h1>\\n" + //
-                        "            <p data-sly-test=\\\"${model.description}\\\" class=\\\"kholer-hero__description\\\">${model.description @ context='html'}</p>\\n" + //
-                        "            <h2 data-sly-test=\\\"${model.subtitle}\\\" class=\\\"kholer-hero__subtitle\\\">${model.subtitle}</h2>\\n" + //
-                        "            <div class=\\\"kholer-hero__cta-container\\\">\\n" + //
-                        "                <a data-sly-test=\\\"${model.cta1Label && model.cta1Url}\\\" href=\\\"${model.cta1Url}\\\" class=\\\"kholer-hero__cta-link kholer-hero__cta-link--primary\\\">${model.cta1Label}</a>\\n" + //
-                        "                <a data-sly-test=\\\"${model.cta2Label && model.cta2Url}\\\" href=\\\"${model.cta2Url}\\\" class=\\\"kholer-hero__cta-link kholer-hero__cta-link--secondary\\\">${model.cta2Label}</a>\\n" + //
+                        "    <div class=\\\"kohler-hero__content-wrapper\\\">\\n" + //
+                        "        <div class=\\\"kohler-hero__content\\\">\\n" + //
+                        "            <h1 data-sly-test=\\\"${model.title}\\\" class=\\\"kohler-hero__title\\\">${model.title}</h1>\\n" + //
+                        "            <p data-sly-test=\\\"${model.description}\\\" class=\\\"kohler-hero__description\\\">${model.description @ context='html'}</p>\\n" + //
+                        "            <h2 data-sly-test=\\\"${model.subtitle}\\\" class=\\\"kohler-hero__subtitle\\\">${model.subtitle}</h2>\\n" + //
+                        "            <div class=\\\"kohler-hero__cta-container\\\">\\n" + //
+                        "                <a data-sly-test=\\\"${model.cta1Label && model.cta1Url}\\\" href=\\\"${model.cta1Url}\\\" class=\\\"kohler-hero__cta-link kohler-hero__cta-link--primary\\\">${model.cta1Label}</a>\\n" + //
+                        "                <a data-sly-test=\\\"${model.cta2Label && model.cta2Url}\\\" href=\\\"${model.cta2Url}\\\" class=\\\"kohler-hero__cta-link kohler-hero__cta-link--secondary\\\">${model.cta2Label}</a>\\n" + //
                         "            </div>\\n" + //
                         "        </div>\\n" + //
                         "    </div>\\n" + //
                         "</div>\\n" + //
                         "\",\n" + //
-                        "  \"clientlibs/kholerhero/css/style.css\": \".kholer-hero {\\n" + //
+                        "  \"clientlibs/kohlerhero/css/style.css\": \".kohler-hero {\\n" + //
                         "  position: relative;\\n" + //
                         "  width: 100%;\\n" + //
                         "  height: 100vh;\\n" + //
@@ -302,7 +302,7 @@ public class GeminiGenerator implements AIGenerator {
                         "  overflow: hidden;\\n" + //
                         "}\\n" + //
                         "\\n" + //
-                        ".kholer-hero__background-video {\\n" + //
+                        ".kohler-hero__background-video {\\n" + //
                         "  position: absolute;\\n" + //
                         "  top: 0;\\n" + //
                         "  left: 0;\\n" + //
@@ -312,13 +312,13 @@ public class GeminiGenerator implements AIGenerator {
                         "  z-index: -1;\\n" + //
                         "}\\n" + //
                         "\\n" + //
-                        ".kholer-hero__video {\\n" + //
+                        ".kohler-hero__video {\\n" + //
                         "  width: 100%;\\n" + //
                         "  height: 100%;\\n" + //
                         "  object-fit: cover;\\n" + //
                         "}\\n" + //
                         "\\n" + //
-                        ".kholer-hero__content-wrapper {\\n" + //
+                        ".kohler-hero__content-wrapper {\\n" + //
                         "  position: relative;\\n" + //
                         "  z-index: 1;\\n" + //
                         "  max-width: 800px;\\n" + //
@@ -327,37 +327,37 @@ public class GeminiGenerator implements AIGenerator {
                         "  border-radius: 8px;\\n" + //
                         "}\\n" + //
                         "\\n" + //
-                        ".kholer-hero__content {\\n" + //
+                        ".kohler-hero__content {\\n" + //
                         "  display: flex;\\n" + //
                         "  flex-direction: column;\\n" + //
                         "  align-items: center;\\n" + //
                         "}\\n" + //
                         "\\n" + //
-                        ".kholer-hero__subtitle {\\n" + //
+                        ".kohler-hero__subtitle {\\n" + //
                         "  font-size: 1.5rem;\\n" + //
                         "  font-weight: 300;\\n" + //
                         "  margin-bottom: 0.5rem;\\n" + //
                         "}\\n" + //
                         "\\n" + //
-                        ".kholer-hero__title {\\n" + //
+                        ".kohler-hero__title {\\n" + //
                         "  font-size: 3.5rem;\\n" + //
                         "  font-weight: 700;\\n" + //
                         "  margin-bottom: 1rem;\\n" + //
                         "}\\n" + //
                         "\\n" + //
-                        ".kholer-hero__description {\\n" + //
+                        ".kohler-hero__description {\\n" + //
                         "  font-size: 1rem;\\n" + //
                         "  font-weight: 400;\\n" + //
                         "  line-height: 1.5;\\n" + //
                         "  margin-bottom: 2rem;\\n" + //
                         "}\\n" + //
                         "\\n" + //
-                        ".kholer-hero__cta-container {\\n" + //
+                        ".kohler-hero__cta-container {\\n" + //
                         "  display: flex;\\n" + //
                         "  gap: 1rem;\\n" + //
                         "}\\n" + //
                         "\\n" + //
-                        ".kholer-hero__cta-link {\\n" + //
+                        ".kohler-hero__cta-link {\\n" + //
                         "  padding: 0.75rem 1.5rem;\\n" + //
                         "  border: 1px solid #fff;\\n" + //
                         "  text-decoration: none;\\n" + //
@@ -365,27 +365,27 @@ public class GeminiGenerator implements AIGenerator {
                         "  transition: background-color 0.3s, color 0.3s;\\n" + //
                         "}\\n" + //
                         "\\n" + //
-                        ".kholer-hero__cta-link:hover {\\n" + //
+                        ".kohler-hero__cta-link:hover {\\n" + //
                         "  background-color: #fff;\\n" + //
                         "  color: #000;\\n" + //
                         "}\\n" + //
                         "\\n" + //
                         "@media (max-width: 768px) {\\n" + //
-                        "  .kholer-hero__title {\\n" + //
+                        "  .kohler-hero__title {\\n" + //
                         "    font-size: 2.5rem;\\n" + //
                         "  }\\n" + //
-                        "  .kholer-hero__cta-container {\\n" + //
+                        "  .kohler-hero__cta-container {\\n" + //
                         "    flex-direction: column;\\n" + //
                         "  }\\n" + //
                         "}\\n" + //
                         "\",\n" + //
-                        "  \"clientlibs/kholerhero/css.txt\": \"style.css\\n" + //
+                        "  \"clientlibs/kohlerhero/css.txt\": \"style.css\\n" + //
                         "\",\n" + //
-                        "  \"clientlibs/kholerhero/js.txt\": \"\",\n" + //
-                        "  \"clientlibs/kholerhero/.content.xml\": \"<?xml version=\\\"1.0\\\" encoding=\\\"UTF-8\\\"?>\\n" + //
+                        "  \"clientlibs/kohlerhero/js.txt\": \"\",\n" + //
+                        "  \"clientlibs/kohlerhero/.content.xml\": \"<?xml version=\\\"1.0\\\" encoding=\\\"UTF-8\\\"?>\\n" + //
                         "<jcr:root xmlns:cq=\\\"http://www.day.com/jcr/cq/1.0\\\" xmlns:jcr=\\\"http://www.jcp.org/jcr/1.0\\\"\\n" + //
                         "    jcr:primaryType=\\\"cq:ClientLibraryFolder\\\"\\n" + //
-                        "    categories=\\\"[my-site.kholerhero]\\\"/>\\n" + //
+                        "    categories=\\\"[my-site.kohlerhero]\\\"/>\\n" + //
                         "\"\n" + //
                         "}";
 
