@@ -42,9 +42,17 @@
                             <goal>bnd-process</goal>
                         </goals>
                         <configuration>
-                            <bnd><![CDATA[
-Import-Package: javax.annotation;version=0.0.0,*
-                                ]]></bnd>
+                          <bnd><![CDATA[
+Bundle-Name: Figma Core
+Bundle-Description: Figma to AEM Component Generator
+Import-Package:
+    javax.annotation;version=0.0.0,
+    com.google.auth.oauth2*;resolution:=optional,
+    com.google.api.client*;resolution:=optional,
+    com.google.http.client*;resolution:=optional,
+    *,
+-exportcontents: com.figma.aem.core.*
+]]></bnd>
                         </configuration>
                     </execution>
                 </executions>
@@ -164,7 +172,18 @@ Import-Package: javax.annotation;version=0.0.0,*
             <groupId>org.apache.sling</groupId>
             <artifactId>org.apache.sling.models.api</artifactId>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/com.google.auth/google-auth-library-credentials -->
+        <dependency>
+            <groupId>com.google.auth</groupId>
+            <artifactId>google-auth-library-oauth2-http</artifactId>
+            <version>1.23.0</version>
+        </dependency>
 
+        <dependency>
+            <groupId>com.google.http-client</groupId>
+            <artifactId>google-http-client-jackson2</artifactId>
+            <version>1.43.3</version>
+        </dependency>
 
         <!-- Testing -->
         <dependency>
