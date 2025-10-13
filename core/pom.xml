@@ -185,6 +185,25 @@ Import-Package:
             <version>1.43.3</version>
         </dependency>
 
+            <dependency>
+        <groupId>com.google.auth</groupId>
+        <artifactId>google-auth-library-oauth2-http</artifactId>
+        <version>1.23.0</version>
+    </dependency>
+    <dependency>
+    <groupId>com.google.guava</groupId>
+    <artifactId>guava</artifactId>
+    <version>32.1.2-jre</version> <!-- or latest stable -->
+</dependency>
+
+
+    <!-- ✅ OkHttp for HTTP calls -->
+    <dependency>
+        <groupId>com.squareup.okhttp3</groupId>
+        <artifactId>okhttp</artifactId>
+        <version>4.12.0</version>
+    </dependency>
+
         <!-- Testing -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -229,4 +248,14 @@ Import-Package:
             <scope>test</scope>
         </dependency>
     </dependencies>
+    <dependencyManagement>
+    <dependencies>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>32.1.2-jre</version>
+        </dependency>
+    </dependencies>
+</dependencyManagement>
+
 </project>

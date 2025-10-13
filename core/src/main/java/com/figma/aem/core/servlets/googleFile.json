@@ -1,0 +1,14 @@
+{
+    "type": "service_account",
+    "project_id": "wipro-dmc-aem-dev",
+    "private_key_id": "a2ecd88fd532da0f4ba6c57075e14264eaa72ec3",
+    "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvwIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQDJ0esGEylB/UAj\nRliyclOR3QRlzf0w3dCIAC9NQGcmWdi0yKSJP0Z7xuQ6Orl1Hr7jkgMdxIzNjC1J\noED9IxLn1OFpgC/rc8R/q8Dura0BycEhV5l/QAbLU8KLaYc8lsYAV1luJHYTEDRF\nnhNKVFv3NEOSuXTUEUz29NrM/3xZ6vpBhd79E70TqLO1BOuJrOuSdWhRX/46DzdP\no/iWtyNlNYtHRt67ocU5Y3NdBYZvtnkZfu9Ugla7ME2MguRCAY5miDf1gGliD+ds\n5guRInecWXJpSRchhhYFD02AX4Haf8F5Qx6hLUhJ2qVDhUDFTIVEj3quDo24rrQU\nekZ84JdVAgMBAAECggEAIvirUVDqLgtgfQxQS9GoPgcOn0Z3uGtDWoGvsKL3jMt2\nU/NNoZOzlriy7Q0mfE9A1CXFwPeBT4/Z/B9XC5YzjTUT/0hNZW8Yzme4ZZN2PnBT\ntT+c81Ioqzx/IlG9s6fLtRztu/p49FozOJoI7TEbg4VMrUTSI/pAfC2XKX0e8uSH\n2lT3SfKn1+tFhXEQLhQarMYCkrN/NZWajUqvbrRlshH8jjyUvgEhshHUrfHNcIOW\nSJcHw9WMa6pYHaVJUn3SPs5pELIYHOglci7JXgl0oipJ6wSgCef/XhqKggOOERsj\nKthY8Qj2qTu7z4y6BnWYixxk4kLBDBvyNrA8DbxkKQKBgQD77BAyaS8ha7uOVJVj\nr711+Xv21/PToGLNkhXf4aFZxwL1vYvBWJly8wkKVRltdlHxStUKhHjqFRnHve+F\nbmEta1jfCFVPihst2p9DMY+x3IunkcOC3DeCU4goM2AGXpTOKXzYa+5euNxTg2pR\nCm9/ty++AU4/pVbrBP4AbpSlnQKBgQDNFjy7+17jxKpnePuS+/OUNpaka+xswtoT\nZKcbsOyX1sDE4kIrFdDEIhqexxcJzS4phMXlIZySS7smpiRZPEcK56MPy7HPE0ET\nFLKJE9nVlp7FqsSc4CyVAorp1+HAnmXV5kTYQ7WBPXyOpJukXCoiaGZZBvPXgRj8\nTXNi6q+nGQKBgQCL/FvvtzUiTBwXdfbhQulzoeN5gfySTyA3/QI8usMPASAq7122\nXYY/Mr+GR01u3v2fqCaDxqLt6DXAIVH0giZrt6fVn2rQXPzHWSGAlAy2F8heoAfV\nMouB1urk889bGrlzaehe1nLJnc2IdpDgYX0dqexUl6MkiLqos8h08v2UnQKBgQCe\n6eI5zzfhydw4vVhCtpQxfnMQCMh0JjAQ4udR37AUn8VTSfb3p7nSoJJ8AczqPWDN\nryIgwACwo5nrAsYbl0d9Pavua2nmCQddn6YP7Z/XjxSMGhyralFhTU0SkcNOG+7Q\n5dLmuOCFun0vkoE/xGKpsrfLuEVt8YzIw8LrHOrq0QKBgQDoB/gGYfNbF2pyBCs2\neXZTiHxR0EseCu0coIhdZ/PAViW3nDsOgw7MmkLdh+a2T9xlG6NnNsy5uz3EY9kZ\nJ8pyTFD4qyE9U72ticsFlAwqSSvmW4e6h74/IV7VkhykvDmJg8wgRUJsRNHwbcTd\nIJ7o9UuClbnmF5u7Gjex16I3Lw==\n-----END PRIVATE KEY-----\n",
+    "client_email": "gemini-vertex-ai-sa@wipro-dmc-aem-dev.iam.gserviceaccount.com",
+    "client_id": "108381582494921059214",
+    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+    "token_uri": "https://oauth2.googleapis.com/token",
+    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+    "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/gemini-vertex-ai-sa%40wipro-dmc-aem-dev.iam.gserviceaccount.com",
+    "universe_domain": "googleapis.com"
+  }
+  

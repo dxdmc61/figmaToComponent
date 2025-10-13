@@ -28,7 +28,7 @@ public class FigmaToComponentModel {
     private String jenkinsUrl;
 
     public String getServletPath() {
-        return "/bin/figma/generate-component/v1";
+        return "/bin/figma/generate-component";
     }
 
     // Getters for all properties

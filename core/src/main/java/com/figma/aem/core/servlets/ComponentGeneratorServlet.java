@@ -24,7 +24,7 @@ import java.util.Collections;
 import java.util.Map;
 
 @Component(service = Servlet.class)
-@SlingServletPaths("/bin/figma/generate-component/v1")
+@SlingServletPaths("/bin/figma/generate-component")
 public class ComponentGeneratorServlet extends SlingAllMethodsServlet {
 
     @Reference
@@ -71,7 +71,7 @@ public class ComponentGeneratorServlet extends SlingAllMethodsServlet {
             Map<String, String> generatedFiles = generator.generateComponent(figmaFile, componentName, prompt);
 
             // Save generated component files to the AEM project structure
-            fileSaver.saveFiles(projectDirectory, componentName, generatedFiles);
+            //fileSaver.saveFiles(projectDirectory, componentName, generatedFiles);
 
             // Optional: Trigger Jenkins pipeline
             if (jenkinsUrl != null && !jenkinsUrl.isEmpty()) {
