@@ -1,0 +1,19 @@
+<div data-sly-use.model="com.figma.aem.core.models.KohlerHeroModel" data-sly-test.hasContent="${model.title || model.subtitle || model.description || model.cta1Label}" class="kohler-hero">
+    <div class="kohler-hero__background-video" data-sly-test="${model.videoUrl}">
+        <video class="kohler-hero__video" autoplay muted loop playsinline>
+            <source data-sly-attribute.src="${model.videoUrl}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+    <div class="kohler-hero__content-wrapper">
+        <div class="kohler-hero__content">
+            <h1 data-sly-test="${model.title}" class="kohler-hero__title">${model.title}</h1>
+            <p data-sly-test="${model.description}" class="kohler-hero__description">${model.description @ context='html'}</p>
+            <h2 data-sly-test="${model.subtitle}" class="kohler-hero__subtitle">${model.subtitle}</h2>
+            <div class="kohler-hero__cta-container">
+                <a data-sly-test="${model.cta1Label && model.cta1Url}" href="${model.cta1Url}" class="kohler-hero__cta-link kohler-hero__cta-link--primary">${model.cta1Label}</a>
+                <a data-sly-test="${model.cta2Label && model.cta2Url}" href="${model.cta2Url}" class="kohler-hero__cta-link kohler-hero__cta-link--secondary">${model.cta2Label}</a>
+            </div>
+        </div>
+    </div>
+</div>

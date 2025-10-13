@@ -1,0 +1,121 @@
+<form id="registrationForm" method="post" action="/bin/myproject/registration">
+    <div>
+      <label>Company Name:</label>
+      <input type="text" name="companyName" required />
+    </div>
+    <div>
+      <label>Username:</label>
+      <input type="text" name="username" required />
+    </div>
+    <div>
+      <label>Email:</label>
+      <input type="email" name="email" required />
+    </div>
+    <div>
+      <label>Password:</label>
+      <input type="password" name="password" required />
+    </div>
+    <button type="submit">Register</button>
+  </form>
+  <div id="registrationMessage"></div>
+<script>
+    document.getElementById("registrationForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    const formData = new FormData(this);
+
+    fetch(this.action, {
+        method: "POST",
+        body: formData
+    }).then(res => res.json())
+      .then(data => {
+          document.getElementById("registrationMessage").innerText = data.message;
+      });
+});
+
+</script>  
+<style>
+    /* Registration Form Styles */
+#registrationForm {
+  max-width: 400px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  font-family: "Helvetica Neue", Arial, sans-serif;
+}
+
+#registrationForm div {
+  margin-bottom: 1.2rem;
+}
+
+#registrationForm label {
+  display: block;
+  font-weight: 600;
+  font-size: 0.95rem;
+  margin-bottom: 0.4rem;
+  color: #333333;
+}
+
+#registrationForm input {
+  width: 100%;
+  padding: 0.6rem 0.8rem;
+  border: 1px solid #cccccc;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  transition: border-color 0.3s ease;
+}
+
+#registrationForm input:focus {
+  border-color: #0057e7;
+  outline: none;
+  box-shadow: 0 0 4px rgba(0, 87, 231, 0.3);
+}
+
+#registrationForm button {
+  display: inline-block;
+  width: 100%;
+  padding: 0.75rem;
+  background-color: #0057e7;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+#registrationForm button:hover {
+  background-color: #0041b3;
+  transform: translateY(-2px);
+}
+
+#registrationMessage {
+  margin-top: 1.5rem;
+  padding: 0.8rem;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  text-align: center;
+}
+
+#registrationMessage.success {
+  background-color: #e6f7ee;
+  color: #2d7a46;
+  border: 1px solid #a3e4c5;
+}
+
+#registrationMessage.error {
+  background-color: #fbeaea;
+  color: #a94442;
+  border: 1px solid #f5c2c0;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  #registrationForm {
+    padding: 1.5rem;
+  }
+}
+
+</style>
