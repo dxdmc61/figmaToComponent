@@ -1,0 +1,43 @@
+<div data-sly-use.component="com.figma.aem.core.models.HeroJumbotronModel" data-sly-use.templates="/libs/wcm/foundation/components/experiencefragment/template.html" data-sly-unwrap>
+    <div class="hero-jumbotron" data-sly-test.hasContent="${component.hasContent}">
+        <div class="hero-jumbotron__content-wrapper">
+            <div class="hero-jumbotron__text-content">
+                
+                <p class="hero-jumbotron__greeting" data-sly-test="${component.greeting}">${component.greeting}</p>
+
+                
+                <h1 class="hero-jumbotron__heading" data-sly-test="${component.heading}">${component.heading}</h1>
+
+                
+                <div class="hero-jumbotron__body-text" data-sly-test="${component.bodyText}">
+                    ${component.bodyText @ context='html'}
+                </div>
+
+                
+                <div class="hero-jumbotron__ctas">
+                    
+                    <a data-sly-test="${component.primaryCtaLink}"
+                       href="${component.primaryCtaLink @ extension='html'}"
+                       class="hero-jumbotron__cta hero-jumbotron__cta--primary">
+                        <span class="hero-jumbotron__cta-icon hero-jumbotron__cta-icon--play"></span>
+                        <span>${component.primaryCtaText @ context='text'}</span>
+                    </a>
+
+                    
+                    <a data-sly-test="${component.secondaryCtaLink}"
+                       href="${component.secondaryCtaLink @ extension='html'}"
+                       class="hero-jumbotron__cta hero-jumbotron__cta--secondary">
+                        <span>${component.secondaryCtaText @ context='text'}</span>
+                        <span class="hero-jumbotron__cta-icon hero-jumbotron__cta-icon--arrow"></span>
+                    </a>
+                </div>
+            </div>
+
+            
+            <div class="hero-jumbotron__visual" data-sly-test="${component.deviceImage}">
+                <img src="${component.deviceImage}" alt="Visual representation of the content on various devices" class="hero-jumbotron__image"/>
+            </div>
+        </div>
+    </div>
+    <div data-sly-call="${templates.placeholder @ isEmpty=!hasContent, classAppend='hero-jumbotron'}" data-sly-unwrap></div>
+</div>

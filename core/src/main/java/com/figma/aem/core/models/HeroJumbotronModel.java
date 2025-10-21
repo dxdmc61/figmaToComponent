@@ -1,4 +1,4 @@
-package com.myproject.core.models;
+package com.figma.aem.core.models;
 
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.Resource;
@@ -18,7 +18,7 @@ import javax.annotation.PostConstruct;
 )
 public class HeroJumbotronModel {
 
-    static final String RESOURCE_TYPE = "my-project/components/content/hero-jumbotron";
+    static final String RESOURCE_TYPE = "figma/components/hero-jumbotron";
 
     @Self
     private SlingHttpServletRequest request;

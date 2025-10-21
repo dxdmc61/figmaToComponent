@@ -93,14 +93,14 @@ public class GeminiGenerator implements AIGenerator {
         // response
         // InputStream responseStream = null; // No actual stream
         String response = "{\n" + //
-                        "  \"_content.xml\": \"<?xml version=\\\"1.0\\\" encoding=\\\"UTF-8\\\"?>\\n" + //
+                        "  \".content.xml\": \"<?xml version=\\\"1.0\\\" encoding=\\\"UTF-8\\\"?>\\n" + //
                         "<jcr:root xmlns:sling=\\\"http://sling.apache.org/jcr/sling/1.0\\\" xmlns:cq=\\\"http://www.day.com/jcr/cq/1.0\\\" xmlns:jcr=\\\"http://www.jcp.org/jcr/1.0\\\"\\n" + //
                         "    jcr:primaryType=\\\"cq:Component\\\"\\n" + //
                         "    jcr:title=\\\"Hero Jumbotron\\\"\\n" + //
-                        "    componentGroup=\\\"My Project - Content\\\"\\n" + //
+                        "    componentGroup=\\\"Figma - Content\\\"\\n" + //
                         "    sling:resourceSuperType=\\\"core/wcm/components/container/v1/container\\\"/>\\n" + //
                         "\",\n" + //
-                        "  \"hero-jumbotron.html\": \"<div data-sly-use.component=\\\"com.myproject.core.models.HeroJumbotronModel\\\" data-sly-use.templates=\\\"/libs/wcm/foundation/components/experiencefragment/template.html\\\" data-sly-unwrap>\\n" + //
+                        "  \"hero-jumbotron.html\": \"<div data-sly-use.component=\\\"com.figma.aem.core.models.HeroJumbotronModel\\\" data-sly-use.templates=\\\"/libs/wcm/foundation/components/experiencefragment/template.html\\\" data-sly-unwrap>\\n" + //
                         "    <div class=\\\"hero-jumbotron\\\" data-sly-test.hasContent=\\\"${component.hasContent}\\\">\\n" + //
                         "        <div class=\\\"hero-jumbotron__content-wrapper\\\">\\n" + //
                         "            <div class=\\\"hero-jumbotron__text-content\\\">\\n" + //
@@ -144,7 +144,7 @@ public class GeminiGenerator implements AIGenerator {
                         "    <div data-sly-call=\\\"${templates.placeholder @ isEmpty=!hasContent, classAppend='hero-jumbotron'}\\\" data-sly-unwrap></div>\\n" + //
                         "</div>\\n" + //
                         "\",\n" + //
-                        "  \"dialog.xml\": \"<?xml version=\\\"1.0\\\" encoding=\\\"UTF-8\\\"?>\\n" + //
+                        "  \"_cq_dialog/.content.xml\": \"<?xml version=\\\"1.0\\\" encoding=\\\"UTF-8\\\"?>\\n" + //
                         "<jcr:root xmlns:sling=\\\"http://sling.apache.org/jcr/sling/1.0\\\" xmlns:cq=\\\"http://www.day.com/jcr/cq/1.0\\\" xmlns:jcr=\\\"http://www.jcp.org/jcr/1.0\\\" xmlns:nt=\\\"http://www.jcp.org/jcr/nt/1.0\\\" xmlns:granite=\\\"http://www.adobe.com/jcr/granite/1.0\\\"\\n" + //
                         "    jcr:primaryType=\\\"nt:unstructured\\\"\\n" + //
                         "    jcr:title=\\\"Hero Jumbotron Configuration\\\"\\n" + //
@@ -257,7 +257,7 @@ public class GeminiGenerator implements AIGenerator {
                         "    </content>\\n" + //
                         "</jcr:root>\\n" + //
                         "\",\n" + //
-                        "  \"HeroJumbotronModel.java\": \"package com.myproject.core.models;\\n" + //
+                        "  \"HeroJumbotronModel.java\": \"package com.figma.aem.core.models;\\n" + //
                         "\\n" + //
                         "import org.apache.sling.api.SlingHttpServletRequest;\\n" + //
                         "import org.apache.sling.api.resource.Resource;\\n" + //
@@ -277,7 +277,7 @@ public class GeminiGenerator implements AIGenerator {
                         ")\\n" + //
                         "public class HeroJumbotronModel {\\n" + //
                         "\\n" + //
-                        "    static final String RESOURCE_TYPE = \\\"my-project/components/content/hero-jumbotron\\\";\\n" + //
+                        "    static final String RESOURCE_TYPE = \\\"figma/components/hero-jumbotron\\\";\\n" + //
                         "\\n" + //
                         "    @Self\\n" + //
                         "    private SlingHttpServletRequest request;\\n" + //
@@ -359,7 +359,15 @@ public class GeminiGenerator implements AIGenerator {
                         "    }\\n" + //
                         "}\\n" + //
                         "\",\n" + //
-                        "  \"clientlib/css/hero-jumbotron.less\": \"@hero-jumbotron-bg: #f8f8f8;\\n" + //
+                        "  \"clientlibs/hero-jumbotron/.content.xml\": \"<?xml version=\\\"1.0\\\" encoding=\\\"UTF-8\\\"?>\\n" + //
+                        "<jcr:root xmlns:cq=\\\"http://www.day.com/jcr/cq/1.0\\\" xmlns:jcr=\\\"http://www.jcp.org/jcr/1.0\\\"\\n" + //
+                        "    jcr:primaryType=\\\"cq:ClientLibraryFolder\\\"\\n" + //
+                        "    allowProxy=\\\"true\\\"\\n" + //
+                        "    categories=\\\"[figma.hero-jumbotron]\\\"/>\\n" + //
+                        "\",\n" + //
+                        "  \"css.txt\": \"hero-jumbotron.less\\n" + //
+                        "\",\n" + //
+                        "  \"hero-jumbotron.css\": \"@hero-jumbotron-bg: #f8f8f8;\\n" + //
                         "@color-green-primary: #459d1a;\\n" + //
                         "@color-text-dark: #333;\\n" + //
                         "@color-text-light: #fff;\\n" + //
@@ -500,14 +508,6 @@ public class GeminiGenerator implements AIGenerator {
                         "        }\\n" + //
                         "    }\\n" + //
                         "}\\n" + //
-                        "\",\n" + //
-                        "  \"clientlib/css.txt\": \"hero-jumbotron.less\\n" + //
-                        "\",\n" + //
-                        "  \"clientlib/.content.xml\": \"<?xml version=\\\"1.0\\\" encoding=\\\"UTF-8\\\"?>\\n" + //
-                        "<jcr:root xmlns:cq=\\\"http://www.day.com/jcr/cq/1.0\\\" xmlns:jcr=\\\"http://www.jcp.org/jcr/1.0\\\"\\n" + //
-                        "    jcr:primaryType=\\\"cq:ClientLibraryFolder\\\"\\n" + //
-                        "    allowProxy=\\\"true\\\"\\n" + //
-                        "    categories=\\\"[myproject.hero-jumbotron]\\\"/>\\n" + //
                         "\"\n" + //
                         "}";
 
