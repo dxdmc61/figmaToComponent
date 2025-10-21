@@ -93,112 +93,61 @@ public class GeminiGenerator implements AIGenerator {
         // response
         // InputStream responseStream = null; // No actual stream
         String response = "{\n" + //
-                        "  \"productCarousel.html\": \"<div data-sly-use.model=\\\"com.figma.aem.core.models.ProductCarousel\\\" class=\\\"cmp-product-carousel\\\">\\n" + //
-                        "    <div class=\\\"cmp-product-carousel__container\\\">\\n" + //
-                        "        <sly data-sly-list.item=\\\"${model.productItems}\\\">\\n" + //
-                        "            <div class=\\\"cmp-product-carousel__item\\\">\\n" + //
-                        "                <div class=\\\"cmp-product-card\\\">\\n" + //
-                        "                    <sly data-sly-test.hasImage=\\\"${item.image}\\\">\\n" + //
-                        "                        <div class=\\\"cmp-product-card__image-container\\\">\\n" + //
-                        "                            <img src=\\\"${item.image}\\\" alt=\\\"${item.imageAlt}\\\" class=\\\"cmp-product-card__image\\\"/>\\n" + //
-                        "                        </div>\\n" + //
-                        "                    </sly>\\n" + //
-                        "                    <div class=\\\"cmp-product-card__content\\\">\\n" + //
-                        "                        <h3 class=\\\"cmp-product-card__title\\\">${item.title}</h3>\\n" + //
-                        "                        <p class=\\\"cmp-product-card__price\\\">${item.price}</p>\\n" + //
-                        "                        <p class=\\\"cmp-product-card__description\\\">${item.description}</p>\\n" + //
-                        "                    </div>\\n" + //
+                        "  \"_content.xml\": \"<?xml version=\\\"1.0\\\" encoding=\\\"UTF-8\\\"?>\\n" + //
+                        "<jcr:root xmlns:sling=\\\"http://sling.apache.org/jcr/sling/1.0\\\" xmlns:cq=\\\"http://www.day.com/jcr/cq/1.0\\\" xmlns:jcr=\\\"http://www.jcp.org/jcr/1.0\\\"\\n" + //
+                        "    jcr:primaryType=\\\"cq:Component\\\"\\n" + //
+                        "    jcr:title=\\\"Hero Jumbotron\\\"\\n" + //
+                        "    componentGroup=\\\"My Project - Content\\\"\\n" + //
+                        "    sling:resourceSuperType=\\\"core/wcm/components/container/v1/container\\\"/>\\n" + //
+                        "\",\n" + //
+                        "  \"hero-jumbotron.html\": \"<div data-sly-use.component=\\\"com.myproject.core.models.HeroJumbotronModel\\\" data-sly-use.templates=\\\"/libs/wcm/foundation/components/experiencefragment/template.html\\\" data-sly-unwrap>\\n" + //
+                        "    <div class=\\\"hero-jumbotron\\\" data-sly-test.hasContent=\\\"${component.hasContent}\\\">\\n" + //
+                        "        <div class=\\\"hero-jumbotron__content-wrapper\\\">\\n" + //
+                        "            <div class=\\\"hero-jumbotron__text-content\\\">\\n" + //
+                        "                \\n" + //
+                        "                <p class=\\\"hero-jumbotron__greeting\\\" data-sly-test=\\\"${component.greeting}\\\">${component.greeting}</p>\\n" + //
+                        "\\n" + //
+                        "                \\n" + //
+                        "                <h1 class=\\\"hero-jumbotron__heading\\\" data-sly-test=\\\"${component.heading}\\\">${component.heading}</h1>\\n" + //
+                        "\\n" + //
+                        "                \\n" + //
+                        "                <div class=\\\"hero-jumbotron__body-text\\\" data-sly-test=\\\"${component.bodyText}\\\">\\n" + //
+                        "                    ${component.bodyText @ context='html'}\\n" + //
+                        "                </div>\\n" + //
+                        "\\n" + //
+                        "                \\n" + //
+                        "                <div class=\\\"hero-jumbotron__ctas\\\">\\n" + //
+                        "                    \\n" + //
+                        "                    <a data-sly-test=\\\"${component.primaryCtaLink}\\\"\\n" + //
+                        "                       href=\\\"${component.primaryCtaLink @ extension='html'}\\\"\\n" + //
+                        "                       class=\\\"hero-jumbotron__cta hero-jumbotron__cta--primary\\\">\\n" + //
+                        "                        <span class=\\\"hero-jumbotron__cta-icon hero-jumbotron__cta-icon--play\\\"></span>\\n" + //
+                        "                        <span>${component.primaryCtaText @ context='text'}</span>\\n" + //
+                        "                    </a>\\n" + //
+                        "\\n" + //
+                        "                    \\n" + //
+                        "                    <a data-sly-test=\\\"${component.secondaryCtaLink}\\\"\\n" + //
+                        "                       href=\\\"${component.secondaryCtaLink @ extension='html'}\\\"\\n" + //
+                        "                       class=\\\"hero-jumbotron__cta hero-jumbotron__cta--secondary\\\">\\n" + //
+                        "                        <span>${component.secondaryCtaText @ context='text'}</span>\\n" + //
+                        "                        <span class=\\\"hero-jumbotron__cta-icon hero-jumbotron__cta-icon--arrow\\\"></span>\\n" + //
+                        "                    </a>\\n" + //
                         "                </div>\\n" + //
                         "            </div>\\n" + //
-                        "        </sly>\\n" + //
+                        "\\n" + //
+                        "            \\n" + //
+                        "            <div class=\\\"hero-jumbotron__visual\\\" data-sly-test=\\\"${component.deviceImage}\\\">\\n" + //
+                        "                <img src=\\\"${component.deviceImage}\\\" alt=\\\"Visual representation of the content on various devices\\\" class=\\\"hero-jumbotron__image\\\"/>\\n" + //
+                        "            </div>\\n" + //
+                        "        </div>\\n" + //
                         "    </div>\\n" + //
+                        "    <div data-sly-call=\\\"${templates.placeholder @ isEmpty=!hasContent, classAppend='hero-jumbotron'}\\\" data-sly-unwrap></div>\\n" + //
                         "</div>\\n" + //
                         "\",\n" + //
-                        "  \"ProductCarousel.java\": \"package com.figma.aem.core.models;\\n" + //
-                        "\\n" + //
-                        "import org.apache.sling.api.resource.Resource;\\n" + //
-                        "import org.apache.sling.models.annotations.DefaultInjectionStrategy;\\n" + //
-                        "import org.apache.sling.models.annotations.Model;\\n" + //
-                        "import org.apache.sling.models.annotations.injectorspecific.ChildResource;\\n" + //
-                        "import org.apache.sling.models.annotations.injectorspecific.ValueMapValue;\\n" + //
-                        "\\n" + //
-                        "import javax.annotation.PostConstruct;\\n" + //
-                        "import java.util.Collections;\\n" + //
-                        "import java.util.List;\\n" + //
-                        "import java.util.Objects;\\n" + //
-                        "import java.util.Optional;\\n" + //
-                        "import java.util.stream.Collectors;\\n" + //
-                        "\\n" + //
-                        "@Model(\\n" + //
-                        "    adaptables = Resource.class,\\n" + //
-                        "    resourceType = ProductCarousel.RESOURCE_TYPE,\\n" + //
-                        "    defaultInjectionStrategy = DefaultInjectionStrategy.OPTIONAL\\n" + //
-                        ")\\n" + //
-                        "public class ProductCarousel {\\n" + //
-                        "\\n" + //
-                        "    protected static final String RESOURCE_TYPE = \\\"figma/components/productcarousel\\\";\\n" + //
-                        "\\n" + //
-                        "    @ChildResource\\n" + //
-                        "    private List<Resource> productItems;\\n" + //
-                        "\\n" + //
-                        "    private List<ProductItem> items;\\n" + //
-                        "\\n" + //
-                        "    @PostConstruct\\n" + //
-                        "    protected void init() {\\n" + //
-                        "        if (productItems != null) {\\n" + //
-                        "            items = productItems.stream()\\n" + //
-                        "                .map(resource -> resource.adaptTo(ProductItem.class))\\n" + //
-                        "                .filter(Objects::nonNull)\\n" + //
-                        "                .collect(Collectors.toList());\\n" + //
-                        "        } else {\\n" + //
-                        "            items = Collections.emptyList();\\n" + //
-                        "        }\\n" + //
-                        "    }\\n" + //
-                        "\\n" + //
-                        "    public List<ProductItem> getProductItems() {\\n" + //
-                        "        return Collections.unmodifiableList(items);\\n" + //
-                        "    }\\n" + //
-                        "\\n" + //
-                        "    @Model(adaptables = Resource.class, defaultInjectionStrategy = DefaultInjectionStrategy.OPTIONAL)\\n" + //
-                        "    public static class ProductItem {\\n" + //
-                        "        @ValueMapValue\\n" + //
-                        "        private String image;\\n" + //
-                        "        @ValueMapValue\\n" + //
-                        "        private String imageAlt;\\n" + //
-                        "        @ValueMapValue\\n" + //
-                        "        private String title;\\n" + //
-                        "        @ValueMapValue\\n" + //
-                        "        private String price;\\n" + //
-                        "        @ValueMapValue\\n" + //
-                        "        private String description;\\n" + //
-                        "\\n" + //
-                        "        public String getImage() {\\n" + //
-                        "            return image;\\n" + //
-                        "        }\\n" + //
-                        "\\n" + //
-                        "        public String getImageAlt() {\\n" + //
-                        "            return Optional.ofNullable(imageAlt).orElse(\\\"Product image\\\");\\n" + //
-                        "        }\\n" + //
-                        "\\n" + //
-                        "        public String getTitle() {\\n" + //
-                        "            return title;\\n" + //
-                        "        }\\n" + //
-                        "\\n" + //
-                        "        public String getPrice() {\\n" + //
-                        "            return price;\\n" + //
-                        "        }\\n" + //
-                        "\\n" + //
-                        "        public String getDescription() {\\n" + //
-                        "            return description;\\n" + //
-                        "        }\\n" + //
-                        "    }\\n" + //
-                        "}\\n" + //
-                        "\",\n" + //
-                        "  \"_cq_dialog/.content.xml\": \"<?xml version=\\\"1.0\\\" encoding=\\\"UTF-8\\\"?>\\n" + //
-                        "<jcr:root xmlns:sling=\\\"http://sling.apache.org/jcr/sling/1.0\\\" xmlns:cq=\\\"http://www.day.com/jcr/cq/1.0\\\"\\n" + //
-                        "    xmlns:jcr=\\\"http://www.jcp.org/jcr/1.0\\\" xmlns:nt=\\\"http://www.jcp.org/jcr/nt/1.0\\\"\\n" + //
+                        "  \"dialog.xml\": \"<?xml version=\\\"1.0\\\" encoding=\\\"UTF-8\\\"?>\\n" + //
+                        "<jcr:root xmlns:sling=\\\"http://sling.apache.org/jcr/sling/1.0\\\" xmlns:cq=\\\"http://www.day.com/jcr/cq/1.0\\\" xmlns:jcr=\\\"http://www.jcp.org/jcr/1.0\\\" xmlns:nt=\\\"http://www.jcp.org/jcr/nt/1.0\\\" xmlns:granite=\\\"http://www.adobe.com/jcr/granite/1.0\\\"\\n" + //
                         "    jcr:primaryType=\\\"nt:unstructured\\\"\\n" + //
-                        "    jcr:title=\\\"Product Carousel Properties\\\"\\n" + //
+                        "    jcr:title=\\\"Hero Jumbotron Configuration\\\"\\n" + //
                         "    sling:resourceType=\\\"cq/gui/components/authoring/dialog\\\">\\n" + //
                         "    <content\\n" + //
                         "        jcr:primaryType=\\\"nt:unstructured\\\"\\n" + //
@@ -207,260 +156,358 @@ public class GeminiGenerator implements AIGenerator {
                         "            <tabs\\n" + //
                         "                jcr:primaryType=\\\"nt:unstructured\\\"\\n" + //
                         "                sling:resourceType=\\\"granite/ui/components/coral/foundation/tabs\\\"\\n" + //
-                        "                maximized=\\\"{Boolean}true\\\">\\n" + //
+                        "                maximized=\\\"true\\\">\\n" + //
                         "                <items jcr:primaryType=\\\"nt:unstructured\\\">\\n" + //
-                        "                    <properties\\n" + //
+                        "                    <text\\n" + //
                         "                        jcr:primaryType=\\\"nt:unstructured\\\"\\n" + //
-                        "                        jcr:title=\\\"Carousel Items\\\"\\n" + //
+                        "                        jcr:title=\\\"Text Content\\\"\\n" + //
                         "                        sling:resourceType=\\\"granite/ui/components/coral/foundation/container\\\">\\n" + //
                         "                        <items jcr:primaryType=\\\"nt:unstructured\\\">\\n" + //
-                        "                            <column\\n" + //
+                        "                            <greeting\\n" + //
                         "                                jcr:primaryType=\\\"nt:unstructured\\\"\\n" + //
-                        "                                sling:resourceType=\\\"granite/ui/components/coral/foundation/container\\\">\\n" + //
-                        "                                <items jcr:primaryType=\\\"nt:unstructured\\\">\\n" + //
-                        "                                    <productItems\\n" + //
-                        "                                        jcr:primaryType=\\\"nt:unstructured\\\"\\n" + //
-                        "                                        composite=\\\"{Boolean}true\\\"\\n" + //
-                        "                                        sling:resourceType=\\\"granite/ui/components/coral/foundation/form/multifield\\\"\\n" + //
-                        "                                        fieldDescription=\\\"Add Product Cards to the carousel.\\\"\\n" + //
-                        "                                        fieldLabel=\\\"Product Cards\\\">\\n" + //
-                        "                                        <field\\n" + //
-                        "                                            jcr:primaryType=\\\"nt:unstructured\\\"\\n" + //
-                        "                                            sling:resourceType=\\\"granite/ui/components/coral/foundation/container\\\"\\n" + //
-                        "                                            name=\\\"./productItems\\\">\\n" + //
-                        "                                            <items jcr:primaryType=\\\"nt:unstructured\\\">\\n" + //
-                        "                                                <column\\n" + //
-                        "                                                    jcr:primaryType=\\\"nt:unstructured\\\"\\n" + //
-                        "                                                    sling:resourceType=\\\"granite/ui/components/coral/foundation/container\\\">\\n" + //
-                        "                                                    <items jcr:primaryType=\\\"nt:unstructured\\\">\\n" + //
-                        "                                                        <imageSrc\\n" + //
-                        "                                                            jcr:primaryType=\\\"nt:unstructured\\\"\\n" + //
-                        "                                                            sling:resourceType=\\\"granite/ui/components/coral/foundation/form/pathfield\\\"\\n" + //
-                        "                                                            fieldLabel=\\\"Product Image\\\"\\n" + //
-                        "                                                            name=\\\"./image\\\"\\n" + //
-                        "                                                            emptyText=\\\"Enter product title\\\"/>\\n" + //
-                        "                                                        <imageAlt\\n" + //
-                        "                                                            jcr:primaryType=\\\"nt:unstructured\\\"\\n" + //
-                        "                                                            sling:resourceType=\\\"granite/ui/components/coral/foundation/form/textfield\\\"\\n" + //
-                        "                                                            fieldLabel=\\\"Image Alt Text\\\"\\n" + //
-                        "                                                            name=\\\"./imageAlt\\\"\\n" + //
-                        "                                                            emptyText=\\\"Product image\\\"/>\\n" + //
-                        "                                                        <title\\n" + //
-                        "                                                            jcr:primaryType=\\\"nt:unstructured\\\"\\n" + //
-                        "                                                            sling:resourceType=\\\"granite/ui/components/coral/foundation/form/textfield\\\"\\n" + //
-                        "                                                            fieldLabel=\\\"Title\\\"\\n" + //
-                        "                                                            name=\\\"./title\\\"\\n" + //
-                        "                                                            required=\\\"{Boolean}true\\\"\\n" + //
-                        "                                                            emptyText=\\\"Enter product title\\\"/>\\n" + //
-                        "                                                        <price\\n" + //
-                        "                                                            jcr:primaryType=\\\"nt:unstructured\\\"\\n" + //
-                        "                                                            sling:resourceType=\\\"granite/ui/components/coral/foundation/form/textfield\\\"\\n" + //
-                        "                                                            fieldLabel=\\\"Price\\\"\\n" + //
-                        "                                                            name=\\\"./price\\\"\\n" + //
-                        "                                                            emptyText=\\\"$0.00 / lb\\\"/>\\n" + //
-                        "                                                        <description\\n" + //
-                        "                                                            jcr:primaryType=\\\"nt:unstructured\\\"\\n" + //
-                        "                                                            sling:resourceType=\\\"granite/ui/components/coral/foundation/form/textfield\\\"\\n" + //
-                        "                                                            fieldLabel=\\\"Description\\\"\\n" + //
-                        "                                                            name=\\\"./description\\\"\\n" + //
-                        "                                                            emptyText=\\\"Grown in...\\\"/>\\n" + //
-                        "                                                    </items>\\n" + //
-                        "                                                </column>\\n" + //
-                        "                                            </items>\\n" + //
-                        "                                        </field>\\n" + //
-                        "                                    </productItems>\\n" + //
-                        "                                </items>\\n" + //
-                        "                            </column>\\n" + //
+                        "                                sling:resourceType=\\\"granite/ui/components/coral/foundation/form/textfield\\\"\\n" + //
+                        "                                fieldLabel=\\\"Greeting Text (e.g., Good afternoon)\\\"\\n" + //
+                        "                                name=\\\"./greeting\\\"\\n" + //
+                        "                                required=\\\"false\\\"/>\\n" + //
+                        "                            <heading\\n" + //
+                        "                                jcr:primaryType=\\\"nt:unstructured\\\"\\n" + //
+                        "                                sling:resourceType=\\\"granite/ui/components/coral/foundation/form/textfield\\\"\\n" + //
+                        "                                fieldLabel=\\\"Main Heading (H1)\\\"\\n" + //
+                        "                                name=\\\"./heading\\\"\\n" + //
+                        "                                required=\\\"true\\\"/>\\n" + //
+                        "                            <bodyText\\n" + //
+                        "                                jcr:primaryType=\\\"nt:unstructured\\\"\\n" + //
+                        "                                sling:resourceType=\\\"cq/gui/components/authoring/dialog/richtext\\\"\\n" + //
+                        "                                fieldLabel=\\\"Body Text/Purpose\\\"\\n" + //
+                        "                                name=\\\"./bodyText\\\"\\n" + //
+                        "                                use=\\\"content.xml\\\"\\n" + //
+                        "                                required=\\\"true\\\"/>\\n" + //
                         "                        </items>\\n" + //
-                        "                    </properties>\\n" + //
+                        "                    </text>\\n" + //
+                        "                    <cta\\n" + //
+                        "                        jcr:primaryType=\\\"nt:unstructured\\\"\\n" + //
+                        "                        jcr:title=\\\"Call to Actions\\\"\\n" + //
+                        "                        sling:resourceType=\\\"granite/ui/components/coral/foundation/container\\\">\\n" + //
+                        "                        <items jcr:primaryType=\\\"nt:unstructured\\\">\\n" + //
+                        "                            <primaryCtaFieldSet\\n" + //
+                        "                                jcr:primaryType=\\\"nt:unstructured\\\"\\n" + //
+                        "                                sling:resourceType=\\\"granite/ui/components/coral/foundation/form/fieldset\\\"\\n" + //
+                        "                                fieldLabel=\\\"Primary CTA (Video Link)\\\">\\n" + //
+                        "                                <items jcr:primaryType=\\\"nt:unstructured\\\">\\n" + //
+                        "                                    <primaryCtaText\\n" + //
+                        "                                        jcr:primaryType=\\\"nt:unstructured\\\"\\n" + //
+                        "                                        sling:resourceType=\\\"granite/ui/components/coral/foundation/form/textfield\\\"\\n" + //
+                        "                                        fieldLabel=\\\"Primary CTA Button Text\\\"\\n" + //
+                        "                                        name=\\\"./primaryCtaText\\\"\\n" + //
+                        "                                        value=\\\"Play Video\\\"\\n" + //
+                        "                                        required=\\\"true\\\"/>\\n" + //
+                        "                                    <primaryCtaLink\\n" + //
+                        "                                        jcr:primaryType=\\\"nt:unstructured\\\"\\n" + //
+                        "                                        sling:resourceType=\\\"granite/ui/components/coral/foundation/form/pathfield\\\"\\n" + //
+                        "                                        fieldLabel=\\\"Primary CTA Link/Video Path\\\"\\n" + //
+                        "                                        name=\\\"./primaryCtaLink\\\"\\n" + //
+                        "                                        rootPath=\\\"/content\\\"\\n" + //
+                        "                                        required=\\\"true\\\"/>\\n" + //
+                        "                                </items>\\n" + //
+                        "                            </primaryCtaFieldSet>\\n" + //
+                        "                            <secondaryCtaFieldSet\\n" + //
+                        "                                jcr:primaryType=\\\"nt:unstructured\\\"\\n" + //
+                        "                                sling:resourceType=\\\"granite/ui/components/coral/foundation/form/fieldset\\\"\\n" + //
+                        "                                fieldLabel=\\\"Secondary CTA (Get Started Link)\\\">\\n" + //
+                        "                                <items jcr:primaryType=\\\"nt:unstructured\\\">\\n" + //
+                        "                                    <secondaryCtaText\\n" + //
+                        "                                        jcr:primaryType=\\\"nt:unstructured\\\"\\n" + //
+                        "                                        sling:resourceType=\\\"granite/ui/components/coral/foundation/form/textfield\\\"\\n" + //
+                        "                                        fieldLabel=\\\"Secondary CTA Button Text\\\"\\n" + //
+                        "                                        name=\\\"./secondaryCtaText\\\"\\n" + //
+                        "                                        value=\\\"Get Started\\\"\\n" + //
+                        "                                        required=\\\"true\\\"/>\\n" + //
+                        "                                    <secondaryCtaLink\\n" + //
+                        "                                        jcr:primaryType=\\\"nt:unstructured\\\"\\n" + //
+                        "                                        sling:resourceType=\\\"granite/ui/components/coral/foundation/form/pathfield\\\"\\n" + //
+                        "                                        fieldLabel=\\\"Secondary CTA Link Path\\\"\\n" + //
+                        "                                        name=\\\"./secondaryCtaLink\\\"\\n" + //
+                        "                                        rootPath=\\\"/content\\\"\\n" + //
+                        "                                        required=\\\"true\\\"/>\\n" + //
+                        "                                </items>\\n" + //
+                        "                            </secondaryCtaFieldSet>\\n" + //
+                        "                        </items>\\n" + //
+                        "                    </cta>\\n" + //
+                        "                    <image\\n" + //
+                        "                        jcr:primaryType=\\\"nt:unstructured\\\"\\n" + //
+                        "                        jcr:title=\\\"Visual\\\"\\n" + //
+                        "                        sling:resourceType=\\\"granite/ui/components/coral/foundation/container\\\">\\n" + //
+                        "                        <items jcr:primaryType=\\\"nt:unstructured\\\">\\n" + //
+                        "                            <deviceImage\\n" + //
+                        "                                jcr:primaryType=\\\"nt:unstructured\\\"\\n" + //
+                        "                                sling:resourceType=\\\"cq/gui/components/authoring/dialog/fileupload\\\"\\n" + //
+                        "                                autoStart=\\\"false\\\"\\n" + //
+                        "                                class=\\\"cq-droptarget\\\"\\n" + //
+                        "                                fieldLabel=\\\"Device Visual Image\\\"\\n" + //
+                        "                                fileNameParameter=\\\"./deviceImage/fileName\\\"\\n" + //
+                        "                                fileReferenceParameter=\\\"./deviceImage/fileReference\\\"\\n" + //
+                        "                                mimeTypes=\\\"[image/gif,image/jpeg,image/png,image/webp]\\\"\\n" + //
+                        "                                name=\\\"./deviceImage/file\\\"\\n" + //
+                        "                                uploadUrl=\\\"${sling:resourcePath}\\\"/>\\n" + //
+                        "                        </items>\\n" + //
+                        "                    </image>\\n" + //
                         "                </items>\\n" + //
                         "            </tabs>\\n" + //
                         "        </items>\\n" + //
                         "    </content>\\n" + //
                         "</jcr:root>\\n" + //
                         "\",\n" + //
-                        "  \"_cq_editConfig.xml\": \"<?xml version=\\\"1.0\\\" encoding=\\\"UTF-8\\\"?>\\n" + //
-                        "<jcr:root xmlns:cq=\\\"http://www.day.com/jcr/cq/1.0\\\" xmlns:jcr=\\\"http://www.jcp.org/jcr/1.0\\\"\\n" + //
-                        "    jcr:primaryType=\\\"cq:EditConfig\\\">\\n" + //
-                        "    <cq:listeners\\n" + //
-                        "        jcr:primaryType=\\\"cq:Listeners\\\"\\n" + //
-                        "        afterdelete=\\\"REFRESH_PAGE\\\"\\n" + //
-                        "        afteredit=\\\"REFRESH_PAGE\\\"\\n" + //
-                        "        afterinsert=\\\"REFRESH_PAGE\\\"/>\\n" + //
-                        "</jcr:root>\\n" + //
+                        "  \"HeroJumbotronModel.java\": \"package com.myproject.core.models;\\n" + //
+                        "\\n" + //
+                        "import org.apache.sling.api.SlingHttpServletRequest;\\n" + //
+                        "import org.apache.sling.api.resource.Resource;\\n" + //
+                        "import org.apache.sling.models.annotations.DefaultInjectionStrategy;\\n" + //
+                        "import org.apache.sling.models.annotations.Model;\\n" + //
+                        "import org.apache.sling.models.annotations.injectorspecific.Self;\\n" + //
+                        "import org.apache.sling.models.annotations.injectorspecific.ValueMapValue;\\n" + //
+                        "import org.osgi.annotation.versioning.ProviderType;\\n" + //
+                        "\\n" + //
+                        "import javax.annotation.PostConstruct;\\n" + //
+                        "\\n" + //
+                        "@ProviderType\\n" + //
+                        "@Model(\\n" + //
+                        "    adaptables = {SlingHttpServletRequest.class, Resource.class},\\n" + //
+                        "    resourceType = HeroJumbotronModel.RESOURCE_TYPE,\\n" + //
+                        "    defaultInjectionStrategy = DefaultInjectionStrategy.OPTIONAL\\n" + //
+                        ")\\n" + //
+                        "public class HeroJumbotronModel {\\n" + //
+                        "\\n" + //
+                        "    static final String RESOURCE_TYPE = \\\"my-project/components/content/hero-jumbotron\\\";\\n" + //
+                        "\\n" + //
+                        "    @Self\\n" + //
+                        "    private SlingHttpServletRequest request;\\n" + //
+                        "\\n" + //
+                        "    @ValueMapValue\\n" + //
+                        "    private String greeting;\\n" + //
+                        "\\n" + //
+                        "    @ValueMapValue\\n" + //
+                        "    private String heading;\\n" + //
+                        "\\n" + //
+                        "    @ValueMapValue\\n" + //
+                        "    private String bodyText;\\n" + //
+                        "\\n" + //
+                        "    @ValueMapValue\\n" + //
+                        "    private String primaryCtaText;\\n" + //
+                        "\\n" + //
+                        "    @ValueMapValue\\n" + //
+                        "    private String primaryCtaLink;\\n" + //
+                        "\\n" + //
+                        "    @ValueMapValue\\n" + //
+                        "    private String secondaryCtaText;\\n" + //
+                        "\\n" + //
+                        "    @ValueMapValue\\n" + //
+                        "    private String secondaryCtaLink;\\n" + //
+                        "\\n" + //
+                        "    // Holds the path to the device image file reference\\n" + //
+                        "    private String deviceImage;\\n" + //
+                        "\\n" + //
+                        "    private boolean hasContent;\\n" + //
+                        "\\n" + //
+                        "    @PostConstruct\\n" + //
+                        "    protected void init() {\\n" + //
+                        "        // Get the image reference from the child resource \\\"deviceImage\\\" created by fileupload\\n" + //
+                        "        Resource imageResource = request.getResource().getChild(\\\"deviceImage\\\");\\n" + //
+                        "        if (imageResource != null) {\\n" + //
+                        "            this.deviceImage = imageResource.getValueMap().get(\\\"fileReference\\\", String.class);\\n" + //
+                        "        }\\n" + //
+                        "\\n" + //
+                        "        // Determine if the component has enough content to be rendered\\n" + //
+                        "        this.hasContent = heading != null || bodyText != null || primaryCtaLink != null || deviceImage != null;\\n" + //
+                        "    }\\n" + //
+                        "\\n" + //
+                        "    public String getGreeting() {\\n" + //
+                        "        return greeting;\\n" + //
+                        "    }\\n" + //
+                        "\\n" + //
+                        "    public String getHeading() {\\n" + //
+                        "        return heading;\\n" + //
+                        "    }\\n" + //
+                        "\\n" + //
+                        "    public String getBodyText() {\\n" + //
+                        "        return bodyText;\\n" + //
+                        "    }\\n" + //
+                        "\\n" + //
+                        "    public String getPrimaryCtaText() {\\n" + //
+                        "        // Fallback for button text if not configured\\n" + //
+                        "        return primaryCtaText != null ? primaryCtaText : \\\"Play Video\\\";\\n" + //
+                        "    }\\n" + //
+                        "\\n" + //
+                        "    public String getPrimaryCtaLink() {\\n" + //
+                        "        return primaryCtaLink;\\n" + //
+                        "    }\\n" + //
+                        "\\n" + //
+                        "    public String getSecondaryCtaText() {\\n" + //
+                        "        // Fallback for button text if not configured\\n" + //
+                        "        return secondaryCtaText != null ? secondaryCtaText : \\\"Get Started\\\";\\n" + //
+                        "    }\\n" + //
+                        "\\n" + //
+                        "    public String getSecondaryCtaLink() {\\n" + //
+                        "        return secondaryCtaLink;\\n" + //
+                        "    }\\n" + //
+                        "\\n" + //
+                        "    public String getDeviceImage() {\\n" + //
+                        "        return deviceImage;\\n" + //
+                        "    }\\n" + //
+                        "\\n" + //
+                        "    public boolean getHasContent() {\\n" + //
+                        "        return hasContent;\\n" + //
+                        "    }\\n" + //
+                        "}\\n" + //
                         "\",\n" + //
-                        "  \".content.xml\": \"<?xml version=\\\"1.0\\\" encoding=\\\"UTF-8\\\"?>\\n" + //
-                        "<jcr:root xmlns:sling=\\\"http://sling.apache.org/jcr/sling/1.0\\\" xmlns:cq=\\\"http://www.day.com/jcr/cq/1.0\\\"\\n" + //
-                        "    xmlns:jcr=\\\"http://www.jcp.org/jcr/1.0\\\"\\n" + //
-                        "    xmlns:nt=\\\"http://www.jcp.org/jcr/nt/1.0\\\"\\n" + //
-                        "    jcr:primaryType=\\\"cq:Component\\\"\\n" + //
-                        "    jcr:title=\\\"Product Carousel\\\"\\n" + //
-                        "    componentGroup=\\\"Figma - Content\\\">\\n" + //
-                        "    <cq:responsive jcr:primaryType=\\\"nt:unstructured\\\">\\n" + //
-                        "        <default\\n" + //
-                        "            jcr:primaryType=\\\"nt:unstructured\\\"\\n" + //
-                        "            width=\\\"12\\\"/>\\n" + //
-                        "        <tablet\\n" + //
-                        "            jcr:primaryType=\\\"nt:unstructured\\\"\\n" + //
-                        "            width=\\\"8\\\"/>\\n" + //
-                        "        <mobile\\n" + //
-                        "            jcr:primaryType=\\\"nt:unstructured\\\"\\n" + //
-                        "            width=\\\"12\\\"/>\\n" + //
-                        "    </cq:responsive>\\n" + //
-                        "</jcr:root>\\n" + //
-                        "\",\n" + //
-                        "  \"clientlibs/css/style.css\": \".cmp-product-carousel {\\n" + //
-                        "    padding: 20px;\\n" + //
-                        "    background-color: #f8f8f8;\\n" + //
-                        "}\\n" + //
+                        "  \"clientlib/css/hero-jumbotron.less\": \"@hero-jumbotron-bg: #f8f8f8;\\n" + //
+                        "@color-green-primary: #459d1a;\\n" + //
+                        "@color-text-dark: #333;\\n" + //
+                        "@color-text-light: #fff;\\n" + //
+                        "@breakpoint-tablet: 768px;\\n" + //
                         "\\n" + //
-                        ".cmp-product-carousel__container {\\n" + //
-                        "    display: flex;\\n" + //
-                        "    flex-wrap: wrap; /* Allows items to wrap on smaller screens */\\n" + //
-                        "    gap: 20px; /* Space between cards */\\n" + //
-                        "    justify-content: center; /* Center cards if not filling row */\\n" + //
-                        "}\\n" + //
-                        "\\n" + //
-                        ".cmp-product-carousel__item {\\n" + //
-                        "    flex: 0 0 calc(33.33% - 20px); /* 3 items per row on large screens */\\n" + //
-                        "    max-width: calc(33.33% - 20px);\\n" + //
-                        "    box-sizing: border-box; /* Include padding and border in the element's total width and height */\\n" + //
-                        "    margin-bottom: 20px; /* Space below items for wrapping */\\n" + //
-                        "}\\n" + //
-                        "\\n" + //
-                        ".cmp-product-card {\\n" + //
-                        "    background-color: #E6E6E6;\\n" + //
-                        "    border-radius: 8px;\\n" + //
-                        "    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);\\n" + //
-                        "    overflow: hidden; /* Ensures image corners are rounded with container */\\n" + //
-                        "    display: flex;\\n" + //
-                        "    flex-direction: column;\\n" + //
-                        "    height: 100%; /* Ensure cards are same height in a row */\\n" + //
-                        "}\\n" + //
-                        "\\n" + //
-                        ".cmp-product-card__image-container {\\n" + //
+                        ".hero-jumbotron {\\n" + //
+                        "    background-color: @hero-jumbotron-bg;\\n" + //
+                        "    padding: 3rem 1rem;\\n" + //
                         "    width: 100%;\\n" + //
-                        "    height: 180px; /* Fixed height for images */\\n" + //
-                        "    overflow: hidden;\\n" + //
-                        "    display: flex;\\n" + //
-                        "    align-items: center;\\n" + //
-                        "    justify-content: center;\\n" + //
-                        "    background-color: #f0f0f0; /* Placeholder background */\\n" + //
-                        "}\\n" + //
                         "\\n" + //
-                        ".cmp-product-card__image {\\n" + //
-                        "    width: 100%;\\n" + //
-                        "    height: 100%;\\n" + //
-                        "    object-fit: cover; /* Cover the container, cropping if necessary */\\n" + //
-                        "    display: block;\\n" + //
-                        "}\\n" + //
+                        "    &__content-wrapper {\\n" + //
+                        "        max-width: 1200px;\\n" + //
+                        "        margin: 0 auto;\\n" + //
+                        "        display: flex;\\n" + //
+                        "        flex-direction: column; /* Stack on mobile */\\n" + //
+                        "        align-items: center;\\n" + //
+                        "        text-align: center;\\n" + //
+                        "        box-sizing: border-box;\\n" + //
                         "\\n" + //
-                        ".cmp-product-card__content {\\n" + //
-                        "    padding: 15px;\\n" + //
-                        "    display: flex;\\n" + //
-                        "    flex-direction: column;\\n" + //
-                        "    flex-grow: 1; /* Allow content to grow to fill space */\\n" + //
-                        "}\\n" + //
-                        "\\n" + //
-                        ".cmp-product-card__title {\\n" + //
-                        "    font-size: 1.2em;\\n" + //
-                        "    font-weight: bold;\\n" + //
-                        "    margin-top: 0;\\n" + //
-                        "    margin-bottom: 8px;\\n" + //
-                        "    color: #333;\\n" + //
-                        "}\\n" + //
-                        "\\n" + //
-                        ".cmp-product-card__price {\\n" + //
-                        "    font-size: 1.1em;\\n" + //
-                        "    color: #007bff; /* A distinct color for price */\\n" + //
-                        "    font-weight: 600;\\n" + //
-                        "    margin-bottom: 8px;\\n" + //
-                        "}\\n" + //
-                        "\\n" + //
-                        ".cmp-product-card__description {\\n" + //
-                        "    font-size: 0.9em;\\n" + //
-                        "    color: #666;\\n" + //
-                        "    margin-bottom: 0;\\n" + //
-                        "    flex-grow: 1; /* Allow description to take available space */\\n" + //
-                        "}\\n" + //
-                        "\\n" + //
-                        "/* Responsive adjustments */\\n" + //
-                        "@media (max-width: 992px) {\\n" + //
-                        "    .cmp-product-carousel__item {\\n" + //
-                        "        flex: 0 0 calc(50% - 20px); /* 2 items per row on medium screens */\\n" + //
-                        "        max-width: calc(50% - 20px);\\n" + //
+                        "        @media (min-width: @breakpoint-tablet) {\\n" + //
+                        "            flex-direction: row;\\n" + //
+                        "            text-align: left;\\n" + //
+                        "            justify-content: space-between;\\n" + //
+                        "        }\\n" + //
                         "    }\\n" + //
-                        "}\\n" + //
                         "\\n" + //
-                        "@media (max-width: 768px) {\\n" + //
-                        "    .cmp-product-carousel__item {\\n" + //
-                        "        flex: 0 0 calc(100% - 20px); /* 1 item per row on small screens */\\n" + //
-                        "        max-width: calc(100% - 20px);\\n" + //
+                        "    &__text-content {\\n" + //
+                        "        flex: 1 1 50%;\\n" + //
+                        "        padding: 0 1rem;\\n" + //
+                        "        margin-bottom: 2rem;\\n" + //
+                        "\\n" + //
+                        "        @media (min-width: @breakpoint-tablet) {\\n" + //
+                        "            margin-bottom: 0;\\n" + //
+                        "            padding-right: 4rem;\\n" + //
+                        "        }\\n" + //
+                        "    }\\n" + //
+                        "\\n" + //
+                        "    &__greeting {\\n" + //
+                        "        color: @color-green-primary;\\n" + //
+                        "        font-size: 1.125rem;\\n" + //
+                        "        font-weight: 600;\\n" + //
+                        "        margin-bottom: 0.5rem;\\n" + //
+                        "    }\\n" + //
+                        "\\n" + //
+                        "    &__heading {\\n" + //
+                        "        font-size: 2.5rem;\\n" + //
+                        "        font-weight: 700;\\n" + //
+                        "        color: @color-text-dark;\\n" + //
+                        "        margin-top: 0;\\n" + //
+                        "        margin-bottom: 1.5rem;\\n" + //
+                        "\\n" + //
+                        "        @media (min-width: @breakpoint-tablet) {\\n" + //
+                        "            font-size: 3rem;\\n" + //
+                        "        }\\n" + //
+                        "    }\\n" + //
+                        "\\n" + //
+                        "    &__body-text {\\n" + //
+                        "        color: @color-text-dark;\\n" + //
+                        "        font-size: 1rem;\\n" + //
+                        "        line-height: 1.6;\\n" + //
+                        "        margin-bottom: 2rem;\\n" + //
+                        "\\n" + //
+                        "        p:last-child { margin-bottom: 0; }\\n" + //
+                        "    }\\n" + //
+                        "\\n" + //
+                        "    &__visual {\\n" + //
+                        "        flex: 1 1 50%;\\n" + //
+                        "        max-width: 100%;\\n" + //
+                        "        padding: 1rem;\\n" + //
+                        "        \\n" + //
+                        "        @media (min-width: @breakpoint-tablet) {\\n" + //
+                        "            max-width: 50%;\\n" + //
+                        "        }\\n" + //
+                        "    }\\n" + //
+                        "    \\n" + //
+                        "    &__image {\\n" + //
+                        "        width: 100%;\\n" + //
+                        "        height: auto;\\n" + //
+                        "        display: block;\\n" + //
+                        "    }\\n" + //
+                        "\\n" + //
+                        "    &__ctas {\\n" + //
+                        "        display: flex;\\n" + //
+                        "        flex-wrap: wrap;\\n" + //
+                        "        justify-content: center;\\n" + //
+                        "        gap: 1rem;\\n" + //
+                        "\\n" + //
+                        "        @media (min-width: @breakpoint-tablet) {\\n" + //
+                        "            justify-content: flex-start;\\n" + //
+                        "        }\\n" + //
+                        "    }\\n" + //
+                        "\\n" + //
+                        "    &__cta {\\n" + //
+                        "        display: inline-flex;\\n" + //
+                        "        align-items: center;\\n" + //
+                        "        text-decoration: none;\\n" + //
+                        "        padding: 0.75rem 1.5rem;\\n" + //
+                        "        font-weight: 600;\\n" + //
+                        "        border-radius: 4px;\\n" + //
+                        "        transition: background-color 0.2s, border-color 0.2s;\\n" + //
+                        "        white-space: nowrap;\\n" + //
+                        "        \\n" + //
+                        "        &--primary {\\n" + //
+                        "            background-color: @color-green-primary;\\n" + //
+                        "            color: @color-text-light;\\n" + //
+                        "            border: 2px solid @color-green-primary;\\n" + //
+                        "\\n" + //
+                        "            &:hover {\\n" + //
+                        "                background-color: darken(@color-green-primary, 10%);\\n" + //
+                        "                border-color: darken(@color-green-primary, 10%);\\n" + //
+                        "            }\\n" + //
+                        "        }\\n" + //
+                        "\\n" + //
+                        "        &--secondary {\\n" + //
+                        "            background-color: transparent;\\n" + //
+                        "            color: @color-green-primary;\\n" + //
+                        "            border: 2px solid @color-green-primary;\\n" + //
+                        "\\n" + //
+                        "            &:hover {\\n" + //
+                        "                background-color: fadeout(@color-green-primary, 90%);\\n" + //
+                        "            }\\n" + //
+                        "        }\\n" + //
+                        "    }\\n" + //
+                        "\\n" + //
+                        "    &__cta-icon {\\n" + //
+                        "        display: inline-block;\\n" + //
+                        "        line-height: 1;\\n" + //
+                        "        \\n" + //
+                        "        /* Simple, text-based icons for representation */\\n" + //
+                        "        &--play::before {\\n" + //
+                        "            content: '\\\\25B6'; /* Black right-pointing triangle (Play) */\\n" + //
+                        "            margin-right: 0.5rem;\\n" + //
+                        "        }\\n" + //
+                        "        \\n" + //
+                        "        &--arrow::after {\\n" + //
+                        "            content: '\\\\2192'; /* Rightwards arrow */\\n" + //
+                        "            margin-left: 0.5rem;\\n" + //
+                        "        }\\n" + //
                         "    }\\n" + //
                         "}\\n" + //
                         "\",\n" + //
-                        "  \"clientlibs/js/script.js\": \"// clientlibs/ProductCarousel/js/script.js\\n" + //
-                        "(function() {\\n" + //
-                        "    \\\"use strict\\\";\\n" + //
-                        "\\n" + //
-                        "    // This script can be used to initialize any carousel specific JS library,\\n" + //
-                        "    // or for dynamic interactions if needed.\\n" + //
-                        "    // For a simple static display, it might not be strictly necessary.\\n" + //
-                        "    // If using a library like Slick Carousel or Swiper.js, you'd initialize it here.\\n" + //
-                        "\\n" + //
-                        "    function initProductCarousel() {\\n" + //
-                        "        var carousels = document.querySelectorAll(\\\".cmp-product-carousel__container\\\");\\n" + //
-                        "\\n" + //
-                        "        carousels.forEach(function(carousel) {\\n" + //
-                        "            // Example: Add a class once JS is loaded/initialized\\n" + //
-                        "            carousel.classList.add(\\\"cmp-product-carousel__container--initialized\\\");\\n" + //
-                        "\\n" + //
-                        "            // If it were a dynamic carousel (e.g., using a library):\\n" + //
-                        "            // $(carousel).slick({\\n" + //
-                        "            //     slidesToShow: 3,\\n" + //
-                        "            //     slidesToScroll: 1,\\n" + //
-                        "            //     autoplay: true,\\n" + //
-                        "            //     autoplaySpeed: 2000,\\n" + //
-                        "            //     responsive: [\\n" + //
-                        "            //         {\\n" + //
-                        "            //             breakpoint: 992,\\n" + //
-                        "            //             settings: {\\n" + //
-                        "            //                 slidesToShow: 2\\n" + //
-                        "            //             }\\n" + //
-                        "            //         },\\n" + //
-                        "            //         {\\n" + //
-                        "            //             breakpoint: 768,\\n" + //
-                        "            //             settings: {\\n" + //
-                        "            //                 slidesToShow: 1\\n" + //
-                        "            //             }\\n" + //
-                        "            //         }\\n" + //
-                        "            //     ]\\n" + //
-                        "            // });\\n" + //
-                        "\\n" + //
-                        "            // console.log(\\\"Product Carousel initialized:\\\", carousel);\\n" + //
-                        "        });\\n" + //
-                        "    }\\n" + //
-                        "\\n" + //
-                        "    // Initialize when the DOM is ready\\n" + //
-                        "    if (document.readyState === \\\"loading\\\") {\\n" + //
-                        "        document.addEventListener(\\\"DOMContentLoaded\\\", initProductCarousel);\\n" + //
-                        "    } else {\\n" + //
-                        "        initProductCarousel();\\n" + //
-                        "    }\\n" + //
-                        "})();\\n" + //
+                        "  \"clientlib/css.txt\": \"hero-jumbotron.less\\n" + //
                         "\",\n" + //
-                        "  \"clientlibs/css.txt\": \"#base=css\\n" + //
-                        "style.css\\n" + //
-                        "\",\n" + //
-                        "  \"clientlibs/js.txt\": \"#base=js\\n" + //
-                        "script.js\\n" + //
-                        "\",\n" + //
-                        "  \"clientlibs/.content.xml\": \"<?xml version=\\\"1.0\\\" encoding=\\\"UTF-8\\\"?>\\n" + //
+                        "  \"clientlib/.content.xml\": \"<?xml version=\\\"1.0\\\" encoding=\\\"UTF-8\\\"?>\\n" + //
                         "<jcr:root xmlns:cq=\\\"http://www.day.com/jcr/cq/1.0\\\" xmlns:jcr=\\\"http://www.jcp.org/jcr/1.0\\\"\\n" + //
                         "    jcr:primaryType=\\\"cq:ClientLibraryFolder\\\"\\n" + //
-                        "    categories=\\\"[figma.productcarousel]\\\"\\n" + //
-                        "    cssProcessor=\\\"[default:none, minify:true]\\\"\\n" + //
-                        "    jsProcessor=\\\"[default:none, minify:true]\\\"/>\\n" + //
+                        "    allowProxy=\\\"true\\\"\\n" + //
+                        "    categories=\\\"[myproject.hero-jumbotron]\\\"/>\\n" + //
                         "\"\n" + //
                         "}";
 
