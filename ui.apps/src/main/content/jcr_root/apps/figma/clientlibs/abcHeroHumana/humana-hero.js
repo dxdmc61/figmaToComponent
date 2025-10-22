@@ -1,0 +1,1 @@
+(function(){'use strict';document.addEventListener('DOMContentLoaded',function(){document.querySelectorAll('.humana-hero__image').forEach(function(img){if(img.complete){img.classList.add('humana-hero__image--loaded');}else{img.addEventListener('load',function(){img.classList.add('humana-hero__image--loaded');});}});});})();

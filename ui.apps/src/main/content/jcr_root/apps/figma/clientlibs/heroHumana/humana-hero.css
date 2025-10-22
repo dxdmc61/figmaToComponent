@@ -1,0 +1,86 @@
+.humana-hero {
+    background-color: #fff;
+    padding: 2rem 1rem;
+}
+
+.humana-hero__container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.humana-hero__text {
+    flex: 1 1 50%;
+}
+
+.humana-hero__greeting {
+    color: #2f9e1f;
+    font-weight: 700;
+    margin-bottom: .5rem;
+}
+
+.humana-hero__heading {
+    font-size: 2.25rem;
+    margin-bottom: 1rem;
+    color: #0b4f1b;
+}
+
+.humana-hero__body {
+    color: #374047;
+    margin-bottom: 1.25rem;
+}
+
+.humana-hero__ctas {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.humana-hero__cta {
+    display: inline-flex;
+    align-items: center;
+    padding: .75rem 1.25rem;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.humana-hero__cta--primary {
+    background-color: #2f9e1f;
+    color: #fff;
+    border: 2px solid #2f9e1f;
+}
+
+.humana-hero__cta--secondary {
+    background-color: transparent;
+    color: #2f9e1f;
+    border: 2px solid #2f9e1f;
+}
+
+.humana-hero__cta-icon {
+    margin-left: .5rem;
+}
+
+.humana-hero__visual {
+    flex: 1 1 40%;
+    display: flex;
+    justify-content: center;
+}
+
+.humana-hero__image {
+    max-width: 100%;
+    height: auto;
+}
+
+@media(max-width:768px) {
+    .humana-hero__container {
+        flex-direction: column;
+    }
+
+    .humana-hero__heading {
+        font-size: 1.75rem;
+    }
+}
