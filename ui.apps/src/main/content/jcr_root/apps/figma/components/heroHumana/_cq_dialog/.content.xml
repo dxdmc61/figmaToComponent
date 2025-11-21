@@ -21,7 +21,8 @@
                                 fieldLabel="Heading" name="./heading" required="true" />
                             <bodyText jcr:primaryType="nt:unstructured"
                                 sling:resourceType="cq/gui/components/authoring/dialog/richtext"
-                                fieldLabel="Body Text" name="./bodyText" />
+                                fieldLabel="Body Text" name="./bodyText"
+                                useFixedInlineToolbar="true" />
                         </items>
                     </contentTab>
                     <ctaTab jcr:primaryType="nt:unstructured" jcr:title="CTA"
@@ -60,11 +61,9 @@
                         sling:resourceType="granite/ui/components/coral/foundation/container">
                         <items jcr:primaryType="nt:unstructured">
                             <deviceImage jcr:primaryType="nt:unstructured"
-                                sling:resourceType="cq/gui/components/authoring/dialog/fileupload"
-                                fieldLabel="Device Image" name="./deviceImage/file"
-                                fileNameParameter="./deviceImage/fileName"
-                                fileReferenceParameter="./deviceImage/fileReference"
-                                autoStart="false" uploadUrl="${sling:resourcePath}" />
+                                sling:resourceType="granite/ui/components/coral/foundation/form/pathfield"
+                                fieldLabel="Device Image" name="./deviceImage"
+                                rootPath="/content/dam" selectionService="granite.omniadmin.content" />
                             <imageAlt jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
                                 fieldLabel="Image Alt Text" name="./imageAlt" />
