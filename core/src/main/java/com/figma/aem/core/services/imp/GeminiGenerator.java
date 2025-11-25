@@ -13,17 +13,16 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.util.stream.Collectors; // Added for stream operations
+import java.util.Locale;           // Added for case operations
 
 public class GeminiGenerator implements AIGenerator {
 
     private final String apiKey;
     // IMPORTANT: Use a stable model name like 'gemini-2.5-flash' or 'gemini-2.5-pro'
-    // for production.
     private static final String GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent";
 
     public GeminiGenerator(String apiKey) {
-        // Use the passed API key directly.
-        // NOTE: The placeholder key has been removed.
         this.apiKey = apiKey;
     }
 
@@ -41,26 +40,72 @@ public class GeminiGenerator implements AIGenerator {
         }
     }
 
+    /**
+     * Constructs a highly explicit and robust prompt for the Gemini model,
+     * ensuring all required AEM component files, including the often-missed
+     * .content.xml and _cq_dialog/.content.xml, are requested with accurate paths.
+     *
+     * @param componentName The name of the component (e.g., "Apple Hero").
+     * @param prompt Additional user instructions.
+     * @param figmaJson The design specification JSON.
+     * @return The complete, formatted prompt string.
+     */
     private String buildUserPrompt(String componentName, String prompt, String figmaJson) {
+        // Sanitize component name for use in HTL file paths and ClientLib names (e.g., "Apple Hero" -> "apple-hero")
+        String sanitizedName = componentName.toLowerCase(Locale.ROOT).replaceAll("\\s+", "-");
+        
+        // Base AEM path (e.g., "/apps/my-site/components/content/apple-hero")
+        String componentPath = "/apps/my-site/components/content/" + sanitizedName;
+        
+        // Generate Model Class Name (e.g., "Apple Hero" -> "AppleHeroModel")
+        String modelName = Arrays.stream(componentName.split("\\s+"))
+            .filter(s -> !s.isEmpty())
+            .map(s -> s.substring(0, 1).toUpperCase(Locale.ROOT) + s.substring(1))
+            .collect(Collectors.joining()) + "Model";
+
+        // The prompt uses placeholders (%1$s, %2$s, etc.) for dynamic injection of the variables
         return String.format(
-                "You are an expert AEM developer.\n\n" +
-                        "Your task is to generate a production-ready Adobe Experience Manager (AEM) component based on the provided information.\n\n"
-                        +
-                        "Component Name: %s\n\n" +
-                        "Design Specification (Figma JSON):\n%s\n\n" +
-                        "Additional User Prompt:\n%s\n\n" +
-                        "Follow these AEM best practices:\n" +
-                        "- Use HTL (HTML Template Language) with data-sly attributes\n" +
-                        "- Use granite/ui components for dialogs\n" +
-                        "- Use Sling Models (OSGi R6 annotations)\n" +
-                        "- Follow BEM methodology for CSS\n" +
-                        "- Ensure all fields are configurable via the dialog\n\n" +
-                        "Return your response as a **JSON object** where:\n" +
-                        "- Keys are filenames (e.g. `component.html`, `ComponentModel.java`, `dialog.xml`, `clientlib.css`, `clientlib.js`)\n"
-                        +
-                        "- Values are the full code content\n\n" +
-                        "Respond with only the JSON object. Do not include explanation or Markdown formatting.",
-                componentName, figmaJson, prompt);
+                "You are a senior AEM full-stack developer. Your task is to generate a complete, production-ready AEM component based on the provided specifications.\n\n" +
+                "Component Name: `%1$s`\n" +
+                "Figma JSON Design Spec: \n%2$s\n\n" +
+                "Additional User Prompt: \n%3$s\n\n" +
+                "--- Component Generation Requirements ---\n" +
+                "The generation MUST produce **all necessary AEM component files** in the standard structure, dynamically using the Component Name (`%1$s`) for filenames and paths.\n\n" +
+                "**MANDATORY FILES LIST (Use these exact paths as JSON keys):**\n" +
+                "1. Component Definition File (`.content.xml`):\n" +
+                "   - KEY: `%4$s/.content.xml`\n" +
+                "   - Define component Title (`%1$s`). Set `componentGroup` and `sling:resourceSuperType`.\n\n" +
+                "2. Dialog Configuration (`_cq_dialog/.content.xml`):\n" +
+                "   - KEY: `%4$s/_cq_dialog/.content.xml`\n" +
+                "   - Use Granite UI tabs. Make **all** screenshot elements authorable.\n\n" +
+                "3. HTL Template (`%5$s.html`):\n" +
+                "   - KEY: `%4$s/%5$s.html`\n" +
+                "   - Use clean, semantic HTL. All content must be dynamic (pulled from Sling Model).\n\n" +
+                "4. Java Sling Model (`%6$s.java`):\n" +
+                "   - KEY: `%6$s.java` (The resulting file should contain the full Java class definition for the model)\n" +
+                "   - Map all dialog fields. Use `@Model` and `@Inject` (OSGi R6).\n\n" +
+                "5. Client-Side Libraries (`clientlibs/.content.xml` and basic files):\n" +
+                "   - KEY: `%4$s/clientlibs/.content.xml`\n" +
+                "   - KEY: `%4$s/clientlibs/css/style.css`\n" +
+                "   - KEY: `%4$s/clientlibs/css.txt`\n" +
+                "   - Use BEM CSS. The ClientLib category MUST be unique and based on the component name.\n\n" +
+                "--- Output Format Constraint ---\n" +
+                "Your response MUST be a **JSON object**. The keys MUST be the **full, accurate file paths** (like the examples above). The values MUST be the full code content.\n\n" +
+                "Respond with only the JSON object. Do not include explanation or Markdown formatting.",
+                
+                // 1. %1$s: componentName (used 3 times)
+                componentName,
+                // 2. %2$s: figmaJson
+                figmaJson,
+                // 3. %3$s: prompt
+                prompt,
+                // 4. %4$s: componentPath (used 5 times for XML/ClientLib paths)
+                componentPath,
+                // 5. %5$s: sanitizedName (used 2 times for HTL file name)
+                sanitizedName,
+                // 6. %6$s: modelName (used 2 times for Java file name)
+                modelName
+        );
     }
 
     private String callGemini(String userPrompt) throws Exception {
