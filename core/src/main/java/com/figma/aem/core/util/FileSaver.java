@@ -15,80 +15,72 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Map;
+import java.util.Arrays; // Added for string manipulation
+import java.util.Locale;  // Added for string manipulation
 
 @Component(service = FileSaver.class)
 public class FileSaver {
     private static final Logger LOG = LoggerFactory.getLogger(FileSaver.class);
+    // Constants for Maven structure prefixes
+    private static final String UI_APPS_ROOT = "/ui.apps/src/main/content/jcr_root";
+    private static final String CORE_JAVA_ROOT = "/core/src/main/java/com/figma/core/models/";
+    private static final String JCR_APPS_PREFIX = "/apps/figma/";
 
     @Reference
     private ResourceResolverFactory resourceResolverFactory;
 
-    private static final String[] COMPONENT_PATHS = {
-            "/components/%s/%s.html", // HTL file
-            "/components/%s/_cq_dialog/.content.xml", // Dialog XML
-            "/components/%s/_cq_editConfig.xml", // Edit Config
-            "/components/%s/%s.css", // Component CSS
-            "/components/%s/%s.js", // Component JS
-            "/components/%s/.content.xml" // Component definition
-    };
+    // NOTE: The unused static arrays have been removed for code cleanliness.
 
-    private static final String[] MODEL_PATHS = {
-            "/core/src/main/java/com/figma/core/models/%sModel.java" // Sling Model
-    };
-
-    private static final String[] CLIENTLIB_PATHS = {
-            "/clientlibs/%s/css.txt",
-            "/clientlibs/%s/js.txt",
-            "/clientlibs/%s/.content.xml"
-    };
-
+    /**
+     * Saves generated AEM files by mapping their JCR paths (from the AI response keys)
+     * to the corresponding Maven filesystem paths.
+     *
+     * @param projectRoot The root directory of the AEM Maven project.
+     * @param componentName The human-readable component name (e.g., "Apple Hero").
+     * @param generatedFiles A map where keys are JCR paths or Java filenames, and values are file contents.
+     * @throws IOException If file saving fails.
+     */
     public void saveFiles(String projectRoot, String componentName, Map<String, String> generatedFiles)
             throws IOException {
         // Validate inputs
         if (projectRoot == null || projectRoot.isEmpty()) {
             throw new IllegalArgumentException("Project directory cannot be null or empty");
         }
-
         if (componentName == null || componentName.isEmpty()) {
             throw new IllegalArgumentException("Component name cannot be null or empty");
         }
 
-        // Create component directory structure
-        createDirectoryStructure(projectRoot, componentName);
+        // Standardize component name to match the folder name used in JCR paths (e.g., "Apple Hero" -> "applehero")
+        String slingFolderName = getSlingFolderName(componentName);
 
-        // Save all generated files
+        // 1. Create component directory structure
+        createDirectoryStructure(projectRoot, slingFolderName);
+
+        // 2. Save all generated files
+        String modelFileName = getModelName(componentName) + ".java"; // e.g., "AppleHeroModel.java"
+
         for (Map.Entry<String, String> entry : generatedFiles.entrySet()) {
-            String filename = entry.getKey();
+            String inputKey = entry.getKey().trim();
             String content = entry.getValue();
-            String path;
+            String targetPath;
 
             try {
-                if (filename.endsWith(".html")) {
-                    path = String.format("/ui.apps/src/main/content/jcr_root/apps/figma/components/%s/%s", componentName, filename);
-                } else if (filename.endsWith(".java")) {
-                    path = String.format("/core/src/main/java/com/figma/aem/core/models/%s", filename);
-                } else if (filename.equals("_cq_dialog/.content.xml")) {
-                    path = String.format("/ui.apps/src/main/content/jcr_root/apps/figma/components/%s/_cq_dialog/.content.xml", componentName);
-                } else if (filename.equals("_cq_editConfig.xml")) {
-                    path = String.format("/ui.apps/src/main/content/jcr_root/apps/figma/components/%s/_cq_editConfig.xml", componentName);
-                } else if (filename.equals(".content.xml")) {
-                    path = String.format("/ui.apps/src/main/content/jcr_root/apps/figma/components/%s/.content.xml", componentName);
-                } else if (filename.endsWith(".css")) {
-                    path = String.format("/ui.apps/src/main/content/jcr_root/apps/figma/clientlibs/%s/%s", componentName, filename);
-                } else if (filename.endsWith(".js")) {
-                    path = String.format("/ui.apps/src/main/content/jcr_root/apps/figma/clientlibs/%s/%s", componentName, filename);
-                } else if (filename.contains("clientlib") && filename.endsWith(".xml")) {
-                    path = String.format("/ui.apps/src/main/content/jcr_root/apps/figma/clientlibs/%s/clientlibs/.content.xml", componentName);
-                } else if (filename.endsWith(".txt")) {
-                    path = String.format("/ui.apps/src/main/content/jcr_root/apps/figma/clientlibs/%s/%s", componentName, filename);
+                if (inputKey.endsWith(modelFileName)) {
+                    // Case 1: Java Sling Model (uses simple filename as key)
+                    // Maps "AppleHeroModel.java" to core/src/.../AppleHeroModel.java
+                    targetPath = CORE_JAVA_ROOT + modelFileName;
+                } else if (inputKey.startsWith(JCR_APPS_PREFIX)) {
+                    // Case 2: JCR-based files (HTL, XML, ClientLibs)
+                    // Maps /apps/figma/... to ui.apps/src/main/content/jcr_root/apps/figma/...
+                    targetPath = UI_APPS_ROOT + inputKey;
                 } else {
-                    LOG.warn("Unknown file: {}", filename);
+                    LOG.warn("Unknown file path format in AI response: {}", inputKey);
                     continue;
                 }
 
-                saveFile(projectRoot, path, content);
+                saveFile(projectRoot, targetPath, content);
             } catch (IOException e) {
-                LOG.error("Failed to save {} for component {}", filename, componentName, e);
+                LOG.error("Failed to save {} for component {}", inputKey, componentName, e);
                 throw e;
             }
         }
@@ -96,16 +88,41 @@ public class FileSaver {
         LOG.info("Successfully saved all files for component: {}", componentName);
     }
 
-    private void createDirectoryStructure(String projectRoot, String componentName) throws IOException {
-        // Create component directory
-        createDirectory(projectRoot + "/components/" + componentName);
-        createDirectory(projectRoot + "/components/" + componentName + "/_cq_dialog");
+    /**
+     * Helper to derive the component folder name used in JCR paths (e.g., "Apple Hero" -> "applehero").
+     */
+    private String getSlingFolderName(String componentName) {
+        return componentName.toLowerCase(Locale.ROOT).replaceAll("[\\s-]", "");
+    }
 
-        // Create clientlib directory if needed
-        createDirectory(projectRoot + "/clientlibs/" + componentName);
+    /**
+     * Helper to derive the Java Model name (e.g., "Apple Hero" -> "AppleHeroModel").
+     */
+    private String getModelName(String componentName) {
+        String[] parts = componentName.split("[\\s-]");
+        StringBuilder sb = new StringBuilder();
+        for (String part : parts) {
+            if (!part.isEmpty()) {
+                sb.append(part.substring(0, 1).toUpperCase(Locale.ROOT)).append(part.substring(1));
+            }
+        }
+        return sb.toString() + "Model";
+    }
 
-        // Create model package if needed
-        createDirectory(projectRoot + "/core/src/main/java/com/figma/core/models");
+    private void createDirectoryStructure(String projectRoot, String slingFolderName) throws IOException {
+        // 1. UI.APPS Component directories
+        String componentBasePath = UI_APPS_ROOT + JCR_APPS_PREFIX + "components/content/" + slingFolderName;
+        createDirectory(projectRoot + componentBasePath);
+        createDirectory(projectRoot + componentBasePath + "/_cq_dialog");
+
+        // 2. UI.APPS ClientLib directories
+        String clientlibBasePath = UI_APPS_ROOT + JCR_APPS_PREFIX + "clientlibs/" + slingFolderName;
+        createDirectory(projectRoot + clientlibBasePath);
+        createDirectory(projectRoot + clientlibBasePath + "/css");
+        createDirectory(projectRoot + clientlibBasePath + "/js"); // Create js just in case
+
+        // 3. CORE Model package
+        createDirectory(projectRoot + CORE_JAVA_ROOT);
     }
 
     private void createDirectory(String path) throws IOException {
@@ -125,19 +142,9 @@ public class FileSaver {
         LOG.debug("Saved file: {}", fullPath);
     }
 
-    private String capitalizeFirstLetter(String str) {
-        if (str == null || str.isEmpty()) {
-            return str;
-        }
-        return str.substring(0, 1).toUpperCase() + str.substring(1);
-    }
-
-    /**
-     * Alternative method to save directly to JCR (AEM repository)
-     */
+    // Unused method kept for original context
     public void saveToRepository(ResourceResolver resolver, String componentPath, Map<String, String> generatedFiles)
             throws RepositoryException {
         // Implementation for saving directly to AEM repository would go here
-        // Requires more complex JCR node creation logic
     }
 }
