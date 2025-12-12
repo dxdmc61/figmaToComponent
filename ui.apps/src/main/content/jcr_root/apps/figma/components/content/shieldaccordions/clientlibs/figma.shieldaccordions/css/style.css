@@ -1,0 +1,77 @@
+.shield-accordions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    align-items: flex-start;
+}
+
+.shield-accordions__image-wrapper {
+    flex: 1 1 40%;
+    min-width: 300px;
+}
+
+.shield-accordions__image {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+.shield-accordions__content-wrapper {
+    flex: 1 1 50%;
+    min-width: 300px;
+}
+
+.shield-accordion-item {
+    border-bottom: 1px solid #ccc;
+}
+
+.shield-accordion-item__header {
+    margin: 0;
+}
+
+.shield-accordion-item__button {
+    width: 100%;
+    background-color: transparent;
+    border: none;
+    padding: 1rem;
+    text-align: left;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+
+.shield-accordion-item__button:hover {
+    background-color: #f5f5f5;
+}
+
+.shield-accordion-item__icon {
+    width: 1em;
+    height: 1em;
+    border-left: 2px solid #333;
+    border-bottom: 2px solid #333;
+    transform: rotate(-45deg);
+    transition: transform 0.3s ease-in-out;
+}
+
+.shield-accordion-item__button[aria-expanded="true"] .shield-accordion-item__icon {
+    transform: rotate(135deg);
+}
+
+.shield-accordion-item__panel {
+    padding: 0 1rem;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+    max-height: 0;
+}
+
+.shield-accordion-item__panel:not([hidden]) {
+    max-height: 1000px; /* Set a large enough value */
+    padding-bottom: 1rem;
+}
+
+.shield-accordion-item__content {
+    padding-top: 0.5rem;
+}

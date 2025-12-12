@@ -6,96 +6,95 @@ DESCRIPTION: ${description}
 The component contains the following fields:
 ${fields!""}
 
-Generate the following AEM files (ALL must be returned in a single JSON object):
+=====================================================================
+⚠️ STRICT AEM DIALOG RULES — YOU MUST FOLLOW THESE EXACTLY
+=====================================================================
 
----------------------------------------------------------------------
-1. COMPONENT DIALOG (`_cq_dialog/.content.xml`)
-   KEY: ${componentPath}/_cq_dialog/.content.xml
+### GENERAL RULES
+- Use ONLY Granite UI Coral 3 components.
+- NEVER use Coral 2.
+- NEVER generate: <columns>, <fixedcolumns>, <column>, <container>,
+  <responsivegrid>, <layout>, <itemsWrapper>, or any decorative wrapper.
+- NEVER add margin="true", style attributes, or extra wrappers.
+- ALL dialog fields MUST be placed under:
+  /content/items/tabs/items/properties/items
+- No nested wrappers beyond what is explicitly allowed.
+- Output must be valid XML.
 
-   You MUST generate a valid Granite UI Coral 3 dialog.
+=====================================================================
+### ⚠️ CRITICAL: COMPOSITE MULTIFIELD RULES
+=====================================================================
 
-   STRICT RULES — DO NOT BREAK THESE:
-   - Never generate: <columns>, <fixedcolumns>, <column>, <container>, 
-     <responsivegrid>, <layout>, <itemsWrapper>, or any decorative wrapper node.
-   - Never use Coral 2 components.
-   - All fields MUST be direct children of:
-       /content/items/tabs/items/properties/items
-   - No nested structures.
-   - No unnecessary wrapper nodes.
-   - No margin="true" or UI styling attributes.
+When generating a **composite multifield**, you MUST follow this exact structure:
 
-   REQUIRED STRUCTURE (DO NOT CHANGE):
-   jcr:root
-     → content (granite/ui/components/coral/foundation/form)
-         → items
-             → tabs (granite/ui/components/coral/foundation/tabs)
-                 → items
-                     → properties (granite/ui/components/coral/foundation/form)
-                         → items
-                             → FIELDS GO HERE ONLY (flat list)
+❌ The <multifield> MUST *NOT* have a "name" property.
 
----------------------------------------------------------------------
+✔ The <field> node INSIDE the multifield MUST contain:
+      name="./yourFieldName"
 
-2. GLOBAL HTL (${componentPath}.html)
-   KEY: ${componentPath}.html
+✔ Each internal field MUST use relative names:
+      name="./childFieldName"
 
-   REQUIREMENTS:
-   - Must use clean HTL only.
-   - Escape variables properly.
-   - Reference Sling Model getters or properties.
-   - Include the component clientlib in HTL.
+✔ Example (this is the ONLY valid structure):
 
-   Use **escaped literal HTL** for clientlibs:
+<myMultifield
+    sling:resourceType="granite/ui/components/coral/foundation/form/multifield"
+    composite="true"
+    fieldLabel="Items">
 
-   <sly data-sly-use.clientlib="granite.ui.clientlibs.ClientLibrary" />
-   <sly data-sly-call="${"$"}{clientlib.css @ categories='${clientLibCategory}'}" />
-   <sly data-sly-call="${"$"}{clientlib.js @ categories='${clientLibCategory}'}" />
+    <field
+        sling:resourceType="granite/ui/components/coral/foundation/container"
+        name="./items">
 
-   Then output simple semantic HTML, e.g.:
+        <items>
+            <title
+                sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                name="./title" />
+            <description
+                sling:resourceType="granite/ui/components/coral/foundation/form/textarea"
+                name="./description" />
+        </items>
+    </field>
+</myMultifield>
 
-   <div class="component">
-       <h2>${"$"}{properties.title}</h2>
-       <p>${"$"}{properties.description}</p>
-   </div>
+✔ This MUST produce JCR output:
+items
+  ├── item0
+  │     ├── title
+  │     └── description
+  ├── item1
+        ├── title
+        └── description
 
----------------------------------------------------------------------
+If the user requests ANY field that should be a multifield (array, list, repeatable items),
+you MUST generate the dialog following this pattern exactly.
 
-3. COMPONENT DEFINITION FILE (${componentPath}/.content.xml)
-   KEY: ${componentPath}/.content.xml
+=====================================================================
+### REQUIRED DIALOG STRUCTURE (DO NOT MODIFY)
 
----------------------------------------------------------------------
+jcr:root
+  → content (granite/ui/components/coral/foundation/form)
+      → items
+          → tabs (granite/ui/components/coral/foundation/tabs)
+              → items
+                  → properties (granite/ui/components/coral/foundation/form)
+                      → items
+                          → FIELDS GO HERE ONLY
 
-4. README.md
-   KEY: ${componentPath}/README.md
+=====================================================================
 
----------------------------------------------------------------------
+Generate these AEM files (ALL returned in a JSON object):
 
-5. JAVA SLING MODEL
-   KEY: ${javaModelPath}
+1. Dialog XML  
+2. HTL  
+3. Component .content.xml  
+4. README.md  
+5. Sling Model (OSGi R7)  
+6. Clientlibs (xml, txt, css, js)
 
-   RULES:
-   - Valid OSGi R7 Sling Model:
-       @Model(
-         adaptables = Resource.class,
-         defaultInjectionStrategy = DefaultInjectionStrategy.OPTIONAL
-       )
-   - Use @Inject for each dialog field
-   - Create public getters only
-
----------------------------------------------------------------------
-
-6. CLIENTLIBS
-   KEY: ${componentPath}/clientlibs/${clientLibCategory}/.content.xml
-   KEY: ${componentPath}/clientlibs/${clientLibCategory}/css.txt
-   KEY: ${componentPath}/clientlibs/${clientLibCategory}/js.txt
-   KEY: ${componentPath}/clientlibs/${clientLibCategory}/css/style.css
-   KEY: ${componentPath}/clientlibs/${clientLibCategory}/js/script.js
-
----------------------------------------------------------------------
-
-OUTPUT FORMAT (MUST BE FOLLOWED EXACTLY)
-
-Return a JSON object like:
+=====================================================================
+### OUTPUT FORMAT (STRICT)
+Return ONLY:
 
 {
   "${componentPath}/_cq_dialog/.content.xml": "<dialog xml>",
@@ -103,15 +102,14 @@ Return a JSON object like:
   "${componentPath}/.content.xml": "<component xml>",
   "${componentPath}/README.md": "<readme>",
   "${javaModelPath}": "<java>",
-  "${componentPath}/clientlibs/${clientLibCategory}/.content.xml": "<clientlib xml>",
-  "${componentPath}/clientlibs/${clientLibCategory}/css.txt": "css/style.css",
-  "${componentPath}/clientlibs/${clientLibCategory}/js.txt": "js/script.js",
-  "${componentPath}/clientlibs/${clientLibCategory}/css/style.css": "<css>",
-  "${componentPath}/clientlibs/${clientLibCategory}/js/script.js": "<js>"
+  "${clientLibPath}/.content.xml": "<clientlib xml>",
+  "${clientLibPath}/css.txt": "css/style.css",
+  "${clientLibPath}/js.txt": "js/script.js",
+  "${clientLibPath}/css/style.css": "<css>",
+  "${clientLibPath}/js/script.js": "<js>"
 }
 
-DO NOT include markdown fences.
-DO NOT include explanations.
-DO NOT include commentary.
-
-ONLY return the JSON object.
+DO NOT add markdown.
+DO NOT add explanations.
+DO NOT wrap in code fences.
+Return ONLY the JSON object.
