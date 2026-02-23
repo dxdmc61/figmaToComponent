@@ -83,6 +83,38 @@ jcr:root
 
 =====================================================================
 
+⚠️ JUNIT TEST GENERATION RULES (MANDATORY)
+
+=====================================================================
+
+You MUST generate a JUnit 5 test class for the Sling Model.
+
+Rules:
+
+Use JUnit 5
+
+Use io.wcm.testing.mock.aem.junit5
+
+Package:
+com.figma.aem.core.models
+
+Class name:
+<SlingModelName>Test
+
+Test MUST validate:
+
+Model adapts correctly from Resource
+
+All dialog properties map correctly
+
+Composite multifield items are read as a list of objects
+
+Optional fields do not cause NullPointerException
+
+Use AEM Mocks only — DO NOT mock Sling or JCR manually
+
+=====================================================================
+
 Generate these AEM files (ALL returned in a JSON object):
 
 1. Dialog XML  
@@ -91,6 +123,7 @@ Generate these AEM files (ALL returned in a JSON object):
 4. README.md  
 5. Sling Model (OSGi R7)  
 6. Clientlibs (xml, txt, css, js)
+7. JUnit 5 Test (AEM Mocks)
 
 =====================================================================
 ### OUTPUT FORMAT (STRICT)
@@ -102,6 +135,7 @@ Return ONLY:
   "${componentPath}/.content.xml": "<component xml>",
   "${componentPath}/README.md": "<readme>",
   "${javaModelPath}": "<java>",
+  "${junitTestPath}": "<junit>",
   "${clientLibPath}/.content.xml": "<clientlib xml>",
   "${clientLibPath}/css.txt": "css/style.css",
   "${clientLibPath}/js.txt": "js/script.js",

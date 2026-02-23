@@ -20,9 +20,16 @@ public class FileSaver {
 
     private static final Logger LOG = LoggerFactory.getLogger(FileSaver.class);
 
-    // Maven project folder roots
-    private static final String UI_APPS_ROOT = "/ui.apps/src/main/content/jcr_root";
-    private static final String CORE_JAVA_ROOT = "/core/src/main/java/com/figma/aem/core/models/";
+    // Maven roots
+    private static final String UI_APPS_ROOT =
+            "/ui.apps/src/main/content/jcr_root";
+
+    private static final String CORE_MAIN_JAVA_ROOT =
+            "/core/src/main/java/com/figma/aem/core/models/";
+
+    private static final String CORE_TEST_JAVA_ROOT =
+            "/core/src/test/java/com/figma/aem/core/models/";
+
     private static final String JCR_APPS_PREFIX = "/apps/figma/";
 
     @Reference
@@ -31,8 +38,10 @@ public class FileSaver {
     // -----------------------------------------------------
     // MAIN ENTRY
     // -----------------------------------------------------
-    public void saveFiles(String projectRoot, String componentName, Map<String, String> generatedFiles)
-            throws IOException {
+    public void saveFiles(
+            String projectRoot,
+            String componentName,
+            Map<String, String> generatedFiles) throws IOException {
 
         if (projectRoot == null || projectRoot.isEmpty()) {
             throw new IllegalArgumentException("Project directory cannot be null or empty");
@@ -42,15 +51,18 @@ public class FileSaver {
         }
 
         String slingFolderName = getSlingFolderName(componentName);
-        createDirectoryStructure(projectRoot, slingFolderName);
+        String modelClassName = getModelName(componentName);
+        String modelFileName = modelClassName + ".java";
+        String testFileName = modelClassName + "Test.java";
 
-        String modelFileName = getModelName(componentName) + ".java";
+        createDirectoryStructure(projectRoot, slingFolderName);
 
         for (Map.Entry<String, String> entry : generatedFiles.entrySet()) {
             String key = normalizeKey(entry.getKey());
             String content = entry.getValue();
 
-            String resolvedPath = resolveOutputPath(key, slingFolderName, modelFileName);
+            String resolvedPath =
+                    resolveOutputPath(key, slingFolderName, modelFileName, testFileName);
 
             if (resolvedPath == null) {
                 LOG.warn("Skipping unknown file format: {}", key);
@@ -66,30 +78,53 @@ public class FileSaver {
     // -----------------------------------------------------
     // PATH RESOLUTION
     // -----------------------------------------------------
-    private String resolveOutputPath(String key, String folder, String modelFileName) {
+    private String resolveOutputPath(
+            String key,
+            String folder,
+            String modelFileName,
+            String testFileName) {
 
-        // Java Sling Model
-        if (key.endsWith(modelFileName)) {
-            return CORE_JAVA_ROOT + modelFileName;
+        // -------------------------------------------------
+        // JUnit Test Class
+        // -------------------------------------------------
+        if (key.endsWith(testFileName)) {
+            return CORE_TEST_JAVA_ROOT + testFileName;
         }
 
-        // HTL (.html)
+        // -------------------------------------------------
+        // Sling Model
+        // -------------------------------------------------
+        if (key.endsWith(modelFileName)) {
+            return CORE_MAIN_JAVA_ROOT + modelFileName;
+        }
+
+        // -------------------------------------------------
+        // HTL
+        // -------------------------------------------------
         if (key.endsWith(".html")) {
             return UI_APPS_ROOT + JCR_APPS_PREFIX +
                     "components/content/" + folder + "/" + folder + ".html";
         }
 
-        // Dialogs (content.xml or .xml inside _cq_dialog)
+        // -------------------------------------------------
+        // Dialog
+        // -------------------------------------------------
         if (key.contains("_cq_dialog")) {
-            return UI_APPS_ROOT + normalizeDialogPath(key, folder);
+            return UI_APPS_ROOT +
+                    "/apps/figma/components/content/" +
+                    folder + "/_cq_dialog/.content.xml";
         }
 
-        // Clientlibs (css, js, .content.xml)
+        // -------------------------------------------------
+        // Clientlibs
+        // -------------------------------------------------
         if (key.contains("clientlibs")) {
             return UI_APPS_ROOT + normalizeClientlibPath(key, folder);
         }
 
-        // Generic AEM JCR paths (/apps/figma/...)
+        // -------------------------------------------------
+        // Generic JCR paths
+        // -------------------------------------------------
         if (key.startsWith(JCR_APPS_PREFIX)) {
             return UI_APPS_ROOT + key;
         }
@@ -101,29 +136,24 @@ public class FileSaver {
     // NORMALIZERS
     // -----------------------------------------------------
     private String normalizeKey(String key) {
-        if (key == null)
+        if (key == null) {
             return "";
+        }
         return key.trim().replace("\\", "/");
     }
 
-    private String normalizeDialogPath(String key, String folder) {
-        if (!key.startsWith("/apps/figma/")) {
-            return "/apps/figma/components/content/" + folder + "/_cq_dialog/.content.xml";
-        }
-        return key;
-    }
-
     private String normalizeClientlibPath(String key, String folder) {
-        if (!key.contains(folder)) {
-            // Rewrite incorrect paths to proper structure
+
+        if (!key.startsWith("/apps/figma/clientlibs")) {
             if (key.endsWith(".css")) {
-                return "/apps/figma/clientlibs/" + folder + "/css/styles.css";
+                return "/apps/figma/clientlibs/" + folder + "/css/style.css";
             }
             if (key.endsWith(".js")) {
-                return "/apps/figma/clientlibs/" + folder + "/js/scripts.js";
+                return "/apps/figma/clientlibs/" + folder + "/js/script.js";
             }
             return "/apps/figma/clientlibs/" + folder + "/.content.xml";
         }
+
         return key;
     }
 
@@ -131,7 +161,8 @@ public class FileSaver {
     // HELPERS
     // -----------------------------------------------------
     private String getSlingFolderName(String componentName) {
-        return componentName.toLowerCase(Locale.ROOT)
+        return componentName
+                .toLowerCase(Locale.ROOT)
                 .replaceAll("[\\s-]", "");
     }
 
@@ -139,15 +170,18 @@ public class FileSaver {
         String[] parts = componentName.split("[\\s-]");
         StringBuilder sb = new StringBuilder();
         for (String p : parts) {
-            sb.append(p.substring(0, 1).toUpperCase(Locale.ROOT))
-                    .append(p.substring(1));
+            if (!p.isEmpty()) {
+                sb.append(p.substring(0, 1).toUpperCase(Locale.ROOT))
+                  .append(p.substring(1));
+            }
         }
         return sb.toString() + "Model";
     }
 
-    private void createDirectoryStructure(String projectRoot, String folder) throws IOException {
+    private void createDirectoryStructure(String projectRoot, String folder)
+            throws IOException {
 
-        // Component folder
+        // Component
         createDirectory(projectRoot + UI_APPS_ROOT +
                 JCR_APPS_PREFIX + "components/content/" + folder);
 
@@ -162,25 +196,24 @@ public class FileSaver {
         createDirectory(projectRoot + UI_APPS_ROOT +
                 JCR_APPS_PREFIX + "clientlibs/" + folder + "/js");
 
-        // Sling Model package
-        createDirectory(projectRoot + CORE_JAVA_ROOT);
+        // Java folders
+        createDirectory(projectRoot + CORE_MAIN_JAVA_ROOT);
+        createDirectory(projectRoot + CORE_TEST_JAVA_ROOT);
     }
 
     private void createDirectory(String path) throws IOException {
         File dir = new File(path);
-        if (!dir.exists()) {
-            if (!dir.mkdirs()) {
-                throw new IOException("Failed to create directory: " + path);
-            }
-            LOG.debug("Created directory: {}", path);
+        if (!dir.exists() && !dir.mkdirs()) {
+            throw new IOException("Failed to create directory: " + path);
         }
     }
 
-    private void saveFile(String projectRoot, String relativePath, String content)
-            throws IOException {
+    private void saveFile(
+            String projectRoot,
+            String relativePath,
+            String content) throws IOException {
 
         Path fullPath = Paths.get(projectRoot, relativePath);
-
         Files.createDirectories(fullPath.getParent());
         Files.write(fullPath, content.getBytes(StandardCharsets.UTF_8));
 
