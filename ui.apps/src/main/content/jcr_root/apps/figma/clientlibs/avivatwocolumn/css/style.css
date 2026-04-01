@@ -69,16 +69,21 @@
    TEXT
    ========================= */
 .aviva-card__title {
-    font-size: 1.8rem;
-    font-weight: 700;
+    font-size: 2.5em; 
+    letter-spacing: -.0025em;
+    line-height: 1.2em;
+    margin-bottom: .4em;
     color: var(--aviva-text-light);
     margin-bottom: var(--aviva-spacing-md);
 }
 
 .aviva-card__description {
-    font-size: 1rem;
+  font-size: 1.5em;
+    letter-spacing: 0;
+    line-height: 1.33333em;
+    margin-bottom: .33333em;
+    margin-bottom: var(--aviva-spacing-lg);
     color: var(--aviva-text-light);
-    line-height: 1.5;
     margin-bottom: var(--aviva-spacing-lg);
 }
 
