@@ -1,143 +1,222 @@
 package com.figma.aem.core.util;
 
-import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ResourceResolverFactory;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.jcr.RepositoryException;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Locale;
 import java.util.Map;
 
 @Component(service = FileSaver.class)
 public class FileSaver {
+
     private static final Logger LOG = LoggerFactory.getLogger(FileSaver.class);
+
+    // Maven roots
+    private static final String UI_APPS_ROOT =
+            "/ui.apps/src/main/content/jcr_root";
+
+    private static final String CORE_MAIN_JAVA_ROOT =
+            "/core/src/main/java/com/figma/aem/core/models/";
+
+    private static final String CORE_TEST_JAVA_ROOT =
+            "/core/src/test/java/com/figma/aem/core/models/";
+
+    private static final String JCR_APPS_PREFIX = "/apps/figma/";
 
     @Reference
     private ResourceResolverFactory resourceResolverFactory;
 
-    private static final String[] COMPONENT_PATHS = {
-            "/components/%s/%s.html", // HTL file
-            "/components/%s/_cq_dialog/.content.xml", // Dialog XML
-            "/components/%s/_cq_editConfig.xml", // Edit Config
-            "/components/%s/%s.css", // Component CSS
-            "/components/%s/%s.js", // Component JS
-            "/components/%s/.content.xml" // Component definition
-    };
+    // -----------------------------------------------------
+    // MAIN ENTRY
+    // -----------------------------------------------------
+    public void saveFiles(
+            String projectRoot,
+            String componentName,
+            Map<String, String> generatedFiles) throws IOException {
 
-    private static final String[] MODEL_PATHS = {
-            "/core/src/main/java/com/figma/core/models/%sModel.java" // Sling Model
-    };
-
-    private static final String[] CLIENTLIB_PATHS = {
-            "/clientlibs/%s/css.txt",
-            "/clientlibs/%s/js.txt",
-            "/clientlibs/%s/.content.xml"
-    };
-
-    public void saveFiles(String projectRoot, String componentName, Map<String, String> generatedFiles)
-            throws IOException {
-        // Validate inputs
         if (projectRoot == null || projectRoot.isEmpty()) {
             throw new IllegalArgumentException("Project directory cannot be null or empty");
         }
-
         if (componentName == null || componentName.isEmpty()) {
             throw new IllegalArgumentException("Component name cannot be null or empty");
         }
 
-        // Create component directory structure
-        createDirectoryStructure(projectRoot, componentName);
+        String slingFolderName = getSlingFolderName(componentName);
+        String modelClassName = getModelName(componentName);
+        String modelFileName = modelClassName + ".java";
+        String testFileName = modelClassName + "Test.java";
 
-        // Save all generated files
+        createDirectoryStructure(projectRoot, slingFolderName);
+
         for (Map.Entry<String, String> entry : generatedFiles.entrySet()) {
-            String filename = entry.getKey();
+            String key = normalizeKey(entry.getKey());
             String content = entry.getValue();
-            String path;
 
-            try {
-                if (filename.endsWith(".html")) {
-                    path = String.format("/ui.apps/src/main/content/jcr_root/apps/figma/components/%s/%s", componentName, filename);
-                } else if (filename.endsWith(".java")) {
-                    path = String.format("/core/src/main/java/com/figma/aem/core/models/%s", filename);
-                } else if (filename.equals("_cq_dialog/.content.xml")) {
-                    path = String.format("/ui.apps/src/main/content/jcr_root/apps/figma/components/%s/_cq_dialog/.content.xml", componentName);
-                } else if (filename.equals("_cq_editConfig.xml")) {
-                    path = String.format("/ui.apps/src/main/content/jcr_root/apps/figma/components/%s/_cq_editConfig.xml", componentName);
-                } else if (filename.equals(".content.xml")) {
-                    path = String.format("/ui.apps/src/main/content/jcr_root/apps/figma/components/%s/.content.xml", componentName);
-                } else if (filename.endsWith(".css")) {
-                    path = String.format("/ui.apps/src/main/content/jcr_root/apps/figma/clientlibs/%s/%s", componentName, filename);
-                } else if (filename.endsWith(".js")) {
-                    path = String.format("/ui.apps/src/main/content/jcr_root/apps/figma/clientlibs/%s/%s", componentName, filename);
-                } else if (filename.contains("clientlib") && filename.endsWith(".xml")) {
-                    path = String.format("/ui.apps/src/main/content/jcr_root/apps/figma/clientlibs/%s/clientlibs/.content.xml", componentName);
-                } else if (filename.endsWith(".txt")) {
-                    path = String.format("/ui.apps/src/main/content/jcr_root/apps/figma/clientlibs/%s/%s", componentName, filename);
-                } else {
-                    LOG.warn("Unknown file: {}", filename);
-                    continue;
-                }
+            String resolvedPath =
+                    resolveOutputPath(key, slingFolderName, modelFileName, testFileName);
 
-                saveFile(projectRoot, path, content);
-            } catch (IOException e) {
-                LOG.error("Failed to save {} for component {}", filename, componentName, e);
-                throw e;
+            if (resolvedPath == null) {
+                LOG.warn("Skipping unknown file format: {}", key);
+                continue;
             }
+
+            saveFile(projectRoot, resolvedPath, content);
         }
 
-        LOG.info("Successfully saved all files for component: {}", componentName);
+        LOG.info("Successfully saved component: {}", componentName);
     }
 
-    private void createDirectoryStructure(String projectRoot, String componentName) throws IOException {
-        // Create component directory
-        createDirectory(projectRoot + "/components/" + componentName);
-        createDirectory(projectRoot + "/components/" + componentName + "/_cq_dialog");
+    // -----------------------------------------------------
+    // PATH RESOLUTION
+    // -----------------------------------------------------
+    private String resolveOutputPath(
+            String key,
+            String folder,
+            String modelFileName,
+            String testFileName) {
 
-        // Create clientlib directory if needed
-        createDirectory(projectRoot + "/clientlibs/" + componentName);
+        // -------------------------------------------------
+        // JUnit Test Class
+        // -------------------------------------------------
+        if (key.endsWith(testFileName)) {
+            return CORE_TEST_JAVA_ROOT + testFileName;
+        }
 
-        // Create model package if needed
-        createDirectory(projectRoot + "/core/src/main/java/com/figma/core/models");
+        // -------------------------------------------------
+        // Sling Model
+        // -------------------------------------------------
+        if (key.endsWith(modelFileName)) {
+            return CORE_MAIN_JAVA_ROOT + modelFileName;
+        }
+
+        // -------------------------------------------------
+        // HTL
+        // -------------------------------------------------
+        if (key.endsWith(".html")) {
+            return UI_APPS_ROOT + JCR_APPS_PREFIX +
+                    "components/content/" + folder + "/" + folder + ".html";
+        }
+
+        // -------------------------------------------------
+        // Dialog
+        // -------------------------------------------------
+        if (key.contains("_cq_dialog")) {
+            return UI_APPS_ROOT +
+                    "/apps/figma/components/content/" +
+                    folder + "/_cq_dialog/.content.xml";
+        }
+
+        // -------------------------------------------------
+        // Clientlibs
+        // -------------------------------------------------
+        if (key.contains("clientlibs")) {
+            return UI_APPS_ROOT + normalizeClientlibPath(key, folder);
+        }
+
+        // -------------------------------------------------
+        // Generic JCR paths
+        // -------------------------------------------------
+        if (key.startsWith(JCR_APPS_PREFIX)) {
+            return UI_APPS_ROOT + key;
+        }
+
+        return null;
+    }
+
+    // -----------------------------------------------------
+    // NORMALIZERS
+    // -----------------------------------------------------
+    private String normalizeKey(String key) {
+        if (key == null) {
+            return "";
+        }
+        return key.trim().replace("\\", "/");
+    }
+
+    private String normalizeClientlibPath(String key, String folder) {
+
+        if (!key.startsWith("/apps/figma/clientlibs")) {
+            if (key.endsWith(".css")) {
+                return "/apps/figma/clientlibs/" + folder + "/css/style.css";
+            }
+            if (key.endsWith(".js")) {
+                return "/apps/figma/clientlibs/" + folder + "/js/script.js";
+            }
+            return "/apps/figma/clientlibs/" + folder + "/.content.xml";
+        }
+
+        return key;
+    }
+
+    // -----------------------------------------------------
+    // HELPERS
+    // -----------------------------------------------------
+    private String getSlingFolderName(String componentName) {
+        return componentName
+                .toLowerCase(Locale.ROOT)
+                .replaceAll("[\\s-]", "");
+    }
+
+    private String getModelName(String componentName) {
+        String[] parts = componentName.split("[\\s-]");
+        StringBuilder sb = new StringBuilder();
+        for (String p : parts) {
+            if (!p.isEmpty()) {
+                sb.append(p.substring(0, 1).toUpperCase(Locale.ROOT))
+                  .append(p.substring(1));
+            }
+        }
+        return sb.toString() + "Model";
+    }
+
+    private void createDirectoryStructure(String projectRoot, String folder)
+            throws IOException {
+
+        // Component
+        createDirectory(projectRoot + UI_APPS_ROOT +
+                JCR_APPS_PREFIX + "components/content/" + folder);
+
+        // Dialog
+        createDirectory(projectRoot + UI_APPS_ROOT +
+                JCR_APPS_PREFIX + "components/content/" + folder + "/_cq_dialog");
+
+        // Clientlibs
+        createDirectory(projectRoot + UI_APPS_ROOT +
+                JCR_APPS_PREFIX + "clientlibs/" + folder + "/css");
+
+        createDirectory(projectRoot + UI_APPS_ROOT +
+                JCR_APPS_PREFIX + "clientlibs/" + folder + "/js");
+
+        // Java folders
+        createDirectory(projectRoot + CORE_MAIN_JAVA_ROOT);
+        createDirectory(projectRoot + CORE_TEST_JAVA_ROOT);
     }
 
     private void createDirectory(String path) throws IOException {
         File dir = new File(path);
-        if (!dir.exists()) {
-            if (!dir.mkdirs()) {
-                throw new IOException("Failed to create directory: " + path);
-            }
-            LOG.debug("Created directory: {}", path);
+        if (!dir.exists() && !dir.mkdirs()) {
+            throw new IOException("Failed to create directory: " + path);
         }
     }
 
-    private void saveFile(String projectRoot, String relativePath, String content) throws IOException {
+    private void saveFile(
+            String projectRoot,
+            String relativePath,
+            String content) throws IOException {
+
         Path fullPath = Paths.get(projectRoot, relativePath);
         Files.createDirectories(fullPath.getParent());
         Files.write(fullPath, content.getBytes(StandardCharsets.UTF_8));
-        LOG.debug("Saved file: {}", fullPath);
-    }
 
-    private String capitalizeFirstLetter(String str) {
-        if (str == null || str.isEmpty()) {
-            return str;
-        }
-        return str.substring(0, 1).toUpperCase() + str.substring(1);
-    }
-
-    /**
-     * Alternative method to save directly to JCR (AEM repository)
-     */
-    public void saveToRepository(ResourceResolver resolver, String componentPath, Map<String, String> generatedFiles)
-            throws RepositoryException {
-        // Implementation for saving directly to AEM repository would go here
-        // Requires more complex JCR node creation logic
+        LOG.info("Saved: {}", fullPath);
     }
 }
