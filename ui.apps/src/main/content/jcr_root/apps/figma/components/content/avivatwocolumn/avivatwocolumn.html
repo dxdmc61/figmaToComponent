@@ -1,0 +1,46 @@
+hgh
+<sly data-sly-use.model="com.figma.aem.core.models.AvivaTwoColumnModel">
+
+        <div class="aviva-card-group">
+
+            <sly data-sly-list.card="${model.cards}">
+                <div class="aviva-card">
+
+                    <div class="aviva-card__image" data-sly-test="${card.image}">
+                        <img src="${card.image}" alt="${card.altText}"/>
+                    </div>
+
+                    <div class="aviva-card__content">
+
+                        <h3 class="aviva-card__title" data-sly-test="${card.title}">
+                            ${card.title}
+                        </h3>
+
+                        <p class="aviva-card__description" data-sly-test="${card.description}">
+                            ${card.description}
+                        </p>
+
+                        <div class="aviva-card__cta-group"
+                             data-sly-test="${card.ctas && card.ctas.size > 0}">
+                            
+                            <sly data-sly-list.cta="${card.ctas}">
+                                <a href="${cta.link}"
+                                   target="${cta.openInNewTab ? '_blank' : '_self'}"
+                                   rel="${cta.openInNewTab ? 'noopener noreferrer' : ''}"
+                                   class="aviva-card__cta ${ctaList.first ? 'aviva-card__cta--primary' : 'aviva-card__cta--secondary'}">
+                                    ${cta.label}
+                                </a>
+                            </sly>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </sly>
+
+        </div>
+
+    </sly>
+
+</sly>

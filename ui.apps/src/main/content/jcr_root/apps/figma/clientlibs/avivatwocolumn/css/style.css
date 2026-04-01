@@ -1,0 +1,145 @@
+:root {
+    --aviva-yellow: #ffd000;
+    --aviva-dark-blue: #0033a0;
+    --aviva-text-light: #ffffff;
+    --aviva-overlay: rgba(0, 0, 0, 0.45);
+    --aviva-card-radius: 16px;
+    --aviva-spacing-md: 1rem;
+    --aviva-spacing-lg: 1.5rem;
+}
+
+/* =========================
+   CARD GROUP (2 COLUMN)
+   ========================= */
+.aviva-card-group {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    width: 100%;
+}
+
+/* =========================
+   CARD (IMAGE BACKGROUND)
+   ========================= */
+.aviva-card {
+    position: relative;
+    border-radius: var(--aviva-card-radius);
+    overflow: hidden;
+    min-height: 320px;
+}
+
+/* =========================
+   IMAGE (FULL WIDTH)
+   ========================= */
+.aviva-card__image {
+    position: absolute;
+    inset: 0;
+}
+
+.aviva-card__image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* =========================
+   DARK OVERLAY
+   ========================= */
+.aviva-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--aviva-overlay);
+}
+
+/* =========================
+   CONTENT OVER IMAGE
+   ========================= */
+.aviva-card__content {
+    position: relative;
+    z-index: 1;
+    padding: var(--aviva-spacing-lg);
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end; /* 👈 pushes text + CTA to bottom */
+}
+
+/* =========================
+   TEXT
+   ========================= */
+.aviva-card__title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--aviva-text-light);
+    margin-bottom: var(--aviva-spacing-md);
+}
+
+.aviva-card__description {
+    font-size: 1rem;
+    color: var(--aviva-text-light);
+    line-height: 1.5;
+    margin-bottom: var(--aviva-spacing-lg);
+}
+
+/* =========================
+   CTA GROUP
+   ========================= */
+.aviva-card__cta-group {
+    display: flex;
+    gap: var(--aviva-spacing-md);
+    flex-wrap: wrap;
+}
+
+/* =========================
+   CTA BUTTONS
+   ========================= */
+.aviva-card__cta {
+    padding: 0.7rem 1.4rem;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 600;
+    white-space: nowrap;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.aviva-card__cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 3px 8px rgba(0,0,0,0.25);
+}
+
+.aviva-card__cta--primary {
+    background-color: var(--aviva-yellow);
+    color: var(--aviva-dark-blue);
+    border: 2px solid var(--aviva-yellow);
+}
+
+.aviva-card__cta--secondary {
+    background-color: var(--aviva-yellow);
+    color: var(--aviva-dark-blue);
+    border: 2px solid var(--aviva-yellow);
+}
+
+/* =========================
+   RESPONSIVE
+   ========================= */
+@media (max-width: 1024px) {
+    .aviva-card-group {
+        grid-template-columns: 1fr; /* stack cards */
+    }
+}
+
+@media (max-width: 768px) {
+    .aviva-card {
+        min-height: 260px;
+    }
+
+    .aviva-card__title {
+        font-size: 1.5rem;
+    }
+
+    .aviva-card__cta-group {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
