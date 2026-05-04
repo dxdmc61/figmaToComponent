@@ -1,45 +1,26 @@
-<sly data-sly-use.model="com.figma.aem.core.models.AvivaTwoColumnModel">
+<sly data-sly-use.model="com.figma.aem.core.models.AvivaTwoColumnModel"
+     data-sly-use.templates="core/wcm/components/commons/v1/templates.html"
+     data-sly-test.hasContent="${model.cards && !model.cards.empty}"></sly>
 
-        <div class="aviva-card-group">
-
-            <sly data-sly-list.card="${model.cards}">
-                <div class="aviva-card">
-
-                    <div class="aviva-card__image" data-sly-test="${card.image}">
-                        <img src="${card.image}" alt="${card.altText}"/>
-                    </div>
-
-                    <div class="aviva-card__content">
-
-                        <h3 class="aviva-card__title" data-sly-test="${card.title}">
-                            ${card.title}
-                        </h3>
-
-                        <p class="aviva-card__description" data-sly-test="${card.description}">
-                            ${card.description}
-                        </p>
-
-                        <div class="aviva-card__cta-group"
-                             data-sly-test="${card.ctas && card.ctas.size > 0}">
-                            
-                            <sly data-sly-list.cta="${card.ctas}">
-                                <a href="${cta.link}"
-                                   target="${cta.openInNewTab ? '_blank' : '_self'}"
-                                   rel="${cta.openInNewTab ? 'noopener noreferrer' : ''}"
-                                   class="aviva-card__cta ${ctaList.first ? 'aviva-card__cta--primary' : 'aviva-card__cta--secondary'}">
-                                    ${cta.label}
-                                </a>
-                            </sly>
-
-                        </div>
-
-                    </div>
-
-                </div>
-            </sly>
-
+<div class="aviva-card-group" data-sly-if="${hasContent}">
+    <div class="aviva-card" data-sly-repeat.card="${model.cards}">
+        <div class="aviva-card__image-wrapper" data-sly-test="${card.image}">
+            <img class="aviva-card__image" src="${card.image}" alt="${card.altText}" />
         </div>
+        <div class="aviva-card__content">
+            <h2 class="aviva-card__title" data-sly-test="${card.title}">${card.title}</h2>
+            <p class="aviva-card__description" data-sly-test="${card.description}">${card.description}</p>
+            <div class="aviva-card__ctas" data-sly-if="${card.ctas && !card.ctas.empty}">
+                <a data-sly-repeat.cta="${card.ctas @ begin=0, end=3}"
+                   class="aviva-card__cta ${ctaList.first ? 'aviva-card__cta--primary' : 'aviva-card__cta--secondary'}"
+                   href="${cta.link}"
+                   target="${cta.openInNewTab ? '_blank' : '_self'}"
+                   rel="${cta.openInNewTab ? 'noopener noreferrer' : ''}">
+                    ${cta.label}
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
 
-    </sly>
-
-</sly>
+<sly data-sly-call="${templates.placeholder @ isEmpty=!hasContent}"></sly>

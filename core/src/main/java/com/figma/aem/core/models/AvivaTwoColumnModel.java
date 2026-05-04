@@ -2,74 +2,42 @@ package com.figma.aem.core.models;
 
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.Resource;
-import org.apache.sling.api.resource.ValueMap;
 import org.apache.sling.models.annotations.DefaultInjectionStrategy;
 import org.apache.sling.models.annotations.Model;
-import org.apache.sling.models.annotations.injectorspecific.SlingObject;
+import org.apache.sling.models.annotations.injectorspecific.ChildResource;
+import org.apache.sling.models.annotations.injectorspecific.ValueMapValue;
 
 import javax.annotation.PostConstruct;
-import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
+import java.util.Collections;
 
-@Model(
-    adaptables = {SlingHttpServletRequest.class, Resource.class},
-    defaultInjectionStrategy = DefaultInjectionStrategy.OPTIONAL
-)
+@Model(adaptables = SlingHttpServletRequest.class, defaultInjectionStrategy = DefaultInjectionStrategy.OPTIONAL)
 public class AvivaTwoColumnModel {
 
-    @SlingObject
-    private Resource resource;
-
+    @ChildResource(name = "cards")
     private List<Card> cards;
 
-    @PostConstruct
-    protected void init() {
-        if (resource == null) {
-            cards = Collections.emptyList();
-            return;
-        }
-
-        Resource cardsResource = resource.getChild("cards");
-        if (cardsResource != null) {
-            cards = StreamSupport.stream(cardsResource.getChildren().spliterator(), false)
-                    .map(Card::new)
-                    .collect(Collectors.toList());
-        } else {
-            cards = Collections.emptyList();
-        }
-    }
-
     public List<Card> getCards() {
-        return cards;
+        return cards != null ? Collections.unmodifiableList(cards) : Collections.emptyList();
     }
 
+    @Model(adaptables = Resource.class, defaultInjectionStrategy = DefaultInjectionStrategy.OPTIONAL)
     public static class Card {
 
-        private final String title;
-        private final String description;
-        private final String image;
-        private final String altText;
-        private final List<CTA> ctas;
+        @ValueMapValue
+        private String title;
 
-        public Card(Resource resource) {
-            ValueMap vm = resource.getValueMap();
+        @ValueMapValue
+        private String description;
 
-            this.title = vm.get("title", String.class);
-            this.description = vm.get("description", String.class);
-            this.image = vm.get("image", String.class);
-            this.altText = vm.get("altText", String.class);
+        @ValueMapValue
+        private String image;
 
-            this.ctas = Optional.ofNullable(resource.getChild("ctas"))
-                    .map(Resource::getChildren)
-                    .map(children -> StreamSupport.stream(children.spliterator(), false)
-                            .limit(3)
-                            .map(CTA::new)
-                            .collect(Collectors.toList()))
-                    .orElse(Collections.emptyList());
-        }
+        @ValueMapValue
+        private String altText;
+
+        @ChildResource(name = "ctas")
+        private List<CTA> ctas;
 
         public String getTitle() {
             return title;
@@ -88,36 +56,31 @@ public class AvivaTwoColumnModel {
         }
 
         public List<CTA> getCtas() {
-            return ctas;
+            return ctas != null ? Collections.unmodifiableList(ctas) : Collections.emptyList();
         }
     }
 
+    @Model(adaptables = Resource.class, defaultInjectionStrategy = DefaultInjectionStrategy.OPTIONAL)
     public static class CTA {
 
-        private final String label;
-        private final String link;
-        private final boolean openInNewTab;
+        @ValueMapValue
+        private String label;
 
-        public CTA(Resource resource) {
-            ValueMap vm = resource.getValueMap();
+        @ValueMapValue
+        private String link;
 
-            this.label = vm.get("label", String.class);
-
-            String rawLink = vm.get("link", String.class);
-            if (rawLink != null && rawLink.startsWith("/content/") && !rawLink.contains(".")) {
-                this.link = rawLink + ".html";
-            } else {
-                this.link = rawLink;
-            }
-
-            this.openInNewTab = vm.get("openInNewTab", false);
-        }
+        @ValueMapValue
+        private boolean openInNewTab;
 
         public String getLabel() {
             return label;
         }
 
         public String getLink() {
+            // Basic link processing for internal AEM pages
+            if (link != null && link.startsWith("/content/") && !link.contains(".")) {
+                return link + ".html";
+            }
             return link;
         }
 

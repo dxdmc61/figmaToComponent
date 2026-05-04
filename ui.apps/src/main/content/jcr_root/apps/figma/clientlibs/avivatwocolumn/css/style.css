@@ -1,116 +1,83 @@
 :root {
-    --aviva-yellow: #ffd000;
+    --aviva-yellow: #ffd700;
     --aviva-dark-blue: #0033a0;
-    --aviva-text-light: #ffffff;
-    --aviva-overlay: rgba(0, 0, 0, 0.45);
-    --aviva-card-radius: 16px;
-    --aviva-spacing-md: 1rem;
-    --aviva-spacing-lg: 1.5rem;
+    --aviva-light-gray: #f4f4f4;
+    --aviva-text-color: #333;
+    --aviva-border-radius: 12px;
+    --aviva-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 
-/* =========================
-   CARD GROUP (2 COLUMN)
-   ========================= */
 .aviva-card-group {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    display: flex;
+    flex-direction: column;
     gap: 2rem;
-    width: 100%;
+    font-family: Arial, sans-serif;
 }
 
-/* =========================
-   CARD (IMAGE BACKGROUND)
-   ========================= */
 .aviva-card {
-    position: relative;
-    border-radius: var(--aviva-card-radius);
+    display: grid;
+    grid-template-columns: 1fr 2fr; /* Image left, content right */
+    gap: 1.5rem;
+    background-color: #fff;
+    border-radius: var(--aviva-border-radius);
+    box-shadow: var(--aviva-shadow);
     overflow: hidden;
-    min-height: 320px;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 }
 
-/* =========================
-   IMAGE (FULL WIDTH)
-   ========================= */
+.aviva-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+}
+
+.aviva-card__image-wrapper {
+    padding: 0;
+    margin: 0;
+    line-height: 0; /* remove bottom space from image */
+}
+
 .aviva-card__image {
-    position: absolute;
-    inset: 0;
-}
-
-.aviva-card__image img {
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
 
-/* =========================
-   DARK OVERLAY
-   ========================= */
-.aviva-card::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: var(--aviva-overlay);
-}
-
-/* =========================
-   CONTENT OVER IMAGE
-   ========================= */
 .aviva-card__content {
-    position: relative;
-    z-index: 1;
-    padding: var(--aviva-spacing-lg);
-
+    padding: 1.5rem;
     display: flex;
     flex-direction: column;
-    justify-content: flex-end; /* 👈 pushes text + CTA to bottom */
 }
 
-/* =========================
-   TEXT
-   ========================= */
 .aviva-card__title {
-    font-size: 2.5em; 
-    letter-spacing: -.0025em;
-    line-height: 1.2em;
-    margin-bottom: .4em;
-    color: var(--aviva-text-light);
-    margin-bottom: var(--aviva-spacing-md);
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--aviva-dark-blue);
+    margin: 0 0 0.5rem 0;
 }
 
 .aviva-card__description {
-  font-size: 1.5em;
-    letter-spacing: 0;
-    line-height: 1.33333em;
-    margin-bottom: .33333em;
-    margin-bottom: var(--aviva-spacing-lg);
-    color: var(--aviva-text-light);
-    margin-bottom: var(--aviva-spacing-lg);
+    font-size: 1rem;
+    color: var(--aviva-text-color);
+    line-height: 1.5;
+    margin: 0 0 1.5rem 0;
+    flex-grow: 1; /* Pushes CTAs to the bottom */
 }
 
-/* =========================
-   CTA GROUP
-   ========================= */
-.aviva-card__cta-group {
+.aviva-card__ctas {
     display: flex;
-    gap: var(--aviva-spacing-md);
     flex-wrap: wrap;
+    gap: 0.75rem;
+    align-items: center;
 }
 
-/* =========================
-   CTA BUTTONS
-   ========================= */
 .aviva-card__cta {
-    padding: 0.7rem 1.4rem;
-    border-radius: 50px;
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    border-radius: 50px; /* Pill shape */
     text-decoration: none;
-    font-weight: 600;
-    white-space: nowrap;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.aviva-card__cta:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 3px 8px rgba(0,0,0,0.25);
+    font-weight: bold;
+    text-align: center;
+    transition: background-color 0.2s, color 0.2s, border-color 0.2s;
 }
 
 .aviva-card__cta--primary {
@@ -119,32 +86,34 @@
     border: 2px solid var(--aviva-yellow);
 }
 
+.aviva-card__cta--primary:hover {
+    background-color: #e6c300;
+    border-color: #e6c300;
+}
+
 .aviva-card__cta--secondary {
-    background-color: var(--aviva-yellow);
+    background-color: transparent;
     color: var(--aviva-dark-blue);
-    border: 2px solid var(--aviva-yellow);
+    border: 2px solid var(--aviva-dark-blue);
 }
 
-/* =========================
-   RESPONSIVE
-   ========================= */
-@media (max-width: 1024px) {
-    .aviva-card-group {
-        grid-template-columns: 1fr; /* stack cards */
-    }
+.aviva-card__cta--secondary:hover {
+    background-color: var(--aviva-dark-blue);
+    color: #fff;
 }
 
+/* Mobile Layout */
 @media (max-width: 768px) {
     .aviva-card {
-        min-height: 260px;
+        grid-template-columns: 1fr; /* Stack image on top */
     }
 
-    .aviva-card__title {
-        font-size: 1.5rem;
+    .aviva-card__content {
+        padding: 1rem;
     }
 
-    .aviva-card__cta-group {
+    .aviva-card__ctas {
         flex-direction: column;
-        align-items: flex-start;
+        align-items: stretch; /* Make CTAs full width */
     }
 }
