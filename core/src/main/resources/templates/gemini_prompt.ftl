@@ -1,3 +1,10 @@
+<#-- Derive a safe Java class name from component title -->
+<#assign modelName = componentTitle?replace(" ", "")?replace("-", "") + "Model">
+<#assign testName = modelName + "Test">
+
+<#-- Define paths -->
+<#assign junitTestPath = "/core/src/test/java/com/figma/aem/core/models/" + testName + ".java">
+
 You are generating an Adobe Experience Manager (AEM) component.
 
 COMPONENT TITLE: ${componentTitle}
@@ -57,17 +64,16 @@ When generating a **composite multifield**, you MUST follow this exact structure
     </field>
 </myMultifield>
 
-✔ This MUST produce JCR output:
-items
-  ├── item0
-  │     ├── title
-  │     └── description
-  ├── item1
-        ├── title
-        └── description
+<#noparse>
 
-If the user requests ANY field that should be a multifield (array, list, repeatable items),
-you MUST generate the dialog following this pattern exactly.
+DO NOT include placeholder template support
+NEVER add: data-sly-use.placeholderTemplate="core/wcm/components/commons/v1/templates.html"
+NEVER add the placeholder call sly tag at the bottom of the HTL file.
+data-sly-if DOES NOT EXIST in HTL
+NEVER use data-sly-if
+Use: data-sly-test
+</#noparse>
+
 
 =====================================================================
 ### REQUIRED DIALOG STRUCTURE (DO NOT MODIFY)
@@ -99,7 +105,7 @@ Package:
 com.figma.aem.core.models
 
 Class name:
-<SlingModelName>Test
+${testName}
 
 Test MUST validate:
 
