@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+    jcr:primaryType="cq:Component"
+    jcr:title="Azure Card"
+    jcr:description="COMPONENT TITLE: Featured News Cards DESCRIPTION: A &quot;Featured News&quot; section component matching the Azure Microsoft design system. Displays a section label, a large heading, and a horizontal grid of 3 news cards. Each card has a top image, bold title, short description, and a &quot;Learn more&quot; CTA button with a right-arrow icon. Cards have a white background, subtle rounded corners, and a light drop shadow. The section background is a very light blue-grey (#f0f4fa). The CTA button is a solid dark-blue rounded square icon button. Overall typography is clean, modern, and corporate — dark navy headings, medium-grey body text."
+    componentGroup="Figma - Content"/>

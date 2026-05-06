@@ -1,0 +1,140 @@
+/* Azure Featured News Component Styles */
+
+.azure-featured-news {
+    background-color: #eef2f8;
+    padding: 64px 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+.azure-featured-news__container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+.azure-featured-news__header {
+    text-align: left;
+    margin-bottom: 48px;
+}
+
+.azure-featured-news__label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #555;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin: 0 0 8px 0;
+}
+
+.azure-featured-news__heading {
+    font-size: 2.25rem;
+    font-weight: 700;
+    color: #0d1b2e;
+    margin: 0;
+    line-height: 1.2;
+}
+
+.azure-featured-news__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+}
+
+.azure-card__link-wrapper {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    height: 100%;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.azure-card__link-wrapper:hover {
+    transform: translateY(-5px);
+}
+
+.azure-card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.azure-card__image-wrapper {
+    width: 100%;
+    height: 200px;
+}
+
+.azure-card__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.azure-card__content {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.azure-card__title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #0d1b2e;
+    margin: 0 0 12px 0;
+    line-height: 1.4;
+}
+
+.azure-card__description {
+    font-size: 0.95rem;
+    color: #555;
+    line-height: 1.6;
+    margin: 0 0 24px 0;
+    flex-grow: 1;
+}
+
+.azure-card__cta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: auto;
+}
+
+.azure-card__cta-icon {
+    background-color: #003087;
+    border-radius: 6px;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.azure-card__cta-text {
+    font-weight: 500;
+    color: #003087;
+    font-size: 0.95rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+    .azure-featured-news__grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .azure-featured-news {
+        padding: 48px 0;
+    }
+    .azure-featured-news__heading {
+        font-size: 1.8rem;
+    }
+    .azure-featured-news__grid {
+        grid-template-columns: 1fr;
+    }
+}

@@ -1,0 +1,68 @@
+<div data-sly-use.model="com.figma.aem.core.models.AzurecardModel">
+
+    <sly data-sly-test="${model.sectionHeading}">
+        <section class="azure-featured-news">
+
+            <div class="azure-featured-news__container">
+
+                <div class="azure-featured-news__header">
+                    <p data-sly-test="${model.sectionLabel}" class="azure-featured-news__label">
+                        ${model.sectionLabel}
+                    </p>
+                    <h2 class="azure-featured-news__heading">
+                        ${model.sectionHeading}
+                    </h2>
+                </div>
+
+                <div class="azure-featured-news__grid" data-sly-test="${model.cards.size}">
+    
+                    <sly data-sly-list.card="${model.cards}">
+                        
+                        <a href="${card.cardLinkUrl @ context='uri'}"
+                           target="${card.openInNewTab ? '_blank' : '_self'}"
+                           class="azure-card__link-wrapper">
+                
+                            <article class="azure-card">
+                
+                                <div class="azure-card__image-wrapper">
+                                    <img class="azure-card__image"
+                                         src="${card.cardImage @ context='uri'}"
+                                         alt="${card.cardTitle}" />
+                                </div>
+                
+                                <div class="azure-card__content">
+                
+                                    <h3 class="azure-card__title">
+                                        ${card.cardTitle}
+                                    </h3>
+                
+                                    <p class="azure-card__description">
+                                        ${card.cardDescription}
+                                    </p>
+                
+                                    <div class="azure-card__cta">
+                                        <div class="azure-card__cta-icon">
+                                            →
+                                        </div>
+                                        <span class="azure-card__cta-text">
+                                            ${card.cardLinkText}
+                                        </span>
+                                    </div>
+                
+                                </div>
+                
+                            </article>
+                
+                        </a>
+                
+                    </sly>
+                
+                </div>
+                </div>
+
+            </div>
+
+        </section>
+    </sly>
+
+</div>
