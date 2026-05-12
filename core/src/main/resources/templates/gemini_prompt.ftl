@@ -64,6 +64,15 @@ When generating a **composite multifield**, you MUST follow this exact structure
     </field>
 </myMultifield>
 
+<#noparse>
+DO NOT include placeholder template support
+NEVER add: data-sly-use.placeholderTemplate="core/wcm/components/commons/v1/templates.html"
+NEVER add the placeholder call sly tag at the bottom of the HTL file.
+data-sly-if DOES NOT EXIST in HTL
+NEVER use data-sly-if
+Use: data-sly-test
+</#noparse>
+
 =====================================================================
 ### REQUIRED DIALOG STRUCTURE (DO NOT MODIFY)
 
