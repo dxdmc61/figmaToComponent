@@ -147,6 +147,34 @@ Return ONLY:
   "${clientLibPath}/js/script.js": "<js>"
 }
 
+### CLIENTLIB RULES (CRITICAL — ZERO TOLERANCE)
+.content.xml RULES
+
+The file:
+${clientLibPath}/.content.xml
+
+MUST contain ONLY this structure:
+
+<?xml version="1.0" encoding="UTF-8"?>
+
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0
+"
+xmlns:jcr="http://www.jcp.org/jcr/1.0
+"
+jcr:primaryType="cq:ClientLibraryFolder"
+allowProxy="{Boolean}true"
+categories="[figma.base]"/>
+❌ STRICTLY FORBIDDEN inside .content.xml:
+
+js.txt
+css.txt
+js/script.js
+css/style.css
+dependencies
+embed
+include
+ANY file references
+
 DO NOT add markdown.
 DO NOT add explanations.
 DO NOT wrap in code fences.
