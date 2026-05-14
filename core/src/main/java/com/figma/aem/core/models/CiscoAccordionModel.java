@@ -22,6 +22,12 @@ public class CiscoAccordionModel {
     @ValueMapValue
     private String componentTitle;
 
+    @ValueMapValue
+    private String buttonLabel;
+
+    @ValueMapValue
+    private String buttonLink;
+
     @ChildResource(name = "accordionItems")
     private List<AccordionItem> accordionItems;
 
@@ -42,6 +48,13 @@ public class CiscoAccordionModel {
 
     public String getId() {
         return id;
+    }
+    public String getButtonLabel() {
+        return buttonLabel;
+    }
+    
+    public String getButtonLink() {
+        return buttonLink;
     }
 
     @Model(adaptables = Resource.class, defaultInjectionStrategy = DefaultInjectionStrategy.OPTIONAL)

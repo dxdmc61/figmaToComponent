@@ -18,6 +18,14 @@
                         </div>
                     </div>
                 </div>
+                <!-- ✅ Button Added -->
+                <div class="cisco-accordion-cta" data-sly-test="${model.buttonLabel}">
+                    <a href="${model.buttonLink}" 
+                    class="cisco-accordion-button"
+                    target="${model.openInNewTab ? '_blank' : '_self'}">
+                        ${model.buttonLabel}
+                    </a>
+                </div>
             </div>
             <div class="cisco-accordion-right">
                 <div class="accordion-image-wrapper" data-sly-list.item="${model.accordionItems}">

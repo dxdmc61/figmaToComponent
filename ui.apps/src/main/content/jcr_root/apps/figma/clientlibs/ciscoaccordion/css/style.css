@@ -110,3 +110,23 @@
         margin-bottom: 1.5rem;
     }
 }
+.cisco-accordion-cta {
+    margin-top: 24px;
+}
+
+.cisco-accordion-button {
+    display: inline-block;
+    padding: 12px 22px;
+    background-color: #ffffff;
+    color: #0b1f33;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 999px; /* pill shape */
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.cisco-accordion-button:hover {
+    background-color: #e6e6e6;
+    color: #000;
+}
