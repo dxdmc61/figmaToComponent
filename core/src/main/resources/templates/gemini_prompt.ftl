@@ -163,17 +163,20 @@ xmlns:jcr="http://www.jcp.org/jcr/1.0
 "
 jcr:primaryType="cq:ClientLibraryFolder"
 allowProxy="{Boolean}true"
-categories="[figma.base]"/>
+categories="[figma.cisco]"/>
 ❌ STRICTLY FORBIDDEN inside .content.xml:
 
-js.txt
-css.txt
-js/script.js
-css/style.css
-dependencies
-embed
-include
-ANY file references
+txt FILE CONTENT (EXACT)
+
+css.txt MUST be:
+
+#base=css
+style.css
+
+js.txt MUST be:
+
+#base=js
+script.js
 
 DO NOT add markdown.
 DO NOT add explanations.

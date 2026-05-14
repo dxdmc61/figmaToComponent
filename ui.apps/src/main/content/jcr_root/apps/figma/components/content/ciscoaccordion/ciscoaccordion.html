@@ -1,0 +1,30 @@
+<sly data-sly-use.model="com.figma.aem.core.models.CiscoAccordionModel"
+     data-sly-use.templates="core/wcm/components/commons/v1/templates.html"
+     data-sly-test.hasContent="${model.accordionItems && !model.accordionItems.empty}">
+    <div class="cisco-accordion-component" id="${model.id}">
+        <h2 data-sly-test.title="${model.componentTitle}" class="cisco-accordion-main-title">${model.componentTitle}</h2>
+        <div class="cisco-accordion-container">
+            <div class="cisco-accordion-left">
+                <div class="accordion" data-sly-list.item="${model.accordionItems}">
+                    <div class="accordion-item">
+                        <button class="accordion-header" aria-expanded="false" data-index="${itemList.index}">
+                            <span class="accordion-title">${item.itemTitle}</span>
+                            <span class="accordion-icon"></span>
+                        </button>
+                        <div class="accordion-panel" role="region">
+                            <div class="accordion-content">
+                                ${item.itemDescription @ context='html'}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="cisco-accordion-right">
+                <div class="accordion-image-wrapper" data-sly-list.item="${model.accordionItems}">
+                     <img class="accordion-image" src="${item.itemImage}" alt="${item.itemTitle}" data-index="${itemList.index}"/>
+                </div>
+            </div>
+        </div>
+    </div>
+</sly>
+<sly data-sly-call="${templates.placeholder @ isEmpty=!hasContent}"></sly>

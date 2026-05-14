@@ -1,0 +1,112 @@
+:root {
+    --cisco-blue: #005073;
+    --cisco-accent-blue: #00bceb;
+    --cisco-text-dark: #252525;
+    --cisco-text-light: #58585B;
+    --cisco-border-color: #e5e5e5;
+    --cisco-bg-light: #f4f4f4;
+}
+
+.cisco-accordion-component {
+    font-family: 'CiscoSans', Arial, sans-serif;
+    margin: 2rem 0;
+}
+
+.cisco-accordion-main-title {
+    font-size: 2rem;
+    color: var(--cisco-text-dark);
+    margin-bottom: 1.5rem;
+    font-weight: 300;
+}
+
+.cisco-accordion-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    align-items: start;
+}
+
+.accordion-item {
+    border-bottom: 1px solid var(--cisco-border-color);
+}
+
+.accordion-header {
+    background-color: transparent;
+    border: none;
+    width: 100%;
+    text-align: left;
+    padding: 1rem 0.5rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.125rem;
+    font-weight: 400;
+    color: var(--cisco-blue);
+    transition: background-color 0.3s ease;
+}
+
+.accordion-header:hover {
+    background-color: var(--cisco-bg-light);
+}
+
+.accordion-icon {
+    width: 16px;
+    height: 16px;
+    transition: transform 0.3s ease;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><path fill="%23005073" d="M8 4v8M4 8h8" stroke="%23005073" stroke-width="2" stroke-linecap="round"/></svg>');
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.accordion-header[aria-expanded='true'] .accordion-icon {
+    transform: rotate(45deg);
+}
+
+.accordion-panel {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+    padding: 0 1rem;
+}
+
+.accordion-content {
+    padding-bottom: 1.5rem;
+    color: var(--cisco-text-light);
+    line-height: 1.6;
+}
+
+.cisco-accordion-right {
+    position: sticky;
+    top: 2rem;
+}
+
+.accordion-image-wrapper .accordion-image {
+    display: none;
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 8px;
+    animation: fadeIn 0.5s;
+}
+
+.accordion-image-wrapper .accordion-image.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@media (max-width: 768px) {
+    .cisco-accordion-container {
+        grid-template-columns: 1fr;
+    }
+    .cisco-accordion-right {
+        order: -1; /* Move image to the top on mobile */
+        position: relative;
+        top: 0;
+        margin-bottom: 1.5rem;
+    }
+}
