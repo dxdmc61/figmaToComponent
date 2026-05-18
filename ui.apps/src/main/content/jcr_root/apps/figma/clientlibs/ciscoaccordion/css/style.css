@@ -1,5 +1,5 @@
 :root {
-    --cisco-blue: #005073;
+    --cisco-blue: #ffffff;
     --cisco-accent-blue: #00bceb;
     --cisco-text-dark: #252525;
     --cisco-text-light: #58585B;
@@ -8,22 +8,28 @@
 }
 
 .cisco-accordion-component {
+    max-width: 1200px;              /* controls width like original */
+    margin: 40px auto;              /* centers the box */
+    padding: 48px 56px;             /* inner spacing */
+    background: linear-gradient(135deg, #02121f, #000c14); /* dark gradient */
+    border-radius: 16px;            /* rounded corners */
+    color: #ffffff;
     font-family: 'CiscoSans', Arial, sans-serif;
     margin: 2rem 0;
 }
 
 .cisco-accordion-main-title {
     font-size: 2rem;
-    color: var(--cisco-text-dark);
+    color: #ffffff;
     margin-bottom: 1.5rem;
     font-weight: 300;
 }
 
 .cisco-accordion-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2rem;
-    align-items: start;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
 }
 
 .accordion-item {
@@ -72,7 +78,7 @@
 
 .accordion-content {
     padding-bottom: 1.5rem;
-    color: var(--cisco-text-light);
+    color: #ffffff;
     line-height: 1.6;
 }
 
