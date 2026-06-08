@@ -1,0 +1,34 @@
+<sly data-sly-use.model="com.figma.aem.core.models.UbsHeroModel" />
+<section class="hero-ubs"
+    style="background-image: url('${model.backgroundImage @ context='uri'}');">
+    
+    <div class="hero-ubs__overlay ${model.theme}">
+        
+        <div class="hero-ubs__content hero-ubs__content--${model.overlayPosition}">
+            
+            <div class="hero-ubs__left">
+                <div class="hero-ubs__accent"></div>
+
+                <div class="hero-ubs__text">
+                    <h1 data-sly-test="${model.title}">${model.title}</h1>
+
+                    <p data-sly-test="${model.description}">
+                        ${model.description @ context='html'}
+                    </p>
+                </div>
+            </div>
+
+            <div class="hero-ubs__right" data-sly-test="${model.ctaList}">
+                <ul>
+                    <li data-sly-list.item="${model.ctaList}">
+                        <a href="${item.linkUrl}">
+                            ${item.linkText}
+                            <span class="hero-ubs__arrow">›</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+</section>

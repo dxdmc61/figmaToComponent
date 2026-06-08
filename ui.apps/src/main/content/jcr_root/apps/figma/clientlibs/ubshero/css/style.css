@@ -1,0 +1,153 @@
+.hero-ubs {
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    padding: 140px 0 80px; /* more top space like image */
+}
+
+/* Center container */
+.hero-ubs__overlay {
+    max-width: 1100px;
+    margin: 0 auto;
+    position: relative;
+}
+
+/* Card */
+.hero-ubs__content {
+    display: flex;
+    background: #f1f1f1;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.12);
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+/* Alignment variants */
+.hero-ubs__content--center {
+    margin: 0 auto;
+}
+
+.hero-ubs__content--right {
+    margin-left: auto;
+}
+
+/* LEFT SIDE */
+.hero-ubs__left {
+    display: flex;
+    padding: 50px 50px;
+    flex: 2;
+}
+
+/* Red vertical bar */
+.hero-ubs__accent {
+    width: 3px;
+    background: #e60028;
+    margin-right: 24px;
+}
+
+/* Text */
+.hero-ubs__text h1 {
+    font-size: 44px;
+    font-weight: 400;
+    margin: 0 0 20px;
+    line-height: 1.2;
+}
+
+.hero-ubs__text p {
+    font-size: 18px;
+    line-height: 1.6;
+    color: #333;
+}
+
+.hero-ubs__text p strong {
+    font-weight: 600;
+}
+
+/* RIGHT SIDE */
+.hero-ubs__right {
+    flex: 1;
+    padding: 40px 40px;
+    border-left: 1px solid #dcdcdc;
+    display: flex;
+    align-items: center;
+}
+
+.hero-ubs__right ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+}
+
+/* Each link row */
+.hero-ubs__right li {
+    border-bottom: 1px solid #dcdcdc;
+}
+
+.hero-ubs__right li:last-child {
+    border-bottom: none;
+}
+
+/* Link style */
+.hero-ubs__right a {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-decoration: none;   /* ✅ remove underline */
+    color: #222;
+    padding: 18px 0;
+    font-size: 16px;
+}
+
+.hero-ubs__right a:hover {
+    color: #e60028;
+}
+
+/* Arrow */
+.hero-ubs__arrow {
+    color: #e60028;
+    font-size: 20px;
+    transition: transform 0.2s ease;
+}
+
+.hero-ubs__right a:hover .hero-ubs__arrow {
+    transform: translateX(4px);
+}
+
+/* DARK THEME */
+.hero-ubs__overlay.dark .hero-ubs__content {
+    background: rgba(0, 0, 0, 0.75);
+    color: #fff;
+}
+
+.hero-ubs__overlay.dark .hero-ubs__right a {
+    color: #fff;
+}
+
+.hero-ubs__overlay.dark .hero-ubs__right li {
+    border-color: rgba(255,255,255,0.2);
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+    .hero-ubs {
+        padding: 80px 16px;
+    }
+
+    .hero-ubs__content {
+        flex-direction: column;
+    }
+
+    .hero-ubs__left {
+        padding: 30px;
+    }
+
+    .hero-ubs__right {
+        padding: 20px 30px;
+        border-left: none;
+        border-top: 1px solid #ddd;
+    }
+
+    .hero-ubs__text h1 {
+        font-size: 30px;
+    }
+}
